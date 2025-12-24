@@ -446,4 +446,37 @@ DEFAULT_SITENAME=metateks.ru        # Имя сайта
 
 ---
 
+## 🔄 Миграция базы данных с VPS
+
+Если вам нужно перенести существующую базу данных с VPS на локальный Docker, см. подробную инструкцию:
+
+**📄 [DATABASE_MIGRATION.md](DATABASE_MIGRATION.md)**
+
+Документ содержит:
+- Экспорт базы данных PostgreSQL с VPS
+- Импорт в локальный Docker PostgreSQL
+- Миграция SQLite → PostgreSQL
+- Перенос медиа-файлов
+- Решение распространенных проблем
+- Готовые скрипты автоматизации
+
+**Быстрый старт (PostgreSQL → PostgreSQL):**
+
+```bash
+# 1. На VPS создайте дамп
+pg_dump -U metateks -d metateks -F c -f metateks_dump.backup
+
+# 2. Скачайте на локальный компьютер
+scp user@vps:/path/to/metateks_dump.backup .
+
+# 3. Восстановите в Docker
+docker-compose down -v
+docker-compose up -d db redis
+docker cp metateks_dump.backup metateks_db:/tmp/
+docker-compose exec db pg_restore -U metateks -d metateks -c --no-owner /tmp/metateks_dump.backup
+docker-compose up -d
+```
+
+---
+
 **Проект готов к разработке после выполнения всех шагов выше!**

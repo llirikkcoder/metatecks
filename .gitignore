@@ -29,3 +29,13 @@ test/
 Thumbs.db
 *.tmp*
 *.zip
+
+# Database dumps (security: don't commit sensitive data)
+*.backup
+*.sql
+*.dump
+*_dump.json
+*_dump_*.json
+production_dump*.json
+metateks_dump*
+db_from_vps.sqlite3
