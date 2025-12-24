@@ -171,14 +171,19 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 # DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100mb
 
 
-# POSTGRES_DB_URL = os.getenv('POSTGRES_DB_URL', 'postgres://postgres@db/database')
-# DATABASES = {'default': dj_database_url.parse(POSTGRES_DB_URL)}
-DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': BASE_DIR / 'db.sqlite3',
-   }
-}
+# Database configuration
+# Use DATABASE_URL if provided (Docker/production), otherwise use SQLite (local development)
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if DATABASE_URL:
+    DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

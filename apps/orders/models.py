@@ -239,7 +239,7 @@ class DeliveryAddressData(models.Model):
 
 class ContactsData(models.Model):
     first_name = models.CharField('Имя', max_length=31)
-    patronymic_name = models.CharField('Отчество', blank=True, null=True)
+    patronymic_name = models.CharField('Отчество', max_length=31, blank=True, null=True)
     last_name = models.CharField('Фамилия', max_length=31)
     phone = models.CharField('Телефон', max_length=31)
 
