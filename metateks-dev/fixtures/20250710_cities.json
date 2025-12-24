@@ -1,0 +1,74 @@
+[
+{
+    "model": "addresses.city",
+    "pk": 1,
+    "fields": {
+        "name": "Москва",
+        "subdomain": "",
+        "name_en": "Moscow",
+        "region_en": "Moscow Oblast",
+        "is_default": true,
+        "order": 1
+    }
+},
+{
+    "model": "addresses.city",
+    "pk": 2,
+    "fields": {
+        "name": "Санкт-Петербург",
+        "subdomain": "spb",
+        "name_en": "Saint-Petersburg",
+        "region_en": "Leningradskaya Oblast'",
+        "is_default": false,
+        "order": 2
+    }
+},
+{
+    "model": "addresses.city",
+    "pk": 3,
+    "fields": {
+        "name": "Екатеринбург",
+        "subdomain": "ekb",
+        "name_en": "Ekaterinburg",
+        "region_en": "Sverdlovsk Oblast",
+        "is_default": false,
+        "order": 3
+    }
+},
+{
+    "model": "addresses.city",
+    "pk": 4,
+    "fields": {
+        "name": "Новосибирск",
+        "subdomain": "nsk",
+        "name_en": "Novosibirsk",
+        "region_en": "Novosibirsk Oblast",
+        "is_default": false,
+        "order": 4
+    }
+},
+{
+    "model": "addresses.city",
+    "pk": 5,
+    "fields": {
+        "name": "Краснодар",
+        "subdomain": "krasnodar",
+        "name_en": "Krasnodar",
+        "region_en": "Krasnodar Krai",
+        "is_default": false,
+        "order": 5
+    }
+},
+{
+    "model": "addresses.city",
+    "pk": 6,
+    "fields": {
+        "name": "Ярославль",
+        "subdomain": "yaroslavl",
+        "name_en": "Yaroslavl",
+        "region_en": "Yaroslavl Oblast",
+        "is_default": false,
+        "order": 6
+    }
+}
+]

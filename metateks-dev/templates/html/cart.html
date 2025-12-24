@@ -1,0 +1,510 @@
+{% extends 'html/_layout.html' %}
+{% load static %}
+
+{% block title %}Корзина товаров{% endblock %}
+{% block meta_description %}Корзина товаров{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Корзина товаров{% endblock %}
+{% block og_description %}Корзина товаров{% endblock %}
+
+{% block head_scripts %}
+  <script src="{% static 'js/script_metateks_cart.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section  wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>Корзина</h1>
+    </div>
+    <p class="content-header__descr">Просмотрите выбранные товары, измените их&nbsp;количество или удалите ненужные. Когда&nbsp;будете готовы, оформите заказ.
+    </p>
+  </div>
+
+  <!-- Секция с заказа в корзине -->
+  <section class="sidebar-block  wrap-pad-normal wrap-pad--mob--min wrap--row-to-column"
+    style=" padding-top: 0;">
+    <div class="sidebar-block__left ">
+
+      <!-- Блок с заказом -->
+      <div class="block-cart wrap--column">
+
+        <div class="block-cart__control">
+          <div class="block-cart__control__left">
+            <input type="checkbox" id="selectAll" class="select-all" checked="" hidden>
+            <label for="selectAll" class="small-text checkbox-cart">
+              <div class="button-switch"></div> Выбрать все
+            </label>
+          </div>
+          <div class="block-btn-right">
+            <button class="btn-border-full dark--bgrnd" aria-label="очистить корзину">
+              <span>очистить корзину</span>
+              <span class="met-ico-close-b"></span></button>
+          </div>
+        </div>
+
+        <!-- Блок товара 1 -->
+        <div class="block-cart-row">
+
+          <input type="checkbox" id="item1" class="item-checkbox" checked="" hidden>
+          <label for="item1" class="checkbox-cart">
+            <div class="button-switch"></div>
+          </label>
+
+          <div class="block-product">
+            <div class="block-product__left">
+              <!-- Картинка товара в заказе -->
+              <a href="#" title="Перейти к товару" class="order-product-imgblock">
+                <div class="order-product-imgblock__wrap">
+                  <div class="order-product-imgblock__in">
+                    <img src="/images/products/_High-Discharge-Bucket-Avant_480.jpeg"
+                      alt="фото товара" />
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="block-product__right">
+              <div class="block-product__head">
+                <div class="order-product-title">
+                  <span class="font--bold">Ковш общего назначения для XCMG LW
+                    180/180K</span>
+                  <span class="small-text">на мини-погрузчик</span>
+                </div>
+                <div class="block-btn-right">
+                  <button class="btn-border dark--bgrnd" aria-label="Удалить"><span
+                      class="met-ico-close-b"></span></button>
+                </div>
+              </div>
+              <div class="block-product__bottom block--product--quantity">
+
+                <div class="quantity-block">
+                  <i class="quantity-block__head">Количество</i>
+                  <div class="quantity-block__control">
+                    <button class="btn-decrease btn-border dark--bgrnd"
+                      aria-label="Уменьшить количество">-</button>
+                    <i><span class="quantity">1</span>&nbsp;<span>шт.</span></i>
+                    <button class="btn-increase btn-border dark--bgrnd"
+                      aria-label="Увеличить количество">+</button>
+                  </div>
+                </div>
+
+                <span class="h4 font--light text--nowrap cart-product-price">97 000 ₽</span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Блок товара 2 -->
+        <div class="block-cart-row">
+          <input type="checkbox" id="item2" class="item-checkbox" checked="" hidden>
+          <label for="item2" class="checkbox-cart">
+            <div class="button-switch"></div>
+          </label>
+          <div class="block-product">
+            <div class="block-product__left">
+              <!-- Картинка товара в заказе -->
+              <a href="#" title="Перейти к товару" class="order-product-imgblock">
+                <div class="order-product-imgblock__wrap">
+                  <div class="order-product-imgblock__in">
+                    <img src="/images/account/option-485.jpg" alt="фото товара" />
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="block-product__right">
+              <div class="block-product__head">
+                <div class="order-product-title">
+                  <span class="font--bold">Сменная кромка</span>
+                  <span class="small-text">на мини-погрузчик</span>
+                </div>
+                <div class="block-btn-right">
+                  <button class="btn-border dark--bgrnd" aria-label="Удалить"><span
+                      class="met-ico-close-b"></span></button>
+                </div>
+              </div>
+              <div class="block-product__bottom block--product--quantity">
+
+                <div class="quantity-block">
+                  <i class="quantity-block__head">Количество</i>
+                  <div class="quantity-block__control">
+                    <button class="btn-decrease btn-border dark--bgrnd"
+                      aria-label="Уменьшить количество">-</button>
+                    <i><span class="quantity">1</span>&nbsp;<span>шт.</span></i>
+                    <button class="btn-increase btn-border dark--bgrnd"
+                      aria-label="Увеличить количество">+</button>
+                  </div>
+                </div>
+
+                <span class="h4 font--light text--nowrap cart-product-price">10 000 ₽</span>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Секция с формами личного кабинета для незарегистрированного пользователя -->
+      <section>
+        <h2 id="delivery">Способы доставки</h2>
+        <!-- Блок с данными о доставке -->
+        <!-- Самовывоз-->
+        <div class="block-data">
+          <input type="radio" name="delivery" id="delivery1" value="1" hidden>
+          <label for="delivery1" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Самовывоз</h3>
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Транспортом Метатэкс -->
+        <div class="block-data">
+          <input type="radio" name="delivery" id="delivery2" value="2" hidden>
+          <label for="delivery2" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Транспортом Метатэкс</h3>
+              </div>
+            </div>
+            <div class="block-data__info">
+              <p>Доставка осуществляется по&nbsp;Москве, Московской, Ярославской, Владимирской
+                и&nbsp;Тверской
+                областям</p>
+            </div>
+          </label>
+        </div>
+
+        <!-- Транспортной компанией -->
+        <div class="block-data">
+          <input type="radio" name="delivery" id="delivery3" value="3" hidden>
+          <label for="delivery3" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Транспортной компанией</h3>
+              </div>
+            </div>
+            <div class="block-data__info">
+              <p>Вы&nbsp;можете выбрать удобную вам транспортную компанию из&nbsp;списка, которая доставит
+                груз
+                по&nbsp;всей территории России. Наше оборудование&nbsp;Вы можете получить
+                в&nbsp;терминалах
+                соответствующей компании</p>
+
+
+              <!-- Выбор транспортных компаний  -->
+              <div class="block-select-trcompany grid-container grid--column--5to2">
+
+                <!-- ПЭК -->
+                <input type="radio" name="trcompany" id="pec" value="ПЭК" hidden checked="checked" />
+                <label for="pec" class="block-trcompany">
+                  <div class="trcompany-logo">
+                    <div class="trcompany-logo__in">
+                      <img src="/images/Delivery/logo-pec.svg" alt="Лого Пэк" />
+                    </div>
+                  </div>
+                  <div class="button-switch_in"></div>
+                </label>
+
+                <!-- Энергия -->
+                <input type="radio" name="trcompany" id="energy" value="Энергия" hidden />
+                <label for="energy" class="block-trcompany">
+                  <div class="trcompany-logo">
+                    <div class="trcompany-logo__in">
+                      <img src="/images/Delivery/logo-energ2.svg" alt="Лого Пэк" />
+                    </div>
+                  </div>
+
+                  <div class="button-switch_in"></div>
+                </label>
+
+                <!-- Деловые Линии -->
+                <input type="radio" name="trcompany" id="dellin" value="Деловые Линии" hidden />
+                <label for="dellin" class="block-trcompany">
+                  <div class="trcompany-logo">
+                    <div class="trcompany-logo__in">
+                      <img src="/images/Delivery/logo-dellin2.svg" alt="Лого Пэк" />
+                    </div>
+                  </div>
+                  <div class="button-switch_in"></div>
+                </label>
+
+                <!-- ЖелДорЭкспедиция -->
+                <input type="radio" name="trcompany" id="jde" value="ЖелДор Экспедиция" hidden />
+                <label for="jde" class="block-trcompany">
+                  <div class="trcompany-logo">
+                    <div class="trcompany-logo__in">
+                      <img src="/images/Delivery/logo-jde3.svg" alt="Лого Пэк" />
+                    </div>
+                  </div>
+                  <div class="button-switch_in"></div>
+                </label>
+
+                <!-- Байкал Сервис -->
+                <input type="radio" name="trcompany" id="baikalsr" value="Байкал Сервис" hidden />
+                <label for="baikalsr" class="block-trcompany">
+                  <div class="trcompany-logo">
+                    <div class="trcompany-logo__in">
+                      <img src="/images/Delivery/logo-baikalsr-2.svg" alt="Лого Пэк" />
+                    </div>
+                  </div>
+                  <div class="button-switch_in"></div>
+
+                </label>
+              </div>
+            </div>
+          </label>
+        </div>
+        <div class="toggle-block-address">
+          <h2 id="address">Адрес доставки</h2>
+
+          <div class="block-data">
+
+            <div class="block-data__content">
+
+              <div class="block-data__info">
+                <p>Укажите адрес куда доставить заказ</p>
+
+                <form id="addressForm" class="form--whaite">
+                  <div class="field-row">
+                    <label class="field-label" for="region">Область</label>
+                    <input class="field-input" type="text" id="region" name="region">
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="city">Город</label>
+                    <input class="field-input" type="text" id="city" name="city">
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="street">Улица / дом / (офис, квартира)</label>
+                    <input class="field-input" type="text" id="street" name="street">
+                  </div>
+                  <button type="submit" class="save-button btn-save"><span
+                      class="btn__ico  met-ico-accept"></span>
+                    <span>Сохранить</span></button>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 id="person">Контактное лицо</h2>
+        <!-- Блок с данными контактного лица -->
+
+        <div class="block-data">
+
+          <div class="block-data__content">
+            <div class="block-data__info">
+              <form id="userForm" class="form--whaite">
+                <div class="field-row">
+                  <label class="field-label" for="firstName">Имя</label>
+                  <input class="field-input" type="text" id="firstName" name="firstName">
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="lastName">Фамилия</label>
+                  <input class="field-input" type="text" id="lastName" name="lastName">
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="phone">Телефон <sup>
+                      <font color="#FF5C00"> *</font></label>
+                  <input class="field-input" type="text" id="phone" name="phone"
+                    placeholder="+7 (___) ___-__-__">
+                </div>
+
+                <div class="checkbox-row">
+                  <input class="checkbox required" id="privacyperson" type="checkbox" name="flagperson"
+                    data-msg="Выбор этого пункта обязателен" checked="checked">
+                  <label for="privacyperson"></label>
+                  <span class="checkbox-text small-text">Ознакомлен и согласен с <a
+                      href="/privacy_policy/" title="условия политики обработки персональных данных"
+                      target="_blank">условиями
+                      политики</a> обработки персональных данных <sup>
+                      <font color="#FF5C00"> *</font>
+                    </sup>
+                  </span>
+                </div>
+
+                <button type="submit" class="save-button btn-save"><span
+                    class="btn__ico  met-ico-accept"></span>
+                  <span>Сохранить</span></button>
+              </form>
+              <div id="errorMessage" class="error-message" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+
+        <h2 id="payment">Методы оплаты</h2>
+        <!-- Блок с данными методов оплаты -->
+        <!-- Онлайн оплата банковской картой-->
+        <div class="block-data">
+          <input type="radio" name="payment" id="onlinepay" value="onlinepay" hidden>
+          <label for="onlinepay" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Онлайн оплата банковской картой</h3>
+              </div>
+            </div>
+
+            <div class="block-data__info">
+
+              <form id="paymentForm" class="form--whaite">
+
+
+
+                <div class="field-row">
+                  <label class="field-label" for="cardNumber">Номер карты</label>
+                  <input class="field-input" type="text" id="cardNumber" name="cardNumber"
+                    placeholder="0000 0000 0000 0000" required>
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="cardHolder">Имя на карте</label>
+                  <input class="field-input" type="text" id="cardHolder" name="cardHolder"
+                    placeholder="IVAN PETROV" required>
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="expiryDate">Срок действия</label>
+                  <input class="field-input" type="text" id="expiryDate" name="expiryDate"
+                    placeholder="MM/YY" required>
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="cvv">CVV</label>
+                  <input class="field-input" type="text" id="cvv" name="cvv" placeholder="123" required>
+                </div>
+
+                <button type="submit" class="save-button btn-save"><span
+                    class="btn__ico  met-ico-accept"></span>
+                  <span>Сохранить</span></button>
+
+
+                <div id="errorMessagePay" class="error-message" style=" display: none;"></div>
+              </form>
+
+            </div>
+
+
+          </label>
+        </div>
+
+        <!-- Безналичная оплата для юридических лиц -->
+        <div class="block-data">
+          <input type="radio" name="payment" id="noncash" value="noncash" hidden>
+          <label for="noncash" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Безналичная оплата для&nbsp;юридических лиц</h3>
+              </div>
+            </div>
+            <div class="block-data__info">
+
+              <!-- Форма для безналичного расчета -->
+              <form id="noncashForm" class="form--whaite">
+                <div class="field-row">
+                  <label class="field-label" for="organizationName">Название организации</label>
+                  <input class="field-input" type="text" id="organizationName" name="organizationName">
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="inn">ИНН организации</label>
+                  <input class="field-input" type="text" id="inn" name="inn">
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="legalAddress">Юридический адрес</label>
+                  <input class="field-input" type="text" id="legalAddress" name="legalAddress">
+                </div>
+                <div id="errorMessageNonCash" style="color: red; display: none;"></div>
+
+                <button type="submit" class="save-button btn-save"><span
+                    class="btn__ico  met-ico-accept"></span>
+                  <span>Сохранить</span></button>
+              </form>
+            </div>
+          </label>
+        </div>
+
+        <!-- Оплата при получении -->
+        <div class="block-data">
+          <input type="radio" name="payment" id="uponreceipt" value="uponreceipt" hidden>
+          <label for="uponreceipt" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Оплата при&nbsp;получении</h3>
+              </div>
+            </div>
+            <div class="block-data__info">
+              <p>Оплатить наличными или&nbsp;картой при&nbsp;получении заказа</p>
+            </div>
+          </label>
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <aside class="fixed-mobile">
+      <div class="fixed-mobile-tab" id="fixedMobileTab"></div>
+      <div class="sidebar-block__aside__wr sidebar--cart" style="padding: 0;">
+        <!-- Блок с итоговой ценой -->
+        <div class="final-price-cart">
+          <div class="final-price-cart__wrap">
+            <div class="total-quantity">
+              <span>Товар:</span> <span id="total-quantity">0 шт.</span>
+            </div>
+            <span class="h3 font--light">Итого: <span id="total-price">0 ₽</span></span>
+
+          </div>
+        </div>
+        <!-- Блок с информацией заказа -->
+        <div class="cart-order-info">
+
+          <dl>
+            <dt>Доставка:</dt>
+            <dd id="deliveryInfo"><a href="#delivery" title="Перейти и выбрать способ доставки"
+                class="link-orange">Выбрать</a></dd>
+            <dt class="toggle-address">Адрес доставки:</dt>
+            <dd class="toggle-address" id="addressInfo"><a href="#address"
+                title="Перейти и заполнить данные" class="link-orange">Заполнить</a></dd>
+            <dt>Ваши данные:</dt>
+            <dd id="userDataInfo"><a href="#person" title="Перейти и заполнить данные"
+                class="link-orange">Заполнить</a></dd>
+            <dt>Оплата:</dt>
+            <dd id="paymentInfo"><a href="#payment" title="Перейти и выбрать способ оплаты"
+                class="link-orange">Выбрать</a></dd>
+          </dl>
+
+          <!-- Кнопка оформить заказ -->
+          <div class="block-order-btn">
+            <a class="btn-big-buy" href="#">
+              <span class="btn__ico  met-ico-accept"></span> <span>Оформить</span>
+            </a>
+
+            <div class="checkbox-row">
+              <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+                data-msg="Выбор этого пункта обязателен">
+              <label for="privacy">
+              </label>
+              <span class="checkbox-text small-text">Ознакомлен и согласен с <a class="link-white"
+                  href="/privacy_policy/" title="условия политики обработки персональных данных"
+                  target="_blank">условиями политики</a> обработки персональных данных <sup>
+                  <font color="#FF5C00"> *</font>
+                </sup>
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </aside>
+  </section>
+{% endblock %}

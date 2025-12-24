@@ -1,0 +1,20 @@
+<!-- Внутренние страницы в аккаунте: хлебные крошки и h1 -->
+<div class="content-header content-header--subsection content-header--ordinary  wrap-pad-normal">
+  <nav class="content-header__nav">
+    <div class="content-header__leftbox-wr">
+      <a href="{% url 'account:home' %}" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+        <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+    </div>
+    <div class="bread-crumbs small-text">
+      <div>
+        <a href="{% url 'home' %}" title="На главную">Главная</a>&nbsp;<span>/</span><a href="{% url 'account:home' %}"
+          title="Перейти на главную страницу личного кабинета ">Личный
+          кабинет</a>&nbsp;<span>/</span><span>{{ page_title }}</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="content-header__title-wr">
+    <h1>{{ page_title }}</h1>
+  </div>
+</div>

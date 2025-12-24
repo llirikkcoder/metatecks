@@ -1,0 +1,124 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!-- Сделано в студии дизайна «Вино» | https://vinodesign.ru/ -->
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <title>{% block title %}{% endblock %}</title>
+  {% block early_head_scripts %}{% endblock %}
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, ">
+  <meta name="description"
+    content="{% block meta_description %}{% endblock %}">
+  <meta name="keywords" content="{% block meta_keywords %} {% endblock %}">
+  <meta name="author" content="Компания Метатэкс">
+  <meta name="Copyright" content="ООО «Метатэкс-Маркет»">
+  <meta name="Address" content="Москва, ул. Гилляровского, дом 57">
+
+  <!--Для соцсетей -->
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{% block og_title %}{% endblock %}">
+  <meta property="og:description"
+    content="{% block og_description %}{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}{% static 'images/og-image.jpeg' %}{% endblock %}">
+  <meta property="og:url" content="{% block og_url %}{{ request.path }}{% endblock %}">
+  <meta property="og:site_name" content="Сайт компании «Метатэкс»">
+
+  <!--Подключаем фавиконки -->
+  <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+  <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
+
+  <!--Подключаем стили -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style_metateks.css' %}?v=0005"> <!-- Основной стиль -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/extra.css' %}?v=0004"> <!-- Дополнительные стили -->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/icometateks/icostyle.css' %}"> <!-- Стиль иконочного шрифта -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/swiper.css' %}"> <!-- Стиль swiper слайдера -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.fancybox.min.css' %}"> <!-- Стиль fancybox -->
+  {% block head_styles %}{% endblock %}
+
+  <!--Подключаем шрифты-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:wght@100..900&display=swap"
+    rel="stylesheet">
+
+  <!-- ===== Подключаем скрипты ===== -->
+  <!-- Основной фреймворк -->
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <!-- Модальные окна -->
+  <script src="{% static 'js/jquery.modal.min.js' %}"></script>
+  <!-- Вспомогательные скрипты -->
+  <script src="{% static 'js/script_metateks.js' %}?v=0003"></script>
+  <script src="{% static 'js/script_metateks_forms.js' %}?v=0002"></script>
+  <!-- Фотогалерея fancybox -->
+  <script src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+  <!-- Подключаем маску для полей -->
+  {# <script src="{% static 'js/inputmask.min.js' %}"></script> #}
+  <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+  <!-- Работа с cookies  -->
+  <script src="{% static 'js/js.cookie.min.js' %}"></script>
+  {% block head_scripts %}{% endblock %}
+
+</head>
+
+<body>
+  {# контент #}
+  <div class="wrapper">
+    {% include 'include/header.html' %}
+    <main class="content">
+      {% block content %}{% endblock %}
+    </main>
+    {% include 'include/footer.html' %}
+    <div class="blackout"></div>
+  </div>
+  {# /контент #}
+
+  {# модальные окна #}
+  {% include 'modals/callback.html' %}
+  {% include 'modals/auth_login.html' %}
+  {% include 'modals/auth_registration.html' %}
+  {% include 'modals/warehouses.html' %}
+  {% block modals %}{% endblock %}
+  {# /модальные окна #}
+
+  {# скрипты #}
+  <script src="{% static 'js/slider-swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'js/slider-swiper/swiper-initiation.js' %}"></script>
+
+  {% csrf_token %}
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      // ---- Маска поля ввода ----
+      $('input[name="phone"]').mask('+0 (000) 000-00-00');
+      $('input[data-mask="phone"]').mask('+0 (000) 000-00-00');
+
+      // ---- Открытие модальных окон ---
+      var modalName = "{{ request.GET.p }}";
+      if (modalName) {
+        var $modal = $(`#${modalName}`);
+        if ($modal) { $modal.modal(); };
+      }
+    });
+  </script>
+
+  <script type="text/javascript">
+    // ----- AJAX setup -------
+    {% include 'js/cookie_check.js' %}
+    {% include 'js/ajax_setup.js' %}
+  </script>
+
+  <script type="text/javascript">
+    // ----- Forms, etc -------
+    {% include 'js/auth_forms.js' %}
+  </script>
+
+  {% block scripts %}{% endblock %}
+  {# /скрипты #}
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+{% extends 'html/_layout.html' %}
+{% load static %}
+
+{% block title %}Мои заказы{% endblock %}
+{% block meta_description %}Мои заказы{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Мои заказы{% endblock %}
+{% block og_description %}Мои заказы{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--subsection content-header--ordinary  wrap-pad-normal">
+    <nav class="content-header__nav">
+      <div class="content-header__leftbox-wr">
+        <a href="#" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+          <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+      </div>
+      <div class="bread-crumbs small-text">
+        <div>
+          <a href="#" title="На главную">Главная</a>&nbsp;<span>/</span><a href="#"
+            title="Перейти на главную страницу личного кабинета ">Личный
+            кабинет</a>&nbsp;<span>/</span><span>Мои заказы</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="content-header__title-wr ">
+      <h1>Мои заказы</h1>
+
+    </div>
+
+
+  </div>
+
+  <!-- Внутренняя навигация раздела -->
+  <div class="content-nav_wrap wrap-pad-normal wrap-pad--mob--min">
+    <nav class="content-nav">
+      <a href="#" title="Главная" class="content-nav__item">Главная</a>
+      <span class="content-nav__item content--nav--tem--select">Мои заказы</span>
+      <a href="#" title="Адрес доставки" class="content-nav__item">Адрес доставки</a>
+      <a href="#" title="Избранное" class="content-nav__item">Избранное</a>
+      <a href="#" title="Профиль" class="content-nav__item">Профиль</a>
+    </nav>
+
+    <div class="section-footer">
+      <hr />
+    </div>
+  </div>
+
+  <!-- Секция с заказами -->
+  <section class=" wrap-pad-normal wrap-pad--mob--min wrap--column" style="padding-top: 0;">
+
+    <!-- Блок с заказом -->
+    <div class="block-order">
+      <div class="block-order__left">
+        <header>
+          <h2>Заказ <span class="font--light text--nowrap">№ 234 984</span></h2>
+        </header>
+
+        <!-- Блок товара 1 -->
+        <div class="block-product">
+          <div class="block-product__left">
+            <!-- Картинка товара в заказе -->
+            <a href="#" title="Перейти к товару" class="order-product-imgblock">
+              <div class="order-product-imgblock__wrap">
+                <div class="order-product-imgblock__in">
+                  <img src="/images/products/_High-Discharge-Bucket-Avant_480.jpeg" alt="фото товара" />
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="block-product__right">
+            <div class="block-product__head">
+              <div class="order-product-title">
+                <span class="font--bold">Ковш общего назначения для XCMG LW
+                  180/180K</span>
+                <span class="small-text">на мини-погрузчик</span>
+              </div>
+              <div class="block-btn-right">
+                <button class="btn-border dark--bgrnd" aria-label="Удалить"><span
+                    class="met-ico-close-b"></span></button>
+              </div>
+            </div>
+            <div class="block-product__bottom">
+              <i>Количество 1&nbsp;шт.</i>
+              <span class="h4 font--light text--nowrap">97 000 ₽</span>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Блок товара 2 -->
+        <div class="block-product">
+          <div class="block-product__left">
+            <!-- Картинка товара в заказе -->
+            <a href="#" title="Перейти к товару" class="order-product-imgblock">
+              <div class="order-product-imgblock__wrap">
+                <div class="order-product-imgblock__in">
+                  <img src="/images/account/option-485.jpg" alt="фото товара" />
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="block-product__right">
+            <div class="block-product__head">
+              <div class="order-product-title">
+                <span class="font--bold">Сменная кромка</span>
+                <span class="small-text">на мини-погрузчик</span>
+              </div>
+              <div class="block-btn-right">
+                <button class="btn-border dark--bgrnd" aria-label="Удалить"><span
+                    class="met-ico-close-b"></span></button>
+              </div>
+            </div>
+            <div class="block-product__bottom">
+              <i>Количество 1&nbsp;шт.</i>
+              <span class="h4 font--light text--nowrap">10 000 ₽</span>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="block-order__right">
+        <div class="block-order__right__top">
+          <div class="block-sum-price">
+            <span class="h3 font--light text--nowrap">Сумма 107 000 ₽</span>
+            <span class="indicator_status small-text"><span class="dl-ico met-ico-checkbox"></span>
+              Оформлен</span>
+          </div>
+
+          <!-- Блок с отображением шкалы статуса заказа  -->
+          <div class="block-status-scale">
+            <span class="h3 font--bold">Статус заказа</span>
+            <div class="status-scale__wrap">
+              <div class="box-status_1 scale--finish">
+                <duv class="scale-top">
+                  <span class="small-text">Оформлен</span>
+                </duv>
+                <div class="scale-middle"></div>
+                <duv class="scale-bottom"></duv>
+              </div>
+
+              <div class="box-status_2">
+                <duv class="scale-top">
+                  <span class="small-text">Комплектуется</span>
+                </duv>
+                <div class="scale-middle"></div>
+                <duv class="scale-bottom"></duv>
+              </div>
+
+              <div class="box-status_3">
+                <duv class="scale-top">
+                  <span class="small-text">Доставляется</span>
+                </duv>
+                <div class="scale-middle"></div>
+                <duv class="scale-bottom"></duv>
+              </div>
+
+              <div class="box-status_4">
+                <duv class="scale-top">
+                  <span class="small-text">Выполнен</span>
+                </duv>
+                <div class="scale-middle"></div>
+                <duv class="scale-bottom"></duv>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="block-order__right__bottom">
+          <div class="block-btn-right">
+            <button class="btn-border-full dark--bgrnd" aria-label="Удалить"><span>отменить заказ</span> <span
+                class="met-ico-close-b"></span></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Блок с завершенным заказом -->
+    <div class="block-order completed--order">
+      <div class="block-order__left">
+        <header>
+          <h2>Заказ <span class="font--light text--nowrap">№ 203 930</span></h2>
+        </header>
+
+        <!-- Блок товара 1 -->
+        <div class="block-product">
+          <div class="block-product__left">
+            <!-- Картинка товара в заказе -->
+            <a href="#" title="Перейти к товару" class="order-product-imgblock">
+              <div class="order-product-imgblock__wrap">
+                <div class="order-product-imgblock__in">
+                  <img src="/images/products/_dump-utility-vehicles_480 b.jpeg" alt="фото товара" />
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="block-product__right">
+            <div class="block-product__head">
+              <div class="order-product-title">
+                <span class="font--bold">V-образный отвал для Lonking CDM 833</span>
+                <span class="small-text">на мини-погрузчик</span>
+              </div>
+              <div class="block-btn-right">
+                
+              </div>
+            </div>
+            <div class="block-product__bottom">
+              <i>Количество 1&nbsp;шт.</i>
+              <span class="h4 font--light text--nowrap">44 000 ₽</span>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="block-order__right">
+        <div class="block-order__right__top">
+          <div class="block-sum-price">
+            <span class="h3 font--light text--nowrap">Сумма 44 000 ₽</span>
+            <span class="indicator_status small-text"><span class="dl-ico met-ico-checkbox"></span>
+              Выполнен</span>
+          </div>
+
+          <!-- Блок с отображением шкалы статуса заказа  -->
+          <div class="block-status-scale">
+            <span class="h3 font--bold">Статус заказа</span>
+            <div class="status-scale__wrap">
+              <div class="box-status_1 scale--finish">
+                <duv class="scale-top">
+                  <span class="small-text">Оформлен</span>
+                </duv>
+                <div class="scale-middle"></div>
+                <duv class="scale-bottom"></duv>
+              </div>
+
+              <div class="box-status_2 scale--finish">
+                <duv class="scale-top">
+                  <span class="small-text">Комплектуется</span>
+                </duv>
+                <div class="scale-middle"></div>
+                <duv class="scale-bottom"></duv>
+              </div>
+
+              <div class="box-status_3 scale--finish">
+                <duv class="scale-top">
+                  <span class="small-text">Доставляется</span>
+                </duv>
+                <div class="scale-middle"></div>
+                <duv class="scale-bottom"></duv>
+              </div>
+
+              <div class="box-status_4 scale--finish">
+                <duv class="scale-top">
+                  <span class="small-text">Выполнен</span>
+                </duv>
+                <div class="scale-middle"></div>
+                <duv class="scale-bottom"></duv>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="block-order__right__bottom">
+          
+        </div>
+
+      </div>
+    </div>
+  </section>
+{% endblock %}

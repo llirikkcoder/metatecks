@@ -1,0 +1,53 @@
+{% extends 'html/_layout.html' %}
+{% load static base_tags %}
+
+{% block title %}{{ post.get_meta_title|clean_html|safe }}{% endblock %}
+{% block meta_description %}{{ post.get_meta_desc|clean_html|safe }}{% endblock %}
+{% block meta_keywords %}{{ post.get_meta_keyw|clean_html|safe }}{% endblock %}
+
+{% block og_title %}{{ post.get_meta_title|clean_html|safe }}{% endblock %}
+{% block og_description %}{{ post.get_meta_desc|clean_html|safe }}{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--subsection content-header--ordinary  content-header--articles  wrap-pad-normal">
+    <nav class="content-header__nav">
+      <div class="content-header__leftbox-wr">
+        <a href="{% url 'news:home' %}" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+          <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+      </div>
+      <div class="bread-crumbs small-text">
+        <div>
+          <a href="{% url 'home' %}" title="На главную">Главная</a>&nbsp;<span>/</span> <a href="{% url 'news:home' %}"
+            title="В раздел Новости">Новости</a>&nbsp;<span>/</span>{{ post|safe }}
+        </div>
+      </div>
+    </nav>
+
+    <div class="content-header__title-wr ">
+      <h1>{{ post.get_h1|safe }}</h1>
+    </div>
+  </div>
+
+  {% if post.cover %}
+    <div class="content-main-top wrap-pad-normal wrap-pad--mob--min">
+      <div class="content-main-top__img"
+        style="background-image: url({{ post.cover_url }});">
+      </div>
+    </div>
+  {% endif %}
+  <article class="content-limited">
+    {{ post.text|safe }}
+    <!-- блок с тегами -->
+    <div class="section-footer section--footer--tags">
+      <hr />
+      <div class="section-footer__tags">
+        {% for cat in post.categories.all %}
+          <a href="{{ cat.get_absolute_url }}" title="Статьи по теме #{{ cat }}"># {{ cat }}</a>{% if not forloop.last %} {% endif %}
+        {% endfor %}
+          
+      </div>
+    </div>
+    <!-- Конец блока с тегами -->
+  </article>
+{% endblock %}

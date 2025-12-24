@@ -1,0 +1,147 @@
+{% extends 'account/_account_base.html' %}
+{% load base_tags %}
+
+{% block title %}Мои заказы{% endblock %}
+{% block meta_description %}Мои заказы{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Мои заказы{% endblock %}
+{% block og_description %}Мои заказы{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  {% include 'include/account_header.html' with page_title='Мои заказы' %}
+  {% include 'include/account_navigation.html' with page_slug='orders' %}
+
+  <!-- Секция с заказами -->
+  <section class=" wrap-pad-normal wrap-pad--mob--min wrap--column" style="padding-top: 0;">
+
+    {% for o in orders %}
+      <!-- Блок с заказом -->
+      <div class="block-order{% if o.is_inactive %} completed--order{% endif %} js-order-container" id="order{{ o.id }}">
+        <div class="block-order__left">
+          <header>
+            <h2>Заказ <span class="font--light text--nowrap">№&nbsp;{{ o.number|nbsp }}</span></h2>
+          </header>
+
+          {% for item in o.items.all %}
+            <!-- Блок товара -->
+            <div class="block-product">
+              <div class="block-product__left">
+                <!-- Картинка товара в заказе -->
+                {% if item.is_product %}
+                  {% with item.product as product %}
+                    <a href="{{ product.get_link_url }}" target="_blank" title="Перейти к товару" class="order-product-imgblock">
+                      <div class="order-product-imgblock__wrap">
+                        <div class="order-product-imgblock__in">
+                          {% if product.get_photo %}
+                            <img src="{{ product.list_photo_url }}" alt="{{ product.name }}" />
+                          {% else %}
+                            <img src="{{ product.sub_category.product_photo_url }}" alt="{{ product.name }}" />
+                          {% endif %}
+                        </div>
+                      </div>
+                    </a>
+                  {% endwith %}
+                {% else %}
+                  <div class="order-product-imgblock__wrap">
+                    <div class="order-product-imgblock__in">
+                      <img src="/images/account/option-485.jpg" alt="Фото доп.товара" />
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="block-product__right">
+                <div class="block-product__head">
+                  <div class="order-product-title">
+                    <span class="font--bold">{{ item.item_name }}</span>
+                    {% if item.item_subtitle %}
+                      <span class="small-text">{{ item.item_subtitle|safe }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="block-btn-right"></div>
+                </div>
+                <div class="block-product__bottom">
+                  <i>Количество {{ item.quantity }}&nbsp;шт.</i>
+                  <span class="h4 font--light text--nowrap">{{ item.cost|format_number }}&nbsp;₽</span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="block-order__right">
+          <div class="block-order__right__top">
+            <div class="block-sum-price">
+              <span class="h3 font--light text--nowrap">Сумма {{ o.total_cost|format_number }} ₽</span>
+              <span class="indicator_status small-text"><span class="dl-ico met-ico-{% if o.is_canceled %}close{% else %}checkbox{% endif %}"></span>{{ o.get_status_display }}</span>
+            </div>
+
+            <!-- Блок с отображением шкалы статуса заказа  -->
+            {% if not o.is_canceled %}
+              <div class="block-status-scale">
+                <span class="h3 font--bold">Статус заказа</span>
+                <div class="status-scale__wrap">
+                  <div class="box-status_1{% if o.is_status_created %} scale--finish{% endif %}">
+                    <duv class="scale-top">
+                      <span class="small-text">Оформлен</span>
+                    </duv>
+                    <div class="scale-middle"></div>
+                    <duv class="scale-bottom"></duv>
+                  </div>
+
+                  <div class="box-status_2{% if o.is_status_collecting %} scale--finish{% endif %}">
+                    <duv class="scale-top">
+                      <span class="small-text">Комплектуется</span>
+                    </duv>
+                    <div class="scale-middle"></div>
+                    <duv class="scale-bottom"></duv>
+                  </div>
+
+                  <div class="box-status_3{% if o.is_status_delivering %} scale--finish{% endif %}">
+                    <duv class="scale-top">
+                      <span class="small-text">Доставляется</span>
+                    </duv>
+                    <div class="scale-middle"></div>
+                    <duv class="scale-bottom"></duv>
+                  </div>
+
+                  <div class="box-status_4{% if o.is_status_completed %} scale--finish{% endif %}">
+                    <duv class="scale-top">
+                      <span class="small-text">Выполнен</span>
+                    </duv>
+                    <div class="scale-middle"></div>
+                    <duv class="scale-bottom"></duv>
+                  </div>
+
+                </div>
+              </div>
+            {% else %}
+              <div class="block-status-scale">
+                <span class="h3 font--bold">Заказ отменен</span>
+              </div>
+            {% endif %}
+          </div>
+          <div class="block-order__right__bottom">
+            {% if o.can_be_canceled %}
+              <div class="block-btn-right">
+                <button class="btn-border-full dark--bgrnd js-cancel-button" data-obj-id="{{ o.id }}" data-obj-number="{{ o.number }}" aria-label="Удалить"><span>отменить заказ</span> <span class="met-ico-close-b"></span></button>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    {% empty %}
+      <div class="item-info-empty">
+        <span class="ico-info">i</span> <i>У вас пока нет заказов</i>
+      </div>
+    {% endfor %}
+
+  </section>
+{% endblock %}
+
+{% block modals %}
+  {% include 'modals/account_order_created.html' %}
+  {% include 'modals/account_order_canceled.html' %}
+{% endblock %}

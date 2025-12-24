@@ -1,0 +1,496 @@
+{% extends '_base.html' %}
+{% load base_tags static %}
+
+{% block title %}{{ seo_settings.home.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ seo_settings.home.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ seo_settings.home.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ seo_settings.home.get_meta_title }}{% endblock %}
+{% block og_description %}{{ seo_settings.home.get_meta_desc }}{% endblock %}
+
+{% block content %}
+  <!-- Баннер на главной -->
+  <div class="block-banner-home">
+    <span class="h2">
+      {{ home.page_title|safe }}
+    </span>
+    <div class="block-banner-home__statement">
+      {% for fact in home.facts.all %}
+        <div>
+          <img src="{{ fact.icon_url }}" alt="{{ fact.full_text }}" width="112" />
+          <p class="font--uppercase">
+            {% if fact.text_large %}
+              <span class="h2">{{ fact.text_large|safe }}</span><br />
+            {% endif %}
+            <b>{{ fact.text|safe }}</b>
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Секция с видами техники -->
+  <section id="category-home" class="wrap-pad-min wrap--row-to-column wrap-pad--mob--none">
+    <div class="category-home">
+      <h1>Подобрать оборудование</h1>
+      <div class="category-home__frame">
+        <!--<span class="h1">для</span>-->
+        <div class="grid-container grid--column--2to1 grid--gap--same">
+          {% for cat in categories %}
+            <a href="{{ cat.get_absolute_url }}" title="Навесное оборудование {{ cat.homepage_name|lower }}"><img
+                src="{{ cat.icon_url }}" alt="Навесное оборудование {{ cat.homepage_name|lower }}" width="112" /> <span
+                class="h4 font--uppercase">{{ cat.homepage_name_nbsp|safe }}</span></a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {% if banners_count %}
+      <aside>
+        <!-- Swiper слайдер для рекламного баннера -->
+        <div class="swiper slider-advertising">
+          <div class="swiper-wrapper">
+            {% for b in banners %}
+              <div class="swiper-slide">
+                <div class="swiper-slide__banner swiper-slide--banner--{{ b.design }}">
+                  <div class="swiper-slide__banner__title ">
+                    <div>
+                      {% if b.text %}<span class="h3">{{ b.text|safe|linebreaksbr }}</span>{% endif %}
+                      {% if b.link %}
+                        <a href="{{ b.link }}" target="_blank" class="btn-midl btn--green"><span
+                          class="btn__ico met-ico-circle-right"></span> {{ b.get_button_text }}</a>
+                      {% endif %}
+                    </div>
+                    <div>
+                      {% if b.old_price %}
+                        <del class="old-price">
+                          <span>{{ b.old_price|safe }}</span>
+                        </del>
+                      {% endif %}
+                      {% if b.new_price %}
+                        <span class="h3">{{ b.new_price|safe }}</span>
+                      {% endif %}
+                      {% if b.description %}
+                        <span>{{ b.description|safe|linebreaksbr }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <!-- Картинка баннера для десктопа 670 x 950 -->
+                  <img class="swiper-slide__img-670х950" src="{{ b.image_670_url }}"
+                    alt="Баннер рекламный вертикальный" />
+                  <!-- Картинка баннера для десктопа 1200 x 570 -->
+                  <img class="swiper-slide__img-1200х570" src="{{ b.image_1200_url }}"
+                    alt="Баннер рекламный горизонтальный" />
+                </div>
+                {% if banners_count > 1 %}
+                  <div class="swiper-slide__footer"></div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          {% if banners_count > 1 %}
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+          {% endif %}
+        </div>
+      </aside>
+    {% endif %}
+  </section>
+
+  <!-- Популярные модели оборудования в этом сезоне -->
+  {% if sub_categories %}
+    <section id="pop-in-season" class="wrap-pad-normal wrap--column  wrap-pad--mob--none">
+      <h2>Популярные модели оборудования в этом сезоне</h2>
+
+      <!-- Swiper слайдер для рекламного баннера -->
+      <div class="swiper slider-products">
+        <div class="swiper-wrapper">
+          {% for subcat in sub_categories %}
+            <div class="swiper-slide">
+              <a href="{{ subcat.get_absolute_url }}" class="card-model" title="{{ subcat }}">
+                <div class="card-model__top-wrap">
+                  <span class="label-hit h4 font--light font--uppercase">Хит</span>
+                  <!-- картинки шириной 576px -->
+                  <img src="{{ subcat.model_photo_url }}" alt="{{ subcat }}" />
+                </div>
+                <div class="card-model__bottom-wrap">
+                  <div class="card-model__descript">
+                    {% if subcat.model_price %}
+                      <span class="card-model__descript-price text--nowrap">От: {{ subcat.model_price|format_number }} ₽</span>
+                    {% endif %}
+                    <span class="h4">{{ subcat.name_html|safe }}</span>
+                    <span class="small-text">{{ subcat.category.get_name_single|lowfirst }}</span>
+                  </div>
+                  <div class="btn-more">
+                    <span class="met-ico-button-right"></span> <span
+                      class="small-text font--uppercase">подобрать</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination__wrap">
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- О компании -->
+  <seсtion id="company-home" class="wrap-pad-normal wrap--column wrap-pad--mob--none">
+    <h2 style="margin-bottom: 0;">{{ home.about_title|safe|linebreaksbr }}</h2>
+    <img class="lg-meta-about" src="{% static 'images/logo/lg-meta-main.svg' %}" alt="Логотип Метатэкс" />
+    <img class="about-img" src="{% if not home.about_photo %}{{ home.about_photo_url }}{% else %}{% static 'images/about/Foto20about-151.jpg' %}{% endif %}" alt="Фотография коллектива Метатекс" />
+    <div class="about-descriptions__wrap content-limited">
+      {{ home.about_text|safe }}
+    </div>
+
+    <h3>{{ home.advantages_title|safe|linebreaksbr }}</h3>
+    <div class="grid-container grid--column--6-3to2 block-advantage">
+      {% for adv in home.advantages.all %}
+        <div class="block-advantage__item">
+          <div class="block-advantage__img-wrap">
+            <span>
+              <img src="{{ adv.icon_url }}" {% if adv.text %}alt="{{ adv.text|clean_html }}"{% endif %} />
+            </span>
+          </div>
+          {% if adv.text %}
+            <span>{{ adv.text|safe|linebreaksbr }}</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </seсtion>
+
+  <div class="section-footer wrap-pad-min  wrap-pad--mob--none">
+    <a href="{% url 'about:home' %}" target="_blank" class="btn-more-large" title="Перейти в раздел О компании"><span
+        class="met-ico-button-right"></span> <span
+        class="btn-more-large__text font--uppercase font--light">больше информации о&nbsp;компании</span></a>
+    <hr />
+  </div>
+
+  <!-- Медиаконтент -->
+  <div id="media-home" class="media-home wrap-pad-min wrap--row-to-column wrap-pad--mob--none">
+    <div class="media-home__left">
+
+      <!-- Новости -->
+      <section class="media-home__news">
+        {% with news_post as post %}
+          {% if post and post.cover %}
+            <div class="media-home__news_img_wrap">
+              <img src="{{ post.homepage_cover_url }}" alt="{{ post.title|clean_html }}" />
+            </div>
+          {% endif %}
+          <div class="media-home__news_description">
+            <h2>{{ home.news_title|safe|linebreaksbr }}</h2>
+            {% if home.news_text %}
+              <p>{{ home.news_text|safe|linebreaksbr }}</p>
+            {% endif %}
+            <a href="{% url 'news:home' %}" title="Лента новостей" class="btn-more h4">
+              <span class="met-ico-button-right"></span> <span class="font--light  font--uppercase">лента
+                новостей</span></a>
+            {% if post %}
+              <span class="h4">{{ post.title|safe }}</span>
+              {% if post.short_description %}
+                <p>{{ post.short_description|safe|linebreaksbr }}</p>
+              {% endif %}
+              <a href="{{ post.get_absolute_url }}" title="Читать новость" class="btn-more"><span class="met-ico-button-right"></span>
+                <span class="font--uppercase small-text">перейти к новости</span></a>
+            {% endif %}
+          </div>
+        {% endwith %}
+      </section>
+
+      <!-- Статьи -->
+      <section class="media-home__articl">
+        <div class="media-home__articl_description">
+          <div>
+            <h2>{{ home.articles_title|safe|linebreaksbr }}</h2>
+            {% if home.articles_text %}
+              <p>{{ home.articles_text|safe|linebreaksbr }}</p>
+            {% endif %}
+          </div> <a href="{% url 'articles:home' %}" title="список статей" class="btn-more h4"> <span
+              class="met-ico-button-right"></span> <span class="font--light  font--uppercase">список
+              статей</span></a>
+        </div>
+        {% if articles.count %}
+          <div class="grid-container grid--column--2 grid--gap--none">
+            {% for article in articles %}
+              <div class="media-home__articl_card">
+                <div class="media-home__articl_img_wrap">
+                  {% if article.cover %}
+                    <a href="{{ article.get_absolute_url }}" title="{{ article.title|clean_html }}"
+                      class="media-home__articl_img">
+                      <img src="{{ article.homepage_cover_url }}" alt="{{ article.title|clean_html }}" />
+                    </a>
+                  {% endif %}
+                </div>
+                <div class="media-home__articl_descr_wrap">
+                  <p class="h4">{{ article.title|safe }}</p>
+                  <a href="{{ article.get_absolute_url }}" title="Читать статью" class="btn-more"> <span
+                      class="met-ico-button-right"></span> <span class="font--uppercase small-text">перейти к
+                      статье</span></a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </section>
+    </div>
+
+    <aside class="media-home__right">
+
+      <!-- Фото -->
+      <section class="media-home__photo">
+        <h2>{{ home.photo_title|safe|linebreaksbr }}</h2>
+        {% if home.photo_text %}
+          <p>{{ home.photo_text|safe|linebreaksbr }}</p>
+        {% endif %}
+        <a href="{% url 'about:photo' %}" title="фотогалерея" class="btn-more btn--more--w h4">
+          <span class="met-ico-button-right"></span> <span
+            class="font--light  font--uppercase">фотогалерея</span></a>
+        {% if photos %}
+          <div class="media-home__photo-gal grid-container grid--column--2 grid--gap--none">
+            {% for p in photos %}
+              <a href="{{ p.homepage_photo_big }}" title="{{ p.title|clean_html }}" target="_blank" data-fancybox="gallery">
+                <img src="{{ p.homepage_photo_thumb }}" alt="{{ p.title|clean_html }}" />
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </section>
+
+      <!-- Видео -->
+      <section class="media-home__video">
+        <h2>{{ home.video_title|safe|linebreaksbr }}</h2>
+        {% if home.video_text %}
+          <p>{{ home.video_text|safe|linebreaksbr }}</p>
+        {% endif %}
+        <a href="{% url 'about:video' %}" title="видеогалерея" class="btn-more btn--more--w h4">
+          <span class="met-ico-button-right"></span> <span
+            class="font--light  font--uppercase">видеогалерея</span></a>
+        {% if video %}
+          <div class="media-home__video-items">
+            <div class="media-home__video-items-plwr">
+              {{ video.video|safe }}
+            </div>
+            <b>{{ video.title|safe }}</b>
+          </div>
+        {% endif %}
+        <div class="media-home__video_youtube">
+          <span class="met-ico-youtube"></span> <i>Подписывайтесь<br />на наш канал в <a
+              href="https://www.youtube.com/@metateks4914" alt="На канал YouTube" target="_blank"
+              rel="nofollow" class="link-white">YouTube</a></i></span>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <!-- Бренды -->
+  <section id="brands-home" class="wrap-pad-normal wrap--column wrap-pad--mob--none">
+    <h2>Бренды, совместимые с навесным оборудованием Метатэкс</h2>
+
+    <!-- Swiper слайдер для брендов -->
+    <div class="swiper slider-brands">
+      <div class="swiper-wrapper">
+        {% for b in brands %}
+          <div class="swiper-slide">
+            <a href="{{ b.get_absolute_url }}" class="card-brand" title="Страница бренда {{ b }}">
+              <img src="{{ b.homepage_logo_url }}" alt="Логотип {{ b }}" />
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+
+  </section>
+
+  <!-- Доставка -->
+  <section id="delivery-home" class="delivery-home">
+    <div class="delivery-home__content">
+      <h2>{{ home.delivery_title|safe|linebreaksbr }}</h2>
+
+      {% if wh1 %}
+        <!-- Бокс с информацией о первом складе -->
+        <div class="storage-box-one">
+          <img src="{{ wh1.photo_url }}" alt="{{ wh1.name|clean_html }}" />
+          <p>
+            <span class="h4">{{ wh1.name|safe }}</span><br />
+            {% if wh1.subtitle %}
+              <span>{{ wh1.subtitle|safe }}</span>
+            {% endif %}
+          </p>
+          <button onclick="toggleОne()" class="blockinf__btn" title="Контактные данные">
+            <span class="btn-indicator-one">
+              <span class="met-ico-arrow-bottom"></span>
+              <span class="met-ico-close-b"></span>
+            </span>
+            <b class="blockinf__btn_text">Подробно о&nbsp;складе</b>
+            <img class="storage-box-triangle" src="{% static 'images/Delivery/triangle.svg' %}"
+              alt="Подробно о складе" />
+          </button>
+
+          <div id="blockinfone" class="blockinfone">
+            <dl>
+              {% if wh1.address %}
+                <dt><span class="dl-ico met-ico-geotag"></span> Адрес:</dt>
+                <dd>{{ wh1.address|safe }}</dd>
+              {% endif %}
+              {% if wh1.schedule %}
+                <dt><span class="dl-ico met-ico-time"></span> Режим работы:</dt>
+                <dd>{{ wh1.schedule|safe }}</dd>
+              {% endif %}
+              {% if wh1.phone %}
+                <dt><span class="dl-ico met-ico-telephone"></span> Телефон:</dt>
+                <dd><a href="tel:{{ wh1.phone|clean_html|format_phone }}" title="Позвонить"
+                    class="link-white">{{ wh1.phone|safe }}</a></dd>
+              {% endif %}
+            </dl>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if wh2 %}
+        <!-- Бокс с информацией о втором складе -->
+        <div class="storage-box-second">
+          <img class="storage-box-triangle" src="{% static 'images/Delivery/triangle.svg' %}"/>
+          <img src="{{ wh2.photo_url }}" alt="{{ wh2.name|clean_html }}" />
+          <p>
+            <span class="h4">{{ wh2.name|safe }}</span><br />
+            {% if wh2.subtitle %}
+              <span>{{ wh2.subtitle|safe }}</span>
+            {% endif %}
+          </p>
+          <button onclick="toggleSec()" class="blockinf__btn" title="Контактные данные">
+            <span class="btn-indicator-second">
+              <span class="met-ico-arrow-bottom"></span>
+              <span class="met-ico-close-b"></span>
+            </span>
+            <b class="blockinf__btn_text">Подробно о&nbsp;складе</b>
+          </button>
+
+          <div id="blockinfsecond" class="blockinfsecond">
+            <dl>
+              {% if wh2.address %}
+                <dt><span class="dl-ico met-ico-geotag"></span> Адрес:</dt>
+                <dd>{{ wh2.address|safe }}</dd>
+              {% endif %}
+              {% if wh2.schedule %}
+                <dt><span class="dl-ico met-ico-time"></span> Режим работы:</dt>
+                <dd>{{ wh2.schedule|safe }}</dd>
+              {% endif %}
+              {% if wh2.phone %}
+                <dt><span class="dl-ico met-ico-telephone"></span> Телефон:</dt>
+                <dd><a href="tel:{{ wh2.phone|clean_html|format_phone }}" title="Позвонить"
+                    class="link-white">{{ wh2.phone|safe }}</a></dd>
+              {% endif %}
+            </dl>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Начало карты svg дектоп -->
+    {% include 'include/home_map_desktop.svg' with wh1=wh1 wh2=wh2 %}
+    <!-- Конец карты svg десктоп -->
+
+    <!-- Начало карты svg моб -->
+    {% include 'include/home_map_mobile.svg' %}
+    <!-- Конец карты svg моб -->
+  </section>
+  <!-- </div> -->  {# кажется, это закрытие тега лишнее - пока закомментил #}
+
+  <!-- Отдел продаж -->
+  <section id="managers-home" class="managers-home wrap-pad-min wrap--column wrap-pad--mob--none">
+    <div class="content-limited">
+      <h2>{{ home.sales_title|safe }}</h2>
+      {% if home.sales_text %}
+        <h4>{{ home.sales_text|safe|linebreaksbr }}</h4>
+      {% endif %}
+      {% if home.phones.exists %}
+        <div class="phone-managers">
+          {% for p in home.phones.all %}
+            <div class="phone-managers__number-{{ forloop.counter }}">
+              <a class="link-orange link--light--bg h3 font--light" href="tel:{{ p.phone|format_phone }}"
+                title="Позвонить по телефону {{ p.phone }}">{{ p.phone }}</a>
+              {% if p.is_free %}
+                <p>звонок по России бесплатный</p>
+              {% endif %}
+            </div>
+            {% if forloop.first %}
+              <div class="phone-managers__tube">
+                <span class="met-ico-telephone h3 "></span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <span class="h3 font--light phone-managers-subtitle">Мобильные номера:<br />WhatsApp / Viber /
+          Telegram</span>
+      {% endif %}
+    </div>
+
+    {% if home.managers.exists %}
+      <div class="managers-home__photo-wrap">
+        {% for m in home.managers.all %}
+          <div class="managers-home__photo-card">
+            <div class="managers-home__photo-photo">
+              <img src="{{ m.photo_url }}" />
+            </div>
+            <div class="managers-home__photo-title">
+              <a class="link-orange link--light--bg" href="tel:{{ m.phone|format_phone }}" title="Позвонить {{ m.get_name_dative }}">{{ m.phone }}</a>
+              <b>{{ m.name }}</b>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="content-limited">
+      <form id="formmanager" class="form-callback form--whaite" method="post">
+        <header>
+          <h3>Закажите обратный звонок<br />наш менеджер свяжется с вами</h3>
+        </header>
+        <main>
+
+          <div class="field-row">
+            <label class="field-label" for="name">Ваше имя</label>
+            <input class="field-input" id="name" autocomplete="on" type="text" name="name" value="" size="0" />
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="phone">Телефон<sup>
+                <font color="#FF5C00"> *</font>
+              </sup></label>
+            <input class="field-input required" id="phone" autocomplete="on" type="tel" name="phone" value=""
+              size="0" placeholder="+7 (___) ___-__-__" minlength="1" data-msg="Заполните поле Телефон" />
+
+          </div>
+
+          <div class="checkbox-row">
+            <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+              data-msg="Выбор этого пункта обязателен">
+            <label for="privacy">
+            </label>
+            <span class="checkbox-text small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
+                title="условия политики обработки персональных данных" target="_blank">условиями политики</a>
+              обработки
+              персональных данных <sup>
+                <font color="#FF5C00"> *</font>
+              </sup>
+            </span>
+          </div>
+
+        </main>
+        <footer>
+          <button name="Submit" value="Отправить" type="submit" class="btn-big btn--orange"><span class="btn__ico  met-ico-circle-right
+"></span> Заказать звонок</button>
+        </footer>
+      </form>
+    </div>
+  </section>
+{% endblock %}

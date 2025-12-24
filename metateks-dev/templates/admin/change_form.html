@@ -1,0 +1,25 @@
+{% extends 'admin/change_form.html' %}
+
+{# {% block admin_change_form_document_ready %} #}
+{% block extrahead %}
+  {{ block.super }}
+  <script type="text/javascript">
+    var jQuery = window.django['jQuery'];
+    var $ = jQuery;
+  </script>
+{% endblock %}
+
+{% block admin_change_form_document_ready %}
+  {{ block.super }}
+  <script type="text/javascript">
+    jQuery(document).ready(function($) {
+      var $ = jQuery;
+
+      // удаление кнопки "Upgrade" из меню редактора TinyMCE
+      setTimeout(function () {
+        $('.tox-promotion').remove();
+        console.log('removed');
+      }, 2000);
+    });
+  </script>
+{% endblock %}

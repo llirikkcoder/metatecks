@@ -1,0 +1,141 @@
+@font-face {
+  font-family: 'icometateks';
+  src:  url('fonts/icometateks.eot?5t6dn5');
+  src:  url('fonts/icometateks.eot?5t6dn5#iefix') format('embedded-opentype'),
+    url('fonts/icometateks.ttf?5t6dn5') format('truetype'),
+    url('fonts/icometateks.woff?5t6dn5') format('woff'),
+    url('fonts/icometateks.svg?5t6dn5#icometateks') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="met-"], [class*=" met-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icometateks' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.met-ico_mail:before {
+  content: "\e925";
+}
+.met-ico-arrow-bottom:before {
+  content: "\e903";
+}
+.met-ico-arrow-top:before {
+  content: "\e904";
+}
+.met-ico-close-b:before {
+  content: "\e924";
+}
+.met-ico-buy:before {
+  content: "\e900";
+}
+.met-ico-accept:before {
+  content: "\e901";
+}
+.met-ico-add-basket:before {
+  content: "\e902";
+}
+.met-ico-arrow-left:before {
+  content: "\e905";
+}
+.met-ico-arrow-right:before {
+  content: "\e906";
+}
+.met-ico-button-down:before {
+  content: "\e907";
+}
+.met-ico-button-left:before {
+  content: "\e908";
+}
+.met-ico-button-right:before {
+  content: "\e909";
+}
+.met-ico-circle-left:before {
+  content: "\e90a";
+}
+.met-ico-circle-right:before {
+  content: "\e90b";
+}
+.met-ico-checkbox:before {
+  content: "\e90c";
+}
+.met-ico-close:before {
+  content: "\e90d";
+}
+.met-ico-reset:before {
+  content: "\e90e";
+}
+.met-ico-human:before {
+  content: "\e90f";
+}
+.met-ico-search:before {
+  content: "\e910";
+}
+.met-ico-basket:before {
+  content: "\e911";
+}
+.met-ico-geotag:before {
+  content: "\e912";
+}
+.met-ico-time:before {
+  content: "\e913";
+}
+.met-ico-open:before {
+  content: "\e914";
+}
+.met-ico-telephone:before {
+  content: "\e915";
+}
+.met-ico-pdf:before {
+  content: "\e916";
+}
+.met-ico-kg:before {
+  content: "\e917";
+}
+.met-ico-heart-empty:before {
+  content: "\e918";
+}
+.met-ico-heart-filled:before {
+  content: "\e919";
+}
+.met-ico-photo:before {
+  content: "\e91a";
+}
+.met-ico-video:before {
+  content: "\e91b";
+}
+.met-ico-brend:before {
+  content: "\e91c";
+}
+.met-ico-doc:before {
+  content: "\e91d";
+}
+.met-ico-gear:before {
+  content: "\e91e";
+}
+.met-ico-edit:before {
+  content: "\e91f";
+}
+.met-ico-telegram:before {
+  content: "\e920";
+}
+.met-ico-viber:before {
+  content: "\e921";
+}
+.met-ico-vk:before {
+  content: "\e922";
+}
+.met-ico-youtube:before {
+  content: "\e923";
+}

@@ -1,0 +1,25 @@
+{% load base_tags %}
+
+<section id="video" class="wrap-pad-normal wrap--column  wrap-pad--mob--none">
+  <h2>Видео оборудования</h2>
+  <div class="media-catalog__video-gal grid-container grid--gap--same grid--column--2to1">
+    {% for video in videos %}
+      <div class="media-catalog__video-items{% if forloop.last and videos|length|is_odd %} grid--column--2sp{% endif %}">
+        <div class="media-catalog__video-items-plwr">
+          {{ video.video|safe }}
+        </div>
+        {% if video.description %}
+          <p>{{ video.description|safe }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  {% comment %}
+    <div class="section-footer  wrap-pad--mob--none">
+      <a href="#" class="btn-more-large" title="перейти в раздел о компании"><span
+          class="met-ico-button-right"></span>
+        <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+      <hr />
+    </div>
+  {% endcomment %}
+</section>

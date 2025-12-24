@@ -1,0 +1,5 @@
+{% for product in products %}
+  <div class="swiper-slide">
+    {% include 'include/product_card.html' with product=product attr_ids=subcat.attr_products_ids attributes=attributes only %}
+  </div>
+{% endfor %}

@@ -1,0 +1,52 @@
+{% load base_tags static %}
+
+<footer class="footer-page">
+  <nav class="footer-page__nav grid-container grid--column--4to2">
+    {% for col in footer.columns %}
+      <div>
+        <h4>{{ col.title }}</h4>
+        <ul>
+          {% for link in col.links %}
+            <li>
+              <a href="{{ link.link }}" title="На страницу «{{ link.title }}»" class="link-white">
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </nav>
+
+  <div class="footer-page__info grid-container grid--column--3to1">
+    <div class="footer-page__info__contacts">
+      <div class="block-social">
+        {% for link in footer.social_links %}
+          <a rel="nofollow" href="{{ link.link }}" title="{{ link.get_link_title }}"
+            class="btn-ellipse btn--black" target="_blank">
+            <span class="met-ico-{{ link.icon }}"></span>
+          </a>
+        {% endfor %}
+      </div>
+      <small>
+        {% with request.city.contacts_phone|default:footer.contacts_phone as phone %}
+          <a rel="nofollow" href="tel:{{ phone|format_phone }}" title="Позвонить">
+            {{ phone }}
+          </a><br />
+        {% endwith %}
+        <a rel="nofollow" href="mailto:{{ footer.contacts_email }}" title="Написать на электронную почту">
+          {{ footer.contacts_email }}
+        </a>
+      </small>
+    </div>
+    <small class="footer-page__info__copyright">
+      <img width="144" src="{% static 'images/logo/lg-meta-full.svg' %}"
+        alt="Логотип Метатекс навесное оборудование" /><span>© Все права защищены <br />1995–{% now 'Y' %} ООО&nbsp;«Метатэкс»
+      </span>
+    </small>
+    <small class="footer-page__info__made">
+      <img width="52" src="{% static 'images/logo/lg-vino.svg' %}" alt="Логотип студии дизайна — Вино" /> <a rel="nofollow"
+        href="https://vinodesign.ru" title="Перейти на сайт студии Вино" target="_blank">Сайт разработан<br />в&nbsp;студии дизайна &laquo;Вино&raquo;</a>
+    </small>
+  </div>
+</footer>

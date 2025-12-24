@@ -1,0 +1,61 @@
+{% extends 'account/_account_base.html' %}
+{% load base_tags catalog_tags %}
+
+{% block title %}Избранные товары{% endblock %}
+{% block meta_description %}Избранные товары{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Избранные товары{% endblock %}
+{% block og_description %}Избранные товары{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  {% include 'include/account_header.html' with page_title='Избранное' %}
+  {% include 'include/account_navigation.html' with page_slug='favorites' %}
+
+  <!-- Список избранных товаров -->
+  <section
+    class=" wrap-pad-normal wrap-pad--mob--min wrap--column product-list grid-container grid--column--4to2"
+    style="padding-top: 0;">
+
+    {% for obj in favorites %}
+      {% with obj.product as p %}
+        <!-- Карточка товара -->
+        <div class="card-product favorit--box">
+          <a href="{{ p.get_link_url }}" target="_blank" class="card-product__link" title="{{ p }}"></a>
+          <div class="favorites__wrap card-product__top-wrap favorit--box">
+            <label class="js-favorite-label" title="Удалить из ибранного" style="cursor: pointer;">
+              <input class="js-favorite-checkbox" name="favorite" data-product-id="{{ p.id }}" type="checkbox" checked style="display: none;">
+              <span class="met-ico-heart-filled"></span>
+            </label>
+            {% if p.get_photo %}
+              <img src="{{ p.list_photo_url }}" alt="{{ p.name }}" />
+            {% else %}
+              <img src="{{ p.sub_category.product_photo_url }}" alt="{{ p.name }}" />
+            {% endif %}
+          </div>
+          <div class="card-product__middle-wrap">
+            <span class="h4">{{ p.name }}</span>
+          </div>
+          <div class="card-product__bottom-wrap">
+            <div class="card-product__price-box">
+              {% get_product_promotion p as promo %}
+              {% if promo %}
+                {% get_promo_new_price promo p.price as new_price %}
+                <span class="h4 font--light old-price">{{ p.price|format_number }}&nbsp;₽</span>
+                <span class="h4 font--light">{{ new_price|format_number }}&nbsp;₽</span>
+              {% else %}
+                <span class="h4 font--light">{{ p.price|format_number }}&nbsp;₽</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endwith %}
+
+    {% empty %}
+      <div class="item-info-empty">
+        <span class="ico-info">i</span> <i>У вас пока нет избранных товаров</i>
+      </div>
+    {% endfor %}
+  </section>
+{% endblock %}

@@ -1,0 +1,342 @@
+{% extends '_base.html' %}
+{% load base_tags catalog_tags easy_thumbnails_tags static %}
+
+{% block title %}{{ product.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ product.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ product.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ product.get_meta_title }}{% endblock %}
+{% block og_description %}{{ product.get_meta_desc }}{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--element wrap-pad-normal">
+    <nav class="content-header__nav">
+      <div class="content-header__leftbox-wr">
+        <a href="#" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+          <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+      </div>
+      <div class="bread-crumbs small-text">
+        <div>
+          <a href="{% url 'home' %}" title="На главную">Главная</a>&nbsp;<span>/</span> <a href="{% url 'catalog:home' %}"
+            title="Перейти в Каталог продукции">Каталог
+            продукции</a>&nbsp;<span>/</span> <a href="{{ cat.get_absolute_url }}" title="Перейти в {{ cat.get_title }}">{{ cat.get_title }}</a> &nbsp;<span>/</span> <a href="{{ subcat.get_absolute_url }}"
+            title="Перейти в {{ subcat.get_title }}">{{ subcat.get_title }}</a>&nbsp;<span>/</span> {{ product.name }}
+        </div>
+      </div>
+    </nav>
+    <div class="content-header__leftbox-wr ">
+      <a class="content-header__ico" href="{{ cat.get_absolute_url }}" title="Оборудование {{ cat.name_lower }}">
+        <img src="{{ cat.icon_url }}"/>
+      </a>
+    </div>
+    <div class="content-header__title-wr">
+      <h1>{{ product.get_h1|safe }}</h1>
+      <span class="h3">{{ cat.get_name_product|safe }}</span>
+    </div>
+    {% if product.brand %}
+      {% with product.brand as brand %}
+        <div class="content-header__brend-wr">
+          <a class="content-header__brend" href="{{ brand.get_absolute_url }}" title="Перейти к бренду {{ brand.name }}">
+            <span></span>
+            {% if brand.logo %}
+              <img src="{{ brand.logo_url }}" alt="Логотип {{ brand.name }}" />
+            {% else %}
+              <h4 class="brand-logo-empty-name">{{ brand.name }}</h4>
+            {% endif %}
+          </a>
+        </div>
+      {% endwith %}
+    {% endif %}
+  </div>
+  <!-- Секция с фотографиями товара -->
+  <section class="product-summary  wrap-pad-min wrap--row-to-column wrap-pad--mob--none">
+    <div class="product-summary__left">
+      <div class="swiper slider-product">
+
+        <!-- Слайдер товара -->
+        <div class="slider-product__wrap">
+
+          <!-- Блок с превью -->
+          <div thumbsSlider="" class="slider-product__preview swiper-container">
+            <div class="image-slider__wrapper swiper-wrapper">
+              <!-- Превью -->
+              {% if product.gallery or model.gallery %}
+                {% for image in product.get_gallery.objects.all %}
+                  <div class="image-slider__slide swiper-slide">
+                    <div class="image-slider__image">
+                      <img src="{{ image.image|thumbnail_url:'product_gallery_thumb' }}" alt="Превью ракурс {{ forloop.counter }}" />
+                    </div>
+                  </div>
+                {% endfor %}
+              {% elif product.get_photo %}
+                <div class="image-slider__slide swiper-slide">
+                  <div class="image-slider__image">
+                    <img src="{{ product.get_photo|thumbnail_url:'product_gallery_thumb' }}" alt="Превью фото товара" />
+                  </div>
+                </div>
+              {% else %}
+                <div class="image-slider__slide swiper-slide">
+                  <div class="image-slider__image">
+                    <img src="{{ subcat.get_photo|thumbnail_url:'product_gallery_thumb' }}" alt="Превью фото товара" />
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <!-- Конец блока с превью -->
+
+          <!-- Блок с большими картинками -->
+          <div class="largeimage swiper-container">
+            <div class="image-slider__wrapper swiper-wrapper">
+              <!-- Большие картинки -->
+              {% if product.gallery or model.gallery %}
+                {% for image in product.get_gallery.objects.all %}
+                  <div class="image-slider__slide swiper-slide">
+                    <div class="image-slider__image">
+                      <img src="{{ image.image|thumbnail_url:'product_gallery_big' }}" alt="Ракурс {{ forloop.counter }}" />
+                    </div>
+                  </div>
+                {% endfor %}
+              {% elif product.get_photo %}
+                <div class="image-slider__slide swiper-slide">
+                  <div class="image-slider__image">
+                    <img src="{{ product.get_photo|thumbnail_url:'product_gallery_big' }}" alt="Фото товара" />
+                  </div>
+                </div>
+              {% else %}
+                <div class="image-slider__slide swiper-slide">
+                  <div class="image-slider__image">
+                    <img src="{{ subcat.get_photo|thumbnail_url:'product_gallery_big' }}" alt="Фото товара" />
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            <!-- Добавляем, если нам нужны стрелки управления -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <!-- кнопка 3D просмотр -->
+            {% if product.get_gallery_3d %}
+              <a href="#productviewer" rel="modal:open" title="Смотреть 3D изображение" class="btn-3dviu">
+                <img src="{% static 'images/ico/ico -3d-viu.png' %}" />
+              </a>
+            {% endif %}
+          </div>
+          <!-- Конец блока с большими картинками -->
+
+        </div>
+        <!-- Конец слайдера товара -->
+      </div>
+      <nav class="product-nav">
+        <div class="product-nav__left">
+          {% if photos %}
+            <a href="#photo" title="Посмотреть фотографии" class="link-ico__black"><span
+                class="link-ico__ico  met-ico-photo"></span>&nbsp;<span
+                class="model-text-nav">Фото</span></a>
+          {% endif %}
+          {% if videos %}
+            <a href="#video" title="Посмотреть видео" class="link-ico__black"><span
+                class="link-ico__ico  met-ico-video"></span>&nbsp;<span
+                class="model-text-nav">Видео</span></a>
+          {% endif %}
+        </div>
+        <div class="product-nav__right">
+          <label class="like-checkbox js-favorite-label" title="{% if is_favorite %}Удалить из избранного{% else %}Добавить в избранное{% endif %}">
+            <input class="js-favorite-checkbox" name="favorite" data-product-id="{{ product.id }}" type="checkbox"{% if is_favorite %} checked{% endif %}>
+            <span class="like-icon met-ico-heart-filled"></span>
+          </label>
+        </div>
+      </nav>
+      <div class="product-info grid-container grid--column--2to1-mob">
+        {% if model.has_description or has_texts %}
+          <div class="product-info__description">
+            {% if model.has_description %}
+              <div class="product-info-section">
+                {# <h2>Описание</h2> #}
+                <h2>Текстовое описание</h2>
+                {{ model.description|safe }}
+              </div>
+            {% endif %}
+            {% if purpose %}
+              <div class="product-info-section">
+                <h3>Назначение</h3>
+                {{ purpose|safe }}
+              </div>
+            {% endif %}
+            {% if design_features %}
+              <div class="product-info-section">
+                <h3>Особенности конструкции</h3>
+                {{ design_features|safe }}
+              </div>
+            {% endif %}
+            {% if basic_options %}
+              <div class="product-info-section">
+                <h3>Опции в базовой комплектации</h3>
+                {{ basic_options|safe }}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+        {# {% get_product_list_attrs product subcat.attr_ids as attrs %} #}
+        {# {% get_product_page_attrs product subcat.attr_ids as attrs %} #}
+        {% if attrs %}
+          <div class="product-info__property">
+            <h2>Характеристики</h2>
+            <ul>
+              {% for attr_name, attr in attrs.items %}
+                <li>{{ attr_name|safe }} — <b>{{ attr.value }}{% if attr.unit %}{% if attr.unit != '°' %} {% endif %}{{ attr.unit|safe }}{% endif %}</b></li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <aside>
+      <div class="product-aside" id="js-product-container"
+           data-product-id="{{ product.id }}" data-is-added="{% if is_added %}true{% else %}false{% endif %}">
+        <div class="product-aside__price">
+          {% get_product_promotion product as promo %}
+          {% if promo %}
+            {% get_promo_new_price promo model.price as new_price %}
+            <span class="h3" id="js-price" data-price="{{ new_price|format_number:'' }}">Цена <span class="old-price">{{ model.price|format_number }}&nbsp;₽</span> {{ new_price|format_number }}&nbsp;₽</span>
+          {% else %}
+            <span class="h3" id="js-price" data-price="{{ model.price|format_number:'' }}">Цена {{ model.price|format_number }} ₽</span>
+          {% endif %}
+        </div>
+
+        <hr />
+        <div class="product-aside__wrap">
+          <div class="product-aside__info">
+            {% for wh_list in warehouses_by_city %}
+              <dl class="{% if forloop.first %}storage-city-selected{% else %}storage-city-notselected{% endif %}">
+                {% if forloop.first %}<dt class="small-text">Товары на складе:</dt>{% endif %}
+                {% for obj in wh_list %}
+                  <dd class="product-aside__options">         
+                    <input class="radiobutton" type="radio" id="storage-{{ obj.id }}" name="storage-option"
+                           {% if obj.selected %} checked{% endif %} value="{{ obj.id }}">
+                    <label for="storage-{{ obj.id }}"></label>
+                    <div class="small-text font--light">{{ obj.name|safe }}&nbsp;—&nbsp;{% if obj.in_stock %}{{ obj.in_stock }}&nbsp;шт.{% elif making_days %}под заказ ({{ making_days }}&nbsp;раб.дней){% else %}под заказ{% endif %}
+                    </div>
+                  </dd>
+                {% endfor %}
+              </dl>
+            {% endfor %}
+
+            {% if extra_products %}
+              <dl>
+                <dt class="small-text">Добавьте дополнительные опции:</dt>
+                {% for obj in extra_products %}
+                  <dd class="product-aside__options js-extra-container">
+                    <input class="checkbox js-extra-checkbox" type="checkbox" id="option{{ obj.id }}" name="option{{ obj.id }}"
+                           data-extra-id="{{ obj.id }}" data-price="{{ obj.price|format_number:'' }}"
+                           {% if obj.id in added_extra_ids %} checked{% endif %}>
+                    <label for="option{{ obj.id }}">
+                      <div class="h4">{{ obj.name|safe }} <span class="font--light">{{ obj.price|format_number }} ₽</span></div>
+                    </label>
+                  </dd>
+                {% endfor%}
+              </dl>
+            {% endif %}
+          </div>
+
+          <hr class="show--desc-1200">
+          <div class="product-aside__btn">
+            <!-- Итоговая стоимость с доп.опциями -->
+            <dl class="product-aside__price-result">
+              <dt class="small-text">Итого, стоимость покупки:</dt>
+              <dd class="h4 font--light" id="js-total">{% if new_price %}{{ new_price|format_number }}{% else %}{{ model.price|format_number }}{% endif %} ₽</dd>
+            </dl>
+            <!-- Кнопка добавить в корзину -->
+            <a class="btn-big-basket js-cart-button{% if is_added %} _disabled{% endif %}" href="#">
+              <span class="btn__ico met-ico-add-basket"></span> <span class="label">{% if is_added %}В корзине{% else %}В корзину{% endif %}</span>
+            </a>
+            <!-- Кнопка купить в один клик -->
+            <a class="btn-big-buy{% if is_added is False %} js-buy-button{% endif %}"
+                href="{% if is_added %}{% url 'cart' %}#header{% else %}#{% endif %}">
+              <span class="btn__ico met-ico-buy"></span> <span>Купить</span>
+            </a>
+            {% if model.tech_description %}
+              <a href="{{ model.tech_description.url }}" target="_blank" title="Скачать техническое описание" class="link-ico__white"><span class="link-ico__ico met-ico-doc"></span>&nbsp;<span class="link-ico__white-text">Скачать техническое описание</span></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Секция с фотографиями оборудования -->
+  {% if photos %}
+    {% include 'include/catalog_photos.html' with photos=photos only %}
+  {% endif %}
+
+  <!-- Секция с видео оборудования -->
+  {% if videos %}
+    {% include 'include/catalog_videos.html' with videos=videos only %}
+  {% endif %}
+
+  <!-- Отдел продаж -->
+  <section id="managers-home" class="managers-home wrap-pad-min wrap--column wrap-pad--mob--none">
+    <div class="content-limited">
+      <form id="formmanager" class="form-callback form--whaite" method="post">
+        <header>
+          <h3>Если есть вопросы, отправьте заявку<br/>менеджер свяжется с вами</h3>
+        </header>
+        <main>
+          <div class="field-row">
+            <label class="field-label" for="name">Ваше имя</label>
+            <input class="field-input" id="name" autocomplete="on" type="text" name="name" value=""
+              size="0" />
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="phone">Телефон<sup>
+                <font color="#FF5C00"> *</font>
+              </sup></label>
+            <input class="field-input required" id="phone" autocomplete="on" type="tel" name="phone"
+              value="" size="0" placeholder="+7 (___) ___-__-__" minlength="1"
+              data-msg="Заполните поле Телефон" />
+          </div>
+          <div class="checkbox-row">
+            <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+              data-msg="Выбор этого пункта обязателен">
+            <label for="privacy">
+            </label>
+            <span class="checkbox-text small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
+                title="условия политики обработки персональных данных" target="_blank">условиями
+                политики</a>
+              обработки
+              персональных данных <sup>
+                <font color="#FF5C00"> *</font>
+              </sup>
+            </span>
+          </div>
+
+        </main>
+        <footer>
+          <button name="Submit" value="Отправить" type="submit" class="btn-big btn--orange"><span class="btn__ico met-ico-circle-right"></span> Заказать звонок</button>
+        </footer>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block modals %}
+  {% if product.gallery_3d or model.gallery_3d %}
+    {% include 'modals/product_3d_viewer.html' with gallery=product.get_gallery_3d.objects.all only %}
+  {% endif %}
+  {% include 'modals/product_cart_added.html' %}
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    var urls = {
+      "product": "{% url 'api:cart:update-item' %}",
+      "extra": "{% url 'api:cart:update-extra-item' %}",
+      "cart": "{% url 'cart' %}#header",
+      "favorites": {
+        "add": "{% url 'api:favorites:add' %}",
+        "remove": "{% url 'api:favorites:remove' %}",
+      }
+    };
+    {% include 'js/product.js' %}
+  </script>
+{% endblock %}

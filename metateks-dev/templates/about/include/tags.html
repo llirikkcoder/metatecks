@@ -1,0 +1,11 @@
+<div class="tags-nav_wrap wrap-pad-normal wrap-pad--mob--min" >
+  <nav class="tags-nav">
+    {% for t in tags %}
+      {% if t.id == active_tag.id %}
+        <a href="{{ base_url }}" class="btn-teg btn-teg--active"># {{ t }}</a>
+      {% else %}
+        <a href="{{ t.url }}" class="btn-teg"># {{ t }}</a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+</div>

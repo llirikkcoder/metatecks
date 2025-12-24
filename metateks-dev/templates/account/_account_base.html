@@ -1,0 +1,35 @@
+{% extends '_base.html' %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    var accountUrls = {
+      "select": {
+        "paymentMethod": "{% url 'api:account:set-payment-method' %}",
+        "address": "{% url 'api:account:choose-address' %}",
+        "paymentCard": "{% url 'api:account:choose-payment-card' %}",
+      },
+      "remove": {
+        "address": "{% url 'api:account:remove-address' %}",
+        "paymentCard": "{% url 'api:account:remove-payment-card' %}",
+      },
+      "cancel": {
+        "order": "{% url 'api:account:cancel-order' %}",
+      },
+      "update": {
+        "user": "{% url 'api:account:update-user' %}",
+        "address": "{% url 'api:account:update-address' %}",
+        "cashlessData": "{% url 'api:account:update-cashless-data' %}",
+      },
+      "favorites": {
+        "add": "{% url 'api:favorites:add' %}",
+        "remove": "{% url 'api:favorites:remove' %}",
+      },
+    };
+    var confirmTexts = {
+      "address": "Вы действительно хотите удалить адрес?",
+      "paymentCard": "Вы действительно хотите удалить данные карты?",
+      "order": "Вы действительно хотите отменить заказ?",
+    };
+    {% include 'js/account.js' %}
+  </script>
+{% endblock %}

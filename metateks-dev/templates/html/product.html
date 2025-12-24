@@ -1,0 +1,353 @@
+{% extends 'html/_layout.html' %}
+{% load static %}
+
+{% block title %}Ковш общего назначения для фронтального погрузчика{% endblock %}
+{% block meta_description %}Страница модели ковша общего назначения для фронтального погрузчика. Выбирайте в фильтре свой бренд и нужное вам оборудование Метатэкс{% endblock %}
+
+{% block og_title %}Ковш общего назначения для фронтального погрузчика{% endblock %}
+{% block og_description %}Страница модели ковша общего назначения для фронтального погрузчика. Выбирайте в фильтре свой бренд и нужное вам оборудование Метатэкс{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--element wrap-pad-normal">
+    <nav class="content-header__nav">
+      <div class="content-header__leftbox-wr">
+        <a href="#" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+          <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+      </div>
+      <div class="bread-crumbs small-text">
+        <div>
+          <a href="{% url 'home' %}" title="На главную">Главная</a>&nbsp;<span>/</span> <a href="#"
+            title="Перейти в Каталог продукции">Каталог
+            продукции</a>&nbsp;<span>/</span> <a href="#"
+            title="Перейти в Ковш общего назначения для фронтального погрузчика">Навесное оборудование для
+            фронтальных погрузчиков</a>&nbsp;<span>/</span> <a href="#" title="Ковш общего
+            назначения для  фронтального погрузчика">Ковш общего
+            назначения для фронтального погрузчика</a> &nbsp;<span>/</span> <a href="#"
+            title="Ковши высокой выгрузки для BOULDER WL12">Ковши высокой выгрузки
+            для&nbsp;BOULDER&nbsp;WL12</a>
+        </div>
+      </div>
+    </nav>
+    <div class="content-header__leftbox-wr ">
+      <a class="content-header__ico" href="#" title="Оборудование для фронтального погрузчика">
+        <img src="{% static 'images/ico/ico-frontloader.png' %}" alt="Иконка фронтального погрузчика" />
+      </a>
+    </div>
+    <div class="content-header__title-wr">
+      <h1>Ковш высокой выгрузки для&nbsp;BOULDER WL12</h1>
+      <span class="h3">на&nbsp;фронтальный погрузчик</span>
+    </div>
+    <div class="content-header__brend-wr">
+      <a class="content-header__brend" href="#" title="Перейти к бренду BOULDER">
+        <span></span>
+        <img src="{% static 'images/brends/BOULDER.webp' %}" alt="Логотип BOULDER" />
+      </a>
+    </div>
+  </div>
+  <!-- Секция с фотографиями товара -->
+  <section class="product-summary  wrap-pad-min wrap--row-to-column wrap-pad--mob--none">
+    <div class="product-summary__left">
+      <div class="swiper slider-product">
+
+        <!-- Слайдер товара -->
+        <div class="slider-product__wrap">
+
+          <!-- Блок с превью -->
+          <div thumbsSlider="" class="slider-product__preview swiper-container">
+            <div class="image-slider__wrapper swiper-wrapper">
+              <!-- Превью 1 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/230/_bucket-1-230.jpg' %}" alt="Превью ракурс 1" />
+                </div>
+              </div>
+
+              <!-- Превью 2 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/230/_bucket-2-230.jpg' %}" alt="Превью ракурс 2" />
+                </div>
+              </div>
+              <!-- Превью 3 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/230/_bucket-3-230.jpg' %}" alt="Превью ракурс 3" />
+                </div>
+              </div>
+              <!-- Превью 4 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/230/_bucket-4-230.jpg' %}" alt="Превью ракурс 4" />
+                </div>
+              </div>
+              <!-- Превью 5 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/230/_bucket-5-230.jpg' %}" alt="Превью ракурс 5" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Конец блока с превью -->
+
+          <!-- Блок с большими картинками -->
+          <div class="largeimage swiper-container">
+            <div class="image-slider__wrapper swiper-wrapper">
+              <!-- Большая картинка 1 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/1220/_bucket-1-1220.jpg' %}" alt="Ракурс 1" />
+                </div>
+              </div>
+              <!-- Большая картинка 2 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/1220/_bucket-2-1220.jpg' %}" alt="Ракурс 2" />
+                </div>
+              </div>
+              <!-- Большая картинка 3 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/1220/_bucket-3-1220.jpg' %}" alt="Ракурс 3" />
+                </div>
+              </div>
+              <!-- Большая картинка 4 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/1220/_bucket-4-1220.jpg' %}" alt="Ракурс 4" />
+                </div>
+              </div>
+              <!-- Большая картинка 5 -->
+              <div class="image-slider__slide swiper-slide">
+                <div class="image-slider__image">
+                  <img src="{% static 'images/product/1220/_bucket-5-1220.jpg' %}" alt="Ракурс 5" />
+                </div>
+              </div>
+            </div>
+            <!-- Добавляем если нам нужны стрелки управления -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <!-- кнопка 3D просмотр -->
+            <a href="#productviewer" rel="modal:open" title="Смотреть 3D изображение" class="btn-3dviu">
+              <img src="{% static 'images/ico/ico -3d-viu.png' %}" />
+            </a>
+          </div>
+          <!-- Конец блока с большими картинками -->
+
+
+        </div>
+        <!-- Конец слайдера товара -->
+
+      </div>
+      <nav class="product-nav">
+        <div class="product-nav__left">
+          <a href="#" title="Посмотреть фотографии" class="link-ico__black"><span
+              class="link-ico__ico  met-ico-photo"></span>&nbsp;<span
+              class="model-text-nav">Фото</span></a>
+          <a href="#" title="Посмотреть видео" class="link-ico__black"><span
+              class="link-ico__ico  met-ico-video"></span>&nbsp;<span
+              class="model-text-nav">Видео</span></a>
+        </div>
+        <div class="product-nav__right">
+          <label class="like-checkbox">
+            <input type="checkbox">
+            <span class="like-icon met-ico-heart-filled"></span>
+          </label>
+        </div>
+      </nav>
+      <div class="product-info grid-container  grid--column--2to1-mob">
+        <div class="product-info__description">
+          <h2>Описание</h2>
+          <p>Ковш общего назначения используется для проведения различных работ с сыпучими материалами. С его
+            помощью можно
+            выполнять погрузку и разгрузку, выравнивание и транспортировку песка, щебня, гравияи других
+            материалов.</p>
+        </div>
+        <div class="product-info__property">
+          <h2>Характеристики</h2>
+          <ul>
+            <li>Ширина — <b>220 мм</b></li>
+            <li>Объем по SAE — <b>1,1 м<sub>3</sub></b></li>
+            <li>Угол наклона — <b>70°</b></li>
+            <li>Масса ковша — <b>140 кг</b></li>
+            <li>Зубья — <b>приобретаются опционально</b></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <aside>
+      <div class="product-aside">
+        <div class="product-aside__price">
+          <span class="h3">Цена от 97 000 ₽</span>
+        </div>
+
+        <hr />
+        <div class="product-aside__wrap">
+          <div class="product-aside__info">
+            <dl class="storage-city-selected">
+              <dt class="small-text">Товары на складе:</dt>
+              <dd class="product-aside__options">         
+                <input class="radiobutton" type="radio" id="storage-1" name="storage-option" checked="">
+                <label for="storage-1"></label>
+                <div class="small-text font--light">Cклад-магазин Метатэкс на се­вере Москвы&nbsp;—&nbsp;2&nbsp;шт.
+                </div>
+              </dd>
+              <dd class="product-aside__options ">
+              
+                <input class="radiobutton" type="radio" id="storage-2" name="storage-option">
+              
+                <label for="storage-2"></label>
+                <div class="small-text font--light">
+                  Cклад-магазин Метатэкс на юге Москвы&nbsp;—&nbsp;1&nbsp;шт.
+                </div>
+              
+              </dd>
+              </dl>
+              <dl class="storage-city-notselected">
+                <dd class="product-aside__options">
+                
+                  <input class="radiobutton" type="radio" id="storage-3" name="storage-option">
+                
+                  <label for="storage-3"></label>
+                  <div class="small-text font--light">
+                    Cклад-магазин Метатэкс в Сергиев-посаде&nbsp;—&nbsp;3&nbsp;шт.
+                  </div>
+                
+                </dd>
+            </dl>
+            <dl>
+              <dt class="small-text">Добавьте дополнительные опции:</dt>
+              <dd class="product-aside__options">
+
+
+                <input class="checkbox" type="checkbox" id="option1" name="option1">
+
+                <label for="option1"></label>
+                <div class="h4">Сменная кромка <span class="font--light">10 000 ₽</span>
+                </div>
+              </dd>
+              <dd class="product-aside__options">
+
+                <input class="checkbox" type="checkbox" id="option2" name="option2">
+
+                <label for="option2"></label>
+                <div class="h4">
+                  Комплект зубьев <span class="font--light">14 000 ₽</span>
+                </div>
+
+              </dd>
+            </dl>
+          </div>
+
+          <div class="product-aside__btn">
+            <!-- Кнопка добавить в корзину -->
+            <a class="btn-big-basket" href="#">
+              <span class="btn__ico met-ico-add-basket"></span> <span>В корзину</span>
+            </a>
+            <!-- Кнопка купить в один клик -->
+            <a class="btn-big-buy" href="#">
+              <span class="btn__ico met-ico-buy"></span> <span>Купить</span>
+            </a>
+            <a href="#" title="Скачать техническое описание" class="link-ico__white"><span class="link-ico__ico  met-ico-doc"></span>&nbsp;<span class="link-ico__white-text">Скачать техническое описание</span></a>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Секция с фотографиями оборудования -->
+  <section class="wrap-pad-normal wrap--column  wrap-pad--mob--none">
+    <h2>Фотографии оборудования</h2>
+    <div class="media-catalog__photo-gal grid-container grid--gap--same grid--column--2to1">
+      <a href="{% static 'images/photocatalog/photo-frontal-1980.jpeg' %}" title="Фото 1" target="_blank"
+        data-fancybox="gallery">
+        <img src="{% static 'images/photocatalog/photo-frontal-960.jpeg' %}" alt="Фото 1">
+      </a>
+      <a href="{% static 'images/photocatalog/photo-frontal-2-1980.jpg' %}" title="Фото 1" target="_blank"
+        data-fancybox="gallery">
+        <img src="{% static 'images/photocatalog/photo-frontal-2-960.jpg' %}" alt="Фото 1">
+      </a>
+      <a href="{% static 'images/photocatalog/photo-frontal-3-1980.jpg' %}" title="Фото 1" target="_blank"
+        data-fancybox="gallery">
+        <img src="{% static 'images/photocatalog/photo-frontal-3-960.jpg' %}" alt="Фото 1">
+      </a>
+      <a href="{% static 'images/photocatalog/photo-frontal-4-1980.jpg' %}" title="Фото 1" target="_blank"
+        data-fancybox="gallery">
+        <img src="{% static 'images/photocatalog/photo-frontal-4-960.jpg' %}" alt="Фото 1">
+      </a>
+    </div>
+
+    <div class="section-footer  wrap-pad--mob--none">
+      <a href="#" class="btn-more-large" title="перейти в раздел о компании"><span
+          class="met-ico-button-right"></span>
+        <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+      <hr />
+    </div>
+  </section>
+
+  <!-- Секция с видео оборудования -->
+  <section class="wrap-pad-normal wrap--column  wrap-pad--mob--none">
+    <h2>Видео оборудования</h2>
+    <div class="media-catalog__video-gal grid-container grid--gap--same grid--column--2to1">
+      <div class="media-catalog__video-items grid--column--2sp ">
+        <div class="media-catalog__video-items-plwr">
+          <video>
+            <source src="https://youtu.be/26HiFtyF7GE?si=rIZnMGzCoa8tMgtn" type="video/mp4" />
+          </video>
+        </div>
+        <p>Мойка высокого давления на Everun</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Отдел продаж -->
+  <section id="managers-home" class="managers-home wrap-pad-min wrap--column wrap-pad--mob--none">
+    <div class="content-limited">
+      <form id="formmanager" class="form-callback form--whaite" method="post">
+        <header>
+          <h3>Если есть вопросы, отправьте заявку<br/>менеджер свяжется с вами</h3>
+        </header>
+        <main>
+          <div class="field-row">
+            <label class="field-label" for="name">Ваше имя</label>
+            <input class="field-input" id="name" autocomplete="on" type="text" name="name" value=""
+              size="0" />
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="phone">Телефон<sup>
+                <font color="#FF5C00"> *</font>
+              </sup></label>
+            <input class="field-input required" id="phone" autocomplete="on" type="tel" name="phone"
+              value="" size="0" placeholder="+7 (___) ___-__-__" minlength="1"
+              data-msg="Заполните поле Телефон" />
+
+          </div>
+
+          <div class="checkbox-row">
+            <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+              data-msg="Выбор этого пункта обязателен">
+            <label for="privacy">
+            </label>
+            <span class="checkbox-text small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
+                title="условия политики обработки персональных данных" target="_blank">условиями
+                политики</a>
+              обработки
+              персональных данных <sup>
+                <font color="#FF5C00"> *</font>
+              </sup>
+            </span>
+          </div>
+
+        </main>
+        <footer>
+          <button name="Submit" value="Отправить" type="submit" class="btn-big btn--orange"><span class="btn__ico met-ico-circle-right"></span> Заказать звонок</button>
+        </footer>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block modals %}
+  {% include 'modals/demo_productviewer.html' %}
+{% endblock %}

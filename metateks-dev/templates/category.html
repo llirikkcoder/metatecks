@@ -1,0 +1,151 @@
+{% extends '_base.html' %}
+{% load base_tags catalog_tags %}
+
+{% block title %}{{ cat.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ cat.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ cat.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ cat.get_meta_title }}{% endblock %}
+{% block og_description %}{{ cat.get_meta_desc }}{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--subsection wrap-pad-normal">
+    <nav class="content-header__nav">
+      <div class="content-header__leftbox-wr">
+        <a href="#" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+          <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+      </div>
+      <div class="bread-crumbs small-text">
+        <div>
+          <a href="{% url 'home' %}" title="На главную">Главная</a>&nbsp;<span>/</span> <a href="{% url 'catalog:home' %}"
+            title="Перейти в Каталог продукции">Каталог
+            продукции</a>&nbsp;<span>/</span> {{ cat.name }}
+        </div>
+      </div>
+    </nav>
+    <div class="content-header__leftbox-wr">
+      <div class="content-header__ico" title="Оборудование {{ cat.name_lower }}">
+        <img src="{{ cat.icon_url }}"/>
+      </div>
+    </div>
+    <div class="content-header__title-wr">
+      <h1>{{ cat.get_h1|safe }}</h1>
+    </div>
+  </div>
+
+  <!-- Секция моделями -->
+  <section class="wrap-pad-min grid--gap--min grid-container grid--column--4to2">
+
+    {% for subcat in sub_categories %}
+      <!-- Карточка модели -->
+      <a href="{{ subcat.get_absolute_url }}" class="card-model" title="{% get_subcat_full_name subcat cat %}">
+        <div class="card-model__top-wrap">
+          {% if subcat_hits|get_item:subcat.id %}
+            <span class="label-hit h4 font--light font--uppercase">Хит</span>
+          {% endif %}
+          <img src="{{ subcat.list_photo_url }}"
+            alt="{% get_subcat_full_name subcat cat %}" />
+        </div>
+
+        <div class="card-model__bottom-wrap">
+          <div class="card-model__descript">
+            {% with subcat_prices|get_item:subcat.id as price %}
+              <span class="card-model__descript-price text--nowrap">{% if price %}От: {{ price|format_number }} ₽{% else %}нет товаров{% endif %}</span>
+            {% endwith %}
+            <span class="h4">{{ subcat.name }}</span>
+            <span class="card-model__descript-category small-text">{{ cat.name_lower }}</span>
+          </div>
+          <div class="btn-more">
+            <span class="met-ico-button-right"></span> <span
+              class="small-text font--uppercase">подобрать</span>
+          </div>
+        </div>
+      </a>
+      <!-- Конец карточки модели -->
+    {% endfor %}
+
+  </section>
+
+
+  {% if with_popular_products %}
+    <!-- Секция с товарами -->
+    <section class="filtr-section  wrap-pad-normal wrap--column wrap-pad--mob--none">
+
+      <!-- Популярные товары оборудования в этом сезоне -->
+      <h2>Популярное {{ cat.get_name_single }}</h2>
+
+      <!-- Swiper слайдер для рекламного баннера -->
+      <div class="swiper slider-products">
+        <div class="swiper-wrapper">
+          {% for product in popular_products %}
+            <div class="swiper-slide">
+              {% with subcat_attrs|get_item:product.sub_category_id as attr_ids %}
+                {% include 'include/product_card.html' with product=product attr_ids=attr_ids attributes=attributes only %}
+              {% endwith %}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination__wrap">
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+
+  <!-- Отдел продаж -->
+  <section id="managers-home" class="managers-home wrap-pad-min wrap--column wrap-pad--mob--none">
+    <div class="content-limited">
+
+      <form id="formmanager" class="form-callback form--whaite" method="post">
+        <header>
+          <h3>Если есть вопросы, отправьте заявку менеджер свяжется с вами</h3>
+        </header>
+        <main>
+
+          <div class="field-row">
+            <label class="field-label" for="name">Ваше имя</label>
+            <input class="field-input" id="name" autocomplete="on" type="text" name="name" value=""
+              size="0" />
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="phone">Телефон<sup>
+                <font color="#FF5C00"> *</font>
+              </sup></label>
+            <input class="field-input required" id="phone" autocomplete="on" type="tel" name="phone"
+              value="" size="0" placeholder="+7 (___) ___-__-__" minlength="1"
+              data-msg="Заполните поле Телефон" />
+
+          </div>
+
+          <div class="checkbox-row">
+            <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+              data-msg="Выбор этого пункта обязателен">
+            <label for="privacy">
+            </label>
+            <span class="checkbox-text small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
+                title="условия политики обработки персональных данных" target="_blank">условиями
+                политики</a>
+              обработки
+              персональных данных <sup>
+                <font color="#FF5C00"> *</font>
+              </sup>
+            </span>
+          </div>
+
+        </main>
+        <footer>
+          <button name="Submit" value="Отправить" type="submit" class="btn-big btn--orange"><span class="btn__ico  met-ico-circle-right
+"></span> Заказать звонок</button>
+
+
+        </footer>
+      </form>
+
+    </div>
+
+  </section>
+{% endblock %}

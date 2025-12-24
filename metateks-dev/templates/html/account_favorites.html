@@ -1,0 +1,115 @@
+{% extends 'html/_layout.html' %}
+{% load static %}
+
+{% block title %}Избранные товары{% endblock %}
+{% block meta_description %}Избранные товары{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Избранные товары{% endblock %}
+{% block og_description %}Избранные товары{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--subsection content-header--ordinary  wrap-pad-normal">
+    <nav class="content-header__nav">
+      <div class="content-header__leftbox-wr">
+        <a href="#" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+          <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+      </div>
+      <div class="bread-crumbs small-text">
+        <div>
+          <a href="#" title="На главную">Главная</a>&nbsp;<span>/</span><a href="#"
+            title="Перейти на главную страницу личного кабинета">Личный
+            кабинет</a>&nbsp;<span>/</span><span>Избранное</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="content-header__title-wr">
+      <h1>Избранное</h1>
+
+    </div>
+
+
+  </div>
+
+  <!-- Внутренняя навигация раздела -->
+  <div class="content-nav_wrap wrap-pad-normal wrap-pad--mob--min">
+    <nav class="content-nav">
+      <a href="#" title="Главная" class="content-nav__item">Главная</a>
+      <a href="#" title="Мои заказы" class="content-nav__item">Мои заказы</a>
+      <a href="#" title="Адрес доставки" class="content-nav__item">Адрес доставки</a>
+      <span class="content-nav__item content--nav--tem--select">Избранное</span>
+      <a href="#" title="Профиль" class="content-nav__item">Профиль</a>
+    </nav>
+
+    <div class="section-footer">
+      <hr />
+    </div>
+  </div>
+
+  <!-- Список избранное товаров  -->
+  <section
+    class=" wrap-pad-normal wrap-pad--mob--min wrap--column product-list grid-container grid--column--4to2"
+    style="padding-top: 0;">
+
+    <!-- ==== Карточка товара 1 ==== -->
+    <div class="card-product favorit--box">
+      <a href="#" class="card-product__link" title="Ковши высокой выгрузки для BOULDER WL33"></a>
+      <div class="favorites__wrap card-product__top-wrap favorit--box">
+        <span class="met-ico-heart-filled"></span>
+        <!-- картинки шириной 576px -->
+        <img src="/images/products/_High-Discharge-Bucket-Avant_480.jpeg"
+          alt="Фото щетки с гидравлическим поворотом для BOULDER WL33" />
+      </div>
+      <div class="card-product__middle-wrap">
+        <span class="h4">Ковши высокой выгрузки для&nbsp;BOULDER&nbsp;WL33</span>
+      </div>
+      <div class="card-product__bottom-wrap">
+        <div class="card-product__price-box">
+          <span class="h4 font--light">97 000 ₽</span>
+        </div>
+      </div>
+    </div>
+    <!-- ==== Конец карточки товара 1 ==== -->
+
+    <!-- ==== Карточка товара 1 ==== -->
+    <div class="card-product favorit--box">
+      <a href="#" class="card-product__link" title="Ковши высокой выгрузки для BOULDER WL33"></a>
+      <div class="favorites__wrap card-product__top-wrap favorit--box">
+        <span class="met-ico-heart-filled"></span>
+        <!-- картинки шириной 576px -->
+        <img src="/images/products/_High-Discharge-Bucket-Avant_480.jpeg"
+          alt="Фото щетки с гидравлическим поворотом для BOULDER WL33" />
+      </div>
+      <div class="card-product__middle-wrap">
+        <span class="h4">Ковши высокой выгрузки для&nbsp;BOULDER&nbsp;WL33</span>
+      </div>
+      <div class="card-product__bottom-wrap">
+        <div class="card-product__price-box">
+          <span class="h4 font--light">97 000 ₽</span>
+        </div>
+      </div>
+    </div>
+    <!-- ==== Конец карточки товара 1 ==== -->
+    <!-- ==== Карточка товара 1 ==== -->
+    <div class="card-product favorit--box">
+      <a href="#" class="card-product__link" title="Ковши высокой выгрузки для BOULDER WL33"></a>
+      <div class="favorites__wrap card-product__top-wrap favorit--box">
+        <span class="met-ico-heart-filled"></span>
+        <!-- картинки шириной 576px -->
+        <img src="/images/products/_High-Discharge-Bucket-Avant_480.jpeg"
+          alt="Фото щетки с гидравлическим поворотом для BOULDER WL33" />
+      </div>
+      <div class="card-product__middle-wrap">
+        <span class="h4">Ковши высокой выгрузки для&nbsp;BOULDER&nbsp;WL33</span>
+      </div>
+      <div class="card-product__bottom-wrap">
+        <div class="card-product__price-box">
+          <span class="h4 font--light">97 000 ₽</span>
+        </div>
+      </div>
+    </div>
+    <!-- ==== Конец карточки товара 1 ==== -->
+  </section>
+{% endblock %}

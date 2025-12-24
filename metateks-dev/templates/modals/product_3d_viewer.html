@@ -1,0 +1,27 @@
+{% load easy_thumbnails_tags static %}
+
+<!-- Модальное окно 3D вид -->
+<div id="productviewer" class="modal 3dviu">
+  <main>
+    <div id="viewer">
+      {% for image in gallery %}
+        <img src="{{ image.image|thumbnail_url:'product_gallery_3d' }}" alt="image{{ forloop.counter }}" style="display: none;">
+      {% endfor %}
+    </div>
+
+    <!-- 360-viewer -->
+    <script src="{% static 'js/360-viewer/360-viewer.js' %}"></script>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', function () {
+          const viewer = new Image360Viewer({
+            container: document.getElementById('viewer'),
+            autoRotate: false, // Включить авто-ротацию
+            rotateInterval: 200, // Интервал ротации в миллисекундах
+            scrollbar: false, // Добавить полосу прокрутки
+            navigationButtons: true // Добавить кнопки навигации
+          });
+        });
+    </script>
+  </main>
+</div>

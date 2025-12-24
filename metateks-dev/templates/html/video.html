@@ -1,0 +1,130 @@
+{% extends 'html/_layout.html' %}
+{% load static %}
+
+{% block title %}Видео{% endblock %}
+{% block meta_description %}Видео{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Видео{% endblock %}
+{% block og_description %}Видео{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section  wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>Видео</h1>
+    </div>
+    <p class="content-header__descr">
+      Смотрите, как навеска, которую мы&nbsp;создаем,
+      делает спецтехнику мощнее и&nbsp;эффективнее. Убедитесь сами в&nbsp;качестве и&nbsp;надежности Метатэкс.
+    </p>
+  </div>
+
+  <!-- Внутренняя навигация раздела -->
+  <div class="content-nav_wrap wrap-pad-normal wrap-pad--mob--min">
+    <nav class="content-nav">
+      <a href="#" title="О компании" class="content-nav__item">О компании</a>
+      <a href="#" title="Реквизиты" class="content-nav__item">Реквизиты</a>
+      <a href="#" title="Отзывы" class="content-nav__item">Отзывы</a>
+      <span class="content-nav__item content--nav--tem--select">Видео</span>
+      <a href="#" title="Фото" class="content-nav__item">Фото</a>
+      <a href="#" title="Файлы" class="content-nav__item">Файлы</a>
+    </nav>
+
+    <div class="section-footer">
+      <hr />
+    </div>
+  </div>
+  <!-- Навигация тегов -->
+  <div class="tags-nav_wrap wrap-pad-normal wrap-pad--mob--min" >
+    <nav class="tags-nav">
+      <a href="#" class="btn-teg" title="Тег — Для мини-погрузчиков"># Для мини-погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для фронтальных-погрузчиков"># Для фронтальных-погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для экскаваторов-погрузчиков"># Для экскаваторов-погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для мини-тракторов"># Для мини-тракторов</a>
+      <a href="#" class="btn-teg" title="Тег — Для мини-экскаваторов"># Для мини-экскаваторов</a>
+      <a href="#" class="btn-teg" title="Тег — Для телескопических погрузчиков"># Для телескопических погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для вилочных погрузчиков"># Для вилочных погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для экскаваторов"># Для экскаваторов</a>
+      <a href="#" class="btn-teg" title="Тег — Испытания"># Испытания</a>
+      <a href="#" class="btn-teg" title="Тег — Производство"># Производство</a>
+      <a href="#" class="btn-teg" title="Тег — Выставки"># Выставки</a>
+    </nav>
+  </div>
+  <!-- Сетка видео-анонсов -->
+  <section class="grid-container grid--column--3to1 grid--gap--min wrap-pad-normal wrap-pad--mob--min"  style="padding-top: 0">
+    <!-- Элемент 1 -->
+    <div class="gallery-item">
+      <div class="media-home__video-items-plwr">
+        <video>
+          <source src="https://www.youtube.com/watch?v=2DnPgGE0ADU&t=20s" type="video/mp4" />
+        </video>
+      </div>
+      <span>Испытания навесного оборудования под Ярославлем</span>
+
+    </div>
+
+    <!-- Элемент 2 -->
+    <div class="gallery-item">
+      <div class="media-home__video-items-plwr">
+        <video>
+          <source src="https://www.youtube.com/watch?v=9MSL4HTV05s" type="video/mp4" />
+        </video>
+      </div>
+      <span>Универсальный ковш для мини-экскаватора XCMG</span>
+
+    </div>
+
+
+    <!-- Элемент 3 -->
+    <div class="gallery-item">
+      <div class="media-home__video-items-plwr">
+        <video>
+          <source src="https://www.youtube.com/watch?v=SPgEvI3E98k" type="video/mp4" />
+        </video>
+      </div>
+      <span>Паллетные вилы с гидравлическим смещением для мини-трактора Avant</span>
+
+    </div>
+
+
+    <!-- Элемент 4 -->
+    <div class="gallery-item">
+      <div class="media-home__video-items-plwr">
+        <video>
+          <source src="https://www.youtube.com/watch?v=PcowPckGXYs" type="video/mp4" />
+        </video>
+
+      </div>
+      <span>Бревнозахват для мини трактора</span>
+    </div>
+
+    <!-- Элемент 5 -->
+    <div class="gallery-item">
+      <div class="media-home__video-items-plwr">
+        <video>
+          <source src="https://www.youtube.com/watch?v=R0-g-lvN-q4" type="video/mp4" />
+        </video>
+
+      </div>
+      <span>Серповидный ковш для мини экскаватора</span>
+    </div>
+
+    <!-- Элемент 6 -->
+    <div class="gallery-item">
+      <div class="media-home__video-items-plwr">
+        <video>
+          <source src="https://www.youtube.com/watch?v=26HiFtyF7GE" type="video/mp4" />
+        </video>
+
+      </div>
+      <span>Мойка высокого давления на Everun</span>
+    </div>
+  </section>
+  <!-- блок показать еще -->
+  <div class="section-footer">
+    <a href="#" class="btn-more-large" title="загрузить еще статей"><span class="met-ico-button-right"></span>
+      <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+    <hr />
+  </div>
+{% endblock %}

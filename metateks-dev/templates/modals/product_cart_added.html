@@ -1,0 +1,17 @@
+<!-- Модальное добавлено в корзину  -->
+<div id="product-added" class="modal modal-v2">
+  <header>
+    <h3><span class="btn__ico met-ico-add-basket"></span> Товар добавлен в корзину</h3>
+  </header>
+  <main>
+    <p>Чтобы оформить заказ, перейдите в&nbsp;корзину. Или вернитесь в&nbsp;каталог, чтобы выбрать другие товары.</p>
+  </main>
+  <footer>
+    <div class="modal-footer__left">
+      <a href="{% url 'catalog:home' %}"  title="Перейти в каталог продукции">В каталог продукции</a>
+    </div>
+    <a href="{% url 'cart' %}" class="btn-midl btn--green button">
+      <span class="btn__ico met-ico-circle-right"></span> Перейти в корзину
+    </a>
+  </footer>
+</div>

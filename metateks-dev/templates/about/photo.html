@@ -1,0 +1,46 @@
+{% extends 'about/_layout.html' %}
+{% load base_tags easy_thumbnails_tags static %}
+
+{% block title %}{{ seo_settings.media_photo.get_meta_title }}{% if active_tag %} — # {{ active_tag }}{% endif %}{% endblock %}
+{% block meta_description %}{{ seo_settings.media_photo.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ seo_settings.media_photo.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ seo_settings.media_photo.get_meta_title }}{% if active_tag %} — # {{ active_tag }}{% endif %}{% endblock %}
+{% block og_description %}{{ seo_settings.media_photo.get_meta_desc }}{% endblock %}
+
+{% block h1 %}{{ seo_settings.media_photo.get_h1|safe }}{% endblock %}
+
+{% block description %}
+  {% if seo_settings.media_photo.header_text %}
+    <p class="content-header__descr">{{ seo_settings.media_photo.get_header_text|safe|linebreaksbr }}</p>
+  {% endif %}
+{% endblock %}
+
+{% block nav_photo %}<span class="content-nav__item content--nav--tem--select">Фото</span>{% endblock %}
+
+{% block inner_content %}
+  <!-- Навигация тегов -->
+  {% include 'about/include/tags.html' %}
+
+  <!-- Сетка фото -->
+  <section class="grid-container grid--column--3to1 grid--gap--min wrap-pad-normal wrap-pad--mob--min"  style="padding-top: 0">
+    {% for photo in items %}
+      <div class="gallery-item">
+        <a href="{{ photo.photo_big_url }}" title="Фото {{ forloop.count }}" target="_blank" data-fancybox="gallery">
+          <img src="{{ photo.photo_thumb_url }}" alt="{{ photo.title }}" /></a>
+        <span>{{ photo.title }}</span>
+      </div>
+    {% empty %}
+      <p>Фото по данному тегу не найдены</p>
+    {% endfor %}
+  </section>
+
+  {% comment %}
+  <!-- блок показать еще -->
+  <div class="section-footer">
+    <a href="#" class="btn-more-large" title="загрузить еще статей"><span class="met-ico-button-right"></span>
+      <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+    <hr />
+  </div>
+  {% endcomment %}
+{% endblock %}

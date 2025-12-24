@@ -1,0 +1,153 @@
+{% load base_tags static %}
+
+<!-- Шапка страницы -->
+<header class="header">
+  <div class="header-info__wrap">
+    <small class="header-info__storage">
+      {% if request.warehouse %}<span>{{ request.warehouse.get_name_short }}</span> {% endif %}<a class="link-orange link--line--none" href="#warehouses" rel="modal:open" alt="Выбран город {{ request.city }}" title="Выбор города"><span class="met-ico-geotag"></span> <b class="font--uppercase">{{ request.city }}</b> <span class="met-ico-open"></span></a>
+    </small>
+    <small class="header-info__time">
+      <span><span class="met-ico-time"></span> {{ header.working_days }}</span> <span>{{ header.working_time }}</span>
+    </small>
+  </div>
+  <div class="header-main__wrap">
+    <!-- Логотип Метатэкс -->
+    <a class="lg-meta-main show--desc" href="{% url 'home' %}" alt="На главную" title="На главную">
+      <img src="{% static 'images/logo/lg-meta-main.svg' %}" alt="Логотип Метатэкс" width="564" />
+    </a>
+
+    <a class="lg-meta-crop show--mob" href="{% url 'home' %}" alt="На главную" title="На главную">
+      <img src="{% static 'images/logo/lg-meta-crop.svg' %}" alt="Логотип Метатэкс" width="54" />
+    </a>
+    <!-- Навигация по каталогу в шапке -->
+    <nav class="nav-catalog">
+
+      <button onclick="myFunction()" class="nav-catalog__btn" title="Каталг навесного оборудования">
+        <img src="{% static 'images/ico/ico-catalog.png' %}" alt="Иконка каталога навесног оборудования" with="98" />
+        <span class="h3 font--uppercase">Каталог<br />продукции</span>
+        <span class="catalog__btn-indicator">
+          <span class="met-ico-arrow-bottom"></span>
+          <span class="met-ico-close-b"></span>
+        </span>
+      </button>
+      <noindex>
+        <div id="navcatalog" class="nav-catalog__dropdown">
+
+          <section class="nav-catalog__tab">
+            <h3>Навесное оборудование</h3>
+            <!-- Вкладки меню каталога -->
+            <div class="nav-catalog__tabnav">
+              {% for cat in header.categories %}
+                <button type="button" class="nav-catalog__tabbtn{% if forloop.first %} nav-catalog__tabbtn--active{% endif %}"
+                  data-target-id="tab-{{ cat.slug }}" titlе="Навесное оборудование {{ cat.get_name_single }}">
+                  <img src="{{ cat.icon_url }}"/>
+                  {{ cat.name }}
+                </button>
+              {% endfor %}
+            </div>
+
+            <!-- Содержимое вкладок меню каталога -->
+            {% for cat in header.categories %}
+              <div data-id="tab-{{ cat.slug }}" class="nav-catalog__tabcontent{% if forloop.first %} nav-catalog__tabcontent--show{% endif %}">
+                <a href="{{ cat.get_absolute_url }}" title="{{ cat.name }}">
+                  <h4>{{ cat.name }}</h4>
+                </a>
+                <ul class="small-text">
+                  {% for model in cat.get_children %}
+                    <li><a href="{{ model.get_absolute_url }}" title="В раздел «{{ model.name }}»">{{ model.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endfor %}
+          </section>
+        </div>
+      </noindex>
+    </nav>
+
+    <!-- Блок с контактами в шапке -->
+    <div class="header-contact">
+      <div class="header-contact__list small-text">
+        {% with request.city.contacts_phone|default:header.contacts_phone as phone %}
+          <a href="tel:{{ phone|format_phone }}" title="Мы ждем от вас звонка">{{ phone }}</a><br />
+        {% endwith %}
+        <a href="mailto:{{ header.contacts_email }}" title="Напишите нам письмо">{{ header.contacts_email }}</a>
+      </div>
+      <a href="#callback" rel="modal:open" title="Заказать звонок" class="btn-midl btn--green ">
+        <span class="btn__ico met-ico-telephone"></span>
+        <span class="show--desc">Заказать<br />звонок</span>
+      </a>
+    </div>
+  </div>
+  <nav class="header-nav__top">
+
+    <div class="header-nav__icon show--mob--flex" role="button" aria-haspopup="true" title="Меню"
+      id="icon-burger">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <ul class="header-nav__dropdown">
+      {% for link in header.links %}
+        <li><a href="{{ link.link }}" title="{{ link.title }}">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <form class="form-search show--desc--flex" action="{% url 'search' %}" method="GET">
+      <input type="text" name="query" placeholder="Найти на сайте">
+      <button class="btn-search" type="submit" title="Найти на сайте"><span
+          class="met-ico-search"></span></button>
+    </form>
+
+    <!-- Навигация пользователя -->
+    <div class="account-nav">
+      <a href="{% url 'search' %}" title="На страницу поиска" class="account-nav__ico show--mob--flex">
+        <span class="met-ico-search"></span>
+      </a>
+      <a href="{% url 'cart' %}" title="Перейти в корзину" class="account-nav__ico">
+        <span class="basket-info" id="js-basket-info"{% if not cart_count %} style="display: none;"{% endif %}><span id="js-cart-count">{{ cart_count }}</span></span>
+        <span class="met-ico-basket"></span>
+      </a>
+
+      {% if user %}
+        <a href="{% url 'account:home' %}" title="Перейти в личный кабинет" class="account-nav__ico show--mob--flex">
+          <span class="ico-authorized js-header-avatar" style="{% if user.avatar %}background-image: url('{{ user.header_avatar_url }}'); {% endif %}background-size: contain;">
+            {% if not user.avatar %}
+              <span class="ico-name js-header-initials">{{ user.initials }}</span>
+            {% endif %}
+          </span>
+        </a>
+        <div class="account-nav-lk show--desc--flex">
+          <a href="{% url 'account:home' %}" title="Перейти в личный кабинет" class="account-nav__ico">
+            <span class="ico-authorized js-header-avatar" style="{% if user.avatar %}background-image: url('{{ user.header_avatar_url }}'); {% endif %}background-size: contain;">
+              {% if not user.avatar %}
+                <span class="ico-name js-header-initials">{{ user.initials }}</span>
+              {% endif %}
+            </span>
+          </a>
+          <div class="account-nav-lk__sub">
+            <span class="h3">Личный кабинет</span>
+            <a href="{% url 'account:home' %}" class="btn--green btn-midl" title="Перейти к личный кабинет">Перейти в личный кабинет</a>
+            <a class="link-white" href="{% url 'account:logout' %}?next={{ request.path }}">Выйти из аккаунта</a>
+          </div>
+        </div>
+
+      {% else %}
+        <a href="#login" rel="modal:open" title="Войти на сайт" class="account-nav__ico show--mob--flex">
+          <span class="met-ico-human"></span>
+        </a>
+        <div class="account-nav-lk show--desc--flex">
+          <a href="#login" rel="modal:open" title="Войти на сайт" class="account-nav__ico">
+            <span class="met-ico-human"></span>
+          </a>
+          <div class="account-nav-lk__sub">
+            <span class="h3">Личный кабинет</span>
+            <a href="#login" rel="modal:open" class="btn--green btn-midl" title="Перейти к авторизации">Войти или создать аккаунт</a>
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </nav>
+</header>

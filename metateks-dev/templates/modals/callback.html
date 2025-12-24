@@ -1,0 +1,46 @@
+<!-- Модальное окно "Обратный звонок" -->
+<div id="callback" class="modal">
+
+  <form id="formcallback" class="form-callback form--whaite" method="post">
+    <header>
+      <h3>Заказать звонок</h3>
+    </header>
+    <main>
+      <p>Отправьте свой номер телефона, и мы перезвоним.</p>
+      <div class="field-row">
+        <label class="field-label" for="callbackName">Ваше имя</label>
+        <input class="field-input" id="callbackName" autocomplete="on" type="text" name="name" value="" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="callbackPhone">Телефон<sup>
+            <font color="#FF5C00"> *</font>
+          </sup></label>
+        <input class="field-input required" id="callbackPhone" autocomplete="on" type="tel" name="phone" value=""
+          size="0" placeholder="+7 (___) ___-__-__" minlength="1" data-msg="Заполните поле Телефон" />
+      </div>
+
+      <div class="checkbox-row">
+        <input class="checkbox required" id="callbackPrivacy" type="checkbox" name="flag" checked="checked"
+          data-msg="Выбор этого пункта обязателен">
+        <label for="callbackPrivacy">
+        </label>
+        <span class="small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
+            title="условия политики обработки персональных данных" target="_blank">условиями политики</a>
+          обработки
+          персональных данных <sup>
+            <font color="#FF5C00"> *</font>
+          </sup>
+        </span>
+      </div>
+
+    </main>
+    <footer>
+      <button name="Submit" value="Отправить" type="submit" class="btn-midl btn--orange"><span class="btn__ico  met-ico-circle-right"></span> Отправить</button>
+
+      <span class="small-text">Наш телефон <a rel="nofollow" href="tel:+78002225432" title="Набрать номер">+7 800
+          222-54-32</a> и <a rel="nofollow" href="https://wa.me/79037584618?text=Сообщение%20с%20сайта:"
+          title="Пишите или звоните">WhatsApp</a></span>
+    </footer>
+  </form>
+
+</div>

@@ -1,0 +1,54 @@
+{% extends 'html/_layout.html' %}
+{% load base_tags search_tags %}
+
+{% block title %}{{ seo_settings.search.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ seo_settings.search.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ seo_settings.search.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ seo_settings.search.get_meta_title }}{% endblock %}
+{% block og_description %}{{ seo_settings.search.get_meta_desc }}{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section  wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>{{ seo_settings.search.get_h1|safe }}</h1>
+    </div>
+    {% if seo_settings.search.header_text %}
+      <p class="content-header__descr">{{ seo_settings.search.get_header_text|safe|linebreaksbr }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Секция с поиском по сайту  -->
+  <section class="stocks-list wrap-pad-normal wrap--column content-limited" style="padding-top: 0">
+
+    <!-- блок строки поиска  -->
+    <form class="block-search" action="{% url 'search' %}" method="GET">
+      <input type="text" name="query" placeholder="Введите запрос" value="{{ request.GET.query }}">
+      <button class="btn-midl btn--green" type="submit" title="Поиск"><span class="met-ico-search"></span>
+        поиск</button>
+    </form>
+
+    <!-- блок результата поиска  -->
+    {% for item in results %}
+      {% get_item_title item as title %}
+      {% get_item_type item as item_type %}
+      {% get_item_url item as url %}
+      <div class="block-found">
+        <b><a href="{{ url }}" title="{{ title|clean_html|safe }}" class="block-found__name" target="_blank">{{ title|safe }}</a></b><span> / {{ item_type }}</span>
+        <i><a href="{{ url }}" title="{{ title|clean_html|safe }}" class="block-found__link small-text" target="_blank">{{ url }}</a></i>
+      </div>
+    {% empty %}
+      <p>По вашему запросу ничего не найдено</p>
+    {% endfor %}
+  </section>
+
+  {% comment %}
+  <!-- блок показать еще -->
+  <div class="section-footer">
+    <a href="#" class="btn-more-large" title="загрузить еще статей"><span class="met-ico-button-right"></span>
+      <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+    <hr />
+  </div>
+  {% endcomment %}
+{% endblock %}

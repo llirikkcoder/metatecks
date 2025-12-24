@@ -1,0 +1,198 @@
+[
+{
+    "model": "addresses.city",
+    "pk": 1,
+    "fields": {
+        "name": "Москва",
+        "subdomain": null,
+        "is_default": true,
+        "order": 1
+    }
+},
+{
+    "model": "addresses.city",
+    "pk": 2,
+    "fields": {
+        "name": "Санкт-Петербург",
+        "subdomain": "spb",
+        "is_default": false,
+        "order": 2
+    }
+},
+{
+    "model": "addresses.city",
+    "pk": 3,
+    "fields": {
+        "name": "Екатеринбург",
+        "subdomain": "ekb",
+        "is_default": false,
+        "order": 3
+    }
+},
+{
+    "model": "addresses.city",
+    "pk": 4,
+    "fields": {
+        "name": "Новосибирск",
+        "subdomain": "nsk",
+        "is_default": false,
+        "order": 4
+    }
+},
+{
+    "model": "addresses.city",
+    "pk": 5,
+    "fields": {
+        "name": "Краснодар",
+        "subdomain": "krasnodar",
+        "is_default": false,
+        "order": 5
+    }
+},
+{
+    "model": "addresses.warehouse",
+    "pk": 1,
+    "fields": {
+        "city": 1,
+        "name": "Cклад-магазин Метатэкс на&nbsp;се­вере Москвы",
+        "description": "Оператор площадки — компания «Вивогрупп»",
+        "address": "Московская&nbsp;обл., Химки, д.&nbsp;Елино, ул.&nbsp;Рабочая, д.&nbsp;7",
+        "address_on_map": "Cклад-магазин Метатэкс на се­вере Москвы",
+        "latitude": 55.90099,
+        "longitude": 37.437669,
+        "schedule": "Пн-Пт 09:00-18:00 (по московскому времени)",
+        "phone": "+7 499 964-41-12",
+        "contact_email": "zakaz@vivo-spectech.ru",
+        "order": 1
+    }
+},
+{
+    "model": "addresses.warehouse",
+    "pk": 2,
+    "fields": {
+        "city": 1,
+        "name": "Cклад-магазин Метатэкс на&nbsp;юге Москвы",
+        "description": "ООО «Горснаб­проект»",
+        "address": "г. Москва, ул. Головачёва д. 2а, территория ССК ВОО",
+        "address_on_map": "ООО «ГорСНАБ­проект»",
+        "latitude": 55.677656,
+        "longitude": 37.824427,
+        "schedule": "Пн-Пт 09:00-18:00 (по московскому времени)",
+        "phone": "+7 495 961-59-10",
+        "contact_email": "info@gorsnabproekt.ru",
+        "order": 2
+    }
+},
+{
+    "model": "addresses.office",
+    "pk": 1,
+    "fields": {
+        "title": "Офис Метатэкс",
+        "address": "г. Москва, ул. Гиляровского, дом 57",
+        "address_on_map": "улица Гиляровского, 57с1",
+        "latitude": 55.774104,
+        "longitude": 37.632922,
+        "schedule": "Пн-Пт 09:00-18:00 (по московскому времени)"
+    }
+},
+{
+    "model": "addresses.officeemail",
+    "pk": 1,
+    "fields": {
+        "office": 1,
+        "email": "metall@spmet.ru",
+        "order": 1
+    }
+},
+{
+    "model": "addresses.officeemail",
+    "pk": 2,
+    "fields": {
+        "office": 1,
+        "email": "info@metateks.ru",
+        "order": 2
+    }
+},
+{
+    "model": "addresses.officephone",
+    "pk": 1,
+    "fields": {
+        "office": 1,
+        "phone": "+7 495 748-99-98",
+        "order": 1
+    }
+},
+{
+    "model": "addresses.officephone",
+    "pk": 2,
+    "fields": {
+        "office": 1,
+        "phone": "+7 800 222-54-32",
+        "order": 2
+    }
+},
+{
+    "model": "addresses.officesociallink",
+    "pk": 1,
+    "fields": {
+        "office": 1,
+        "icon": "whatsapp",
+        "link": "http://example.com",
+        "order": 1
+    }
+},
+{
+    "model": "addresses.officesociallink",
+    "pk": 2,
+    "fields": {
+        "office": 1,
+        "icon": "telegram",
+        "link": "http://example.com",
+        "order": 2
+    }
+},
+{
+    "model": "addresses.officesociallink",
+    "pk": 3,
+    "fields": {
+        "office": 1,
+        "icon": "viber",
+        "link": "http://example.com",
+        "order": 3
+    }
+},
+{
+    "model": "addresses.officesociallink",
+    "pk": 4,
+    "fields": {
+        "office": 1,
+        "icon": "youtube",
+        "link": "http://example.com",
+        "order": 4
+    }
+},
+{
+    "model": "addresses.productionaddress",
+    "pk": 1,
+    "fields": {
+        "name": "Сергиев-Посад",
+        "address": "141364, Московская&nbsp;обл., Сергиево-Посадский&nbsp;р-н, рп&nbsp;Скоропусковский, производственная зона, дом&nbsp;16б, помещение&nbsp;1, комната&nbsp;7",
+        "address_on_map": "ООО «Метатэкс»",
+        "latitude": 56.371258,
+        "longitude": 38.163317,
+        "order": 1
+    }
+},
+{
+    "model": "addresses.productionaddress",
+    "pk": 2,
+    "fields": {
+        "name": "Углич",
+        "address": "152616, г.&nbsp;Углич, Камышевское шоссе, 10&nbsp;Б",
+        "address_on_map": "Производство Метатэкс",
+        "latitude": 57.505622,
+        "longitude": 38.289907,
+        "order": 2
+    }
+}
+]

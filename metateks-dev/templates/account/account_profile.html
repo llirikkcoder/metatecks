@@ -1,0 +1,336 @@
+{% extends 'account/_account_base.html' %}
+{% load static %}
+
+{% block title %}Профиль пользователя{% endblock %}
+{% block meta_description %}Профиль пользователя{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Профиль пользователя{% endblock %}
+{% block og_description %}Профиль пользователя{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  {% include 'include/account_header.html' with page_title='Профиль' %}
+  {% include 'include/account_navigation.html' with page_slug='profile' %}
+
+  <!-- Секция с данными профилями -->
+  <section class="wrap-pad-normal h--left wrap-pad--mob--min wrap--column" style="padding-top: 0;">
+
+    <h2 id="contacts">Контакты владельца аккаунта</h2>
+    <!-- Блок с данными владельца аккаунта -->
+    <div class="block-data">
+      <div class="block-data__content">
+        <div class="block-data__body grid-owner-contacts">
+          <!-- Аватар  -->
+          <div class="block-data__avatar js-avatar-block">
+            <div class="avatar">
+              <div class="avatar-wrap">
+                <label for="avatar-input" title="Сменить аватар" style="cursor: pointer;">
+                  <img class="img-avatar js-account-avatar" src="{{ user.get_account_avatar_url }}" />
+                </label>
+              </div>
+            </div>
+            <form id="accountAvatarForm" method="post" action="{% url 'api:account:change-avatar' %}">
+              <label for="avatar-input" title="Сменить аватар">
+                <button class="btn-border light--bgrnd js-avatar-button"><span class="h4">+</span></button>
+              </label>
+              <input type="file" id="avatar-input" name="avatar" accept="Image/*" style="display: none;">
+            </form>
+          </div>
+
+          <!-- Фамилия -->
+          <dl>
+            <dt>Фамилия</dt>
+            <dd class="data_editable">
+              <span class="h3 font--bold data_editable-text">{{ user.last_name|default_if_none:'' }}</span>
+              <input type="text" class="h3 font--bold data_edit-input" name="last_name" data-obj-type="user" required>
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!-- Имя -->
+          <dl>
+            <dt>Имя</dt>
+            <dd class="data_editable">
+              <span class="h3 font--bold data_editable-text">{{ user.first_name|default_if_none:'' }}</span>
+              <input type="text" class="h3 font--bold data_edit-input" name="first_name" data-obj-type="user" required>
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!-- Отчество -->
+          <dl>
+            <dt>Отчество</dt>
+            <dd class="data_editable">
+              <span class="h3 font--bold data_editable-text">{{ user.patronymic_name|default_if_none:'' }}</span>
+              <input type="text" class="h3 font--bold data_edit-input" name="patronymic_name" data-obj-type="user">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!-- Контактный телефон -->
+          <dl>
+            <dt>Контактный телефон</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">{{ user.phone|default_if_none:'' }}</span>
+              <input type="text" class="data_edit-input" name="phone" data-obj-type="user" required>
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!-- Контактный телефон -->
+          <dl>
+            <dt>Email</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">{{ user.email }}</span>
+              <input type="text" class="data_edit-input" name="email" data-obj-type="user" required>
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+        </div>
+      </div>
+    </div>
+
+    <h2 id="payment">Способы оплаты</h2>
+
+    <!-- Блок с данными оплата картой-->
+    <div class="block-data">
+      <input class="js-account-radio" data-obj-type="paymentMethod" type="radio" name="pay" id="online" value="online" hidden{% if user.payment_method == 'online' %} checked{% endif %}>
+      <label for="online" class="block-data__content">
+        <div class="block-data__control">
+          <div class="block-data__left">
+            <div class="button-switch"></div>
+            <h3>Онлайн оплата банковской картой</h3>
+          </div>
+          <div class="block-btn-right"></div>
+        </div>
+        <div class="block-data__body grid-container grid--column--4to1">
+          {% for card in cards %}
+            {% with forloop.counter as i %}
+              <!-- Карта -->
+              <div class="block-сard card--profile js-block-container" data-obj-type="paymentCard">
+                <input class="js-account-radio" data-obj-type="paymentCard" type="radio" name="card" id="card{{i}}" value="{{ card.id }}" hidden{% if forloop.first %} checked{% endif %}>
+                <label for="card{{i}}" class="block-сard__wrap">
+                  <div class="block-сard__in">
+                    <div class="line">{{ card.card_number_line }}</div>
+                    <div class="block-сard__bottom">
+                      <div class="block-сard__selector">
+                        <div class="button-selector"></div>
+                        <span class="select-info small-text">основной способ оплаты</span>
+                        <span class="deselect-info small-text">сделать основной</span>
+                      </div>
+                      {% if card.card_type %}
+                        <div class="logo-card">{{ card.card_logo_html|safe }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </label>
+                <button class="btn-border dark--bgrnd js-account-remove" data-obj-type="paymentCard" data-obj-id="{{ card.id }}" aria-label="Удалить" title="Удалить данные карты"><span class="met-ico-close-b"></span></button>
+                {# <button class="data_editcard-btn"><span class="met-ico-edit"></span></button> #}
+                {# <button class="data_editcard-btn js-account-remove" data-obj-type="paymentCard" data-obj-id="{{ card.id }}" title="Удалить данные карты"><span class="met-ico-close-b"></span></button> #}
+              </div>
+            {% endwith %}
+          {% endfor %}
+          <!-- Карта - добавить  -->
+          <div class="block-сard card--add">
+            <div class="block-сard__wrap">
+              <div class="block-сard__in">
+                <div class="line"><span>добавить карту</span></div>
+                <div class="block-сard__bottom">
+                  <span class="btn-border"><span class="h4">+</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </label>
+    </div>
+
+    <!-- Блок с данными безналичная оплата  -->
+    <div class="block-data" id="non-cash">
+      <input class="js-account-radio" data-obj-type="paymentMethod" type="radio" name="pay" id="non_cash" value="non_cash" hidden{% if user.payment_method == 'non_cash' %} checked{% endif %}>
+      <label for="non_cash" class="block-data__content">
+        <div class="block-data__control">
+          <div class="block-data__left">
+            <div class="button-switch"></div>
+            <h3>Безналичная оплата для юридических лиц</h3>
+          </div>
+          <div class="block-btn-right"></div>
+        </div>
+        {% if cashless_data %}
+          <div class="block-data__body grid-container grid--column--4to1">
+            <!-- Название организации  -->
+            <dl>
+              <dt>Название организации</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.organization }}</span>
+                <input type="text" class="data_edit-input" name="organization" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- Юридический адрес  -->
+            <dl>
+              <dt>Юридический адрес</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.jur_address }}</span>
+                <input type="text" class="data_edit-input" name="jur_address" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- Телефон -->
+            <dl>
+              <dt>Телефон</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.jur_phone }}</span>
+                <input type="text" class="data_edit-input" name="jur_phone" data-mask="phone" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- E-mail -->
+            <dl>
+              <dt>E-mail</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.jur_email }}</span>
+                <input type="text" class="data_edit-input" name="jur_email" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- ИНН -->
+            <dl>
+              <dt>ИНН</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.inn }}</span>
+                <input type="text" class="data_edit-input" name="inn" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- КПП -->
+            <dl>
+              <dt>КПП</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.kpp }}</span>
+                <input type="text" class="data_edit-input" name="kpp" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- ОГРН -->
+            <dl>
+              <dt>ОГРН</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.ogrn }}</span>
+                <input type="text" class="data_edit-input" name="ogrn" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- Расчетный счет -->
+            <dl>
+              <dt>Расчетный счет</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.account }}</span>
+                <input type="text" class="data_edit-input" name="account" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- Банк -->
+            <dl>
+              <dt>Банк</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.bank }}</span>
+                <input type="text" class="data_edit-input" name="bank" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- БИК -->
+            <dl>
+              <dt>БИК</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.bik }}</span>
+                <input type="text" class="data_edit-input" name="bik" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <!-- Генеральный директор -->
+            <dl>
+              <dt>Генеральный директор</dt>
+              <dd class="data_editable">
+                <span class="data_editable-text">{{ cashless_data.director }}</span>
+                <input type="text" class="data_edit-input" name="director" data-obj-type="cashlessData" required>
+                <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+              </dd>
+            </dl>
+            <div></div>
+            <div></div>
+          </div>
+        {% else %}
+          <div style="padding: 40px 0 20px;">
+            <div class="block-buttons-double">
+              <a href="#non-cash-form" rel="modal:open" title="Добавить данные организации" class="save-button btn-change">
+                <span class="btn__ico met-ico-edit"></span>
+                <span>Добавить данные организации</span>
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      </label>
+    </div>
+
+    <!-- Блок с данными Оплата при получении  -->
+    <div class="block-data">
+      <input class="js-account-radio" data-obj-type="paymentMethod" type="radio" name="pay" id="on_receipt" value="on_receipt" hidden{% if user.payment_method == 'on_receipt' %} checked{% endif %}>
+      <label for="on_receipt" class="block-data__content">
+        <div class="block-data__control">
+          <div class="block-data__left">
+            <div class="button-switch"></div>
+            <h3>Оплата при получении</h3>
+          </div>
+          <div class="block-btn-right"></div>
+        </div>
+        <div class="block-data__body grid-container grid--column--3to1">
+          <!-- Оплата при получении  -->
+          <p>
+            Вы можете оплатить вашу покупку наличными или картой при получении заказа
+          </p>
+          <div></div>
+          <div></div>
+        </div>
+      </label>
+    </div>
+  </section>
+{% endblock %}
+
+{% block modals %}
+  {% include 'modals/account_cashless_data.html' %}
+{% endblock %}

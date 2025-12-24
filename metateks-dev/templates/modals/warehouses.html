@@ -1,0 +1,31 @@
+<!-- Модальное окно выбор склада -->
+<div id="warehouses" class="modal">
+
+  <header>
+    <h3>Выберите склад</h3>
+  </header>
+
+  <form id="selectWarehouseForm" class="js-regular-form form-callback form--whaite" method="post" action="{% url 'api:addresses:choose-warehouse' %}">
+    <input type="hidden" name="current_url" value="{{ request.path }}">
+    <main>
+      {% for city in city_list %}
+        <dl class="warehouse-city">
+          <dt class="h3">{{ city }}</dt>
+          {% for wh in city.warehouses.all %}
+            <dd class="product-aside__options">
+              <input class="radiobutton" type="radio" id="warehouse-{{ wh.id }}" name="warehouse"{% if wh == request.warehouse %} checked{% endif %} value="{{ wh.id }}">
+              <label for="warehouse-{{ wh.id }}"></label>
+              <div class="small-text font--light">{{ wh.name }}</div>
+            </dd>
+          {% endfor %}
+        </dl>
+      {% endfor %}
+    </main>
+    <footer>
+      <button name="Submit" value="Выбрать склад" type="submit" class="btn-midl btn--orange"><span
+      class="btn__ico met-ico-circle-right"></span>Выбрать</button>
+    </footer>
+  </form>
+
+  <a href="#close-modal" rel="modal:close" class="close-modal">Закрыть</a>
+</div>

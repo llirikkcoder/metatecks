@@ -1,0 +1,52 @@
+[
+{
+    "model": "orders.deliverycompany",
+    "pk": 1,
+    "fields": {
+        "name": "ПЭК",
+        "logo": "delivery/logo-pec.svg",
+        "is_shown": true,
+        "order": 1
+    }
+},
+{
+    "model": "orders.deliverycompany",
+    "pk": 2,
+    "fields": {
+        "name": "Энергия",
+        "logo": "delivery/logo-energy.svg",
+        "is_shown": true,
+        "order": 2
+    }
+},
+{
+    "model": "orders.deliverycompany",
+    "pk": 3,
+    "fields": {
+        "name": "Деловые Линии",
+        "logo": "delivery/logo-dellin.svg",
+        "is_shown": true,
+        "order": 3
+    }
+},
+{
+    "model": "orders.deliverycompany",
+    "pk": 4,
+    "fields": {
+        "name": "ЖелДорЭкспедиция",
+        "logo": "delivery/logo-jde.svg",
+        "is_shown": true,
+        "order": 4
+    }
+},
+{
+    "model": "orders.deliverycompany",
+    "pk": 5,
+    "fields": {
+        "name": "Байкал Сервис",
+        "logo": "delivery/logo-baikal.svg",
+        "is_shown": true,
+        "order": 5
+    }
+}
+]

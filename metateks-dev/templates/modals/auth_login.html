@@ -1,0 +1,37 @@
+<!-- Модальное окно "Вход на сайт" -->
+<div id="login" class="modal modal-v2">
+
+  <header>
+    <h3>Вход на сайт</h3>
+  </header>
+
+  <form id="loginForm" class="js-auth-form form-callback form--whaite" method="post" action="{% url 'api:auth:login' %}">
+    <input type="hidden" name="current_url" value="{% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.path }}{% endif %}">
+    <main>
+      <div class="error-messages" style="display: none;"></div>
+      <div class="field-row">
+        <label class="field-label" for="loginEmail">Почта<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input required" id="loginEmail" required autocomplete="on" type="email" name="email" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="loginPassword">Пароль<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input required" id="loginPassword" required type="password" name="password" size="0"/>
+      </div>
+      <div class="checkbox-row">
+        <input class="checkbox" id="loginRemember" type="checkbox" name="remember">
+        <label for="loginRemember">
+          <span class="small-text">Запомнить меня</span>
+        </label>
+      </div>
+    </main>
+
+    <footer>
+      <div class="modal-footer__left">
+        <span class="small-text">У вас нет аккаунта?</span>
+        <a href="#registration" rel="modal:open" title="Регистрация на сайте">Регистрация</a>
+      </div>
+      <button name="Submit" value="Войти" type="submit" class="btn-midl btn--orange"><span class="btn__ico met-ico-circle-right"></span> Войти</button>
+    </footer>
+  </form>
+
+</div>

@@ -1,0 +1,99 @@
+{% extends '_base.html' %}
+{% load base_tags static %}
+
+{% block title %}{{ seo_settings.news.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ seo_settings.news.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ seo_settings.news.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ seo_settings.news.get_meta_title }}{% endblock %}
+{% block og_description %}{{ seo_settings.news.get_meta_desc }}{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section  wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>{{ seo_settings.news.get_h1|safe }}</h1>
+    </div>
+    {% if seo_settings.news.header_text %}
+      <p class="content-header__descr">{{ seo_settings.news.get_header_text|safe|linebreaksbr }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Секция со списком новостей -->
+  <section class="section-aside  wrap-pad-normal wrap-pad--mob--min" style="padding-top: 0;">
+    <div class="section-aside__left">
+      <div class="section-aside__left__wrap">
+        {% for post in items %}
+          <div class="anons-block">
+            <a href="{{ post.get_absolute_url }}" class="anons-block__left" title="Перейти к новости">
+              <img src="{{ post.cover_thumb_url }}" />
+            </a>
+            <div class="anons-block__right">
+              <div class="anons-block__top">
+                <a href="{{ post.get_absolute_url }}" class="anons-block__title"><h4>{{ post.title|safe }}</h4></a>
+                {% if post.short_description %}<p>{{ post.short_description|safe|linebreaksbr }}</p>{% endif %}
+              </div>
+              <div class="anons-block__bottom"><i class="small-text">{{ post.published_at.day }} {{ post.published_at|date:'b' }}. {{ post.published_at.year }} г.</i> <a href="{{ post.get_absolute_url }}" title="Читать новость" class="btn-more"><span class="met-ico-button-right"></span>
+                  <span class="font--uppercase small-text">перейти к новости</span></a></div>
+            </div>
+          </div>
+        {% empty %}
+          <p>Новости по данному запросу не найдены</p>
+        {% endfor %}
+      </div>
+      {% comment %}
+      <!-- блок показать еще -->
+      <div class="section-footer">
+        <a href="#" class="btn-more-large" title="загрузить еще статей"><span
+            class="met-ico-button-right"></span>
+          <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+        <hr />
+      </div>
+      <!-- Конец блока показать еще -->
+      {% endcomment %}
+    </div>
+    <aside class="aside-sidebar">
+      <div class="aside-sidebar__wrap">
+        <!-- Навигация по годам -->
+        <nav class="nav-years">
+          <div class="nav-years__arrow years-arrow-left">&#9664;</div>
+          <div class="nav-years__wrapp">
+            {% if year %}
+              <a href="{% url 'news:home' %}" class="btn-year" title="Показать новости за все годы">За все годы</a>
+            {% else %}
+              <span class="btn-year" title="Показать новости за все годы">За все годы</span>
+            {% endif %}
+            {% for y in years %}
+              {% if year == y %}
+                <span class="btn-year" title="Показать новости {{ y }} года">{{ y }}</span>
+              {% else %}
+                <a href="{% url 'news:year' y %}" class="btn-year" title="Показать новости {{ y }} года">{{ y }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="nav-years__arrow years-arrow-right">&#9654;</div>
+        </nav>
+
+        <!-- Навигация по рубрикам -->
+        <nav class="nav-categories">          
+          <a href="{% if year %}{% url 'news:year' year %}{% else %}{% url 'news:home' %}{% endif %}" class="btn-small btn--l-grey{% if not active_category %} btn--filtr--select{% endif %}" title="Показать все новости">Все новости</a>
+          {% for cat in categories %}
+            {% if active_category == cat %}
+              <a href="{% if year %}{% url 'news:year' year %}{% else %}{% url 'news:home' %}{% endif %}" class="btn-small btn--l-grey btn--filtr--select" title="Новости в категории {{ cat }}">{{ cat }}</a>
+            {% else %}
+              <a href="{% if year %}{% url 'news:year_category' year cat.slug %}{% else %}{% url 'news:category' cat.slug %}{% endif %}" class="btn-small btn--l-grey" title="Новости в категории {{ cat }}">{{ cat }}</a>
+            {% endif %}
+          {% endfor %}
+        </nav>
+
+        {% if banner %}
+          <a href="{{ banner.link }}"{% if banner.button_text %} title="{{ banner.button_text }}"{% endif %} target="_blank" class="banner-stock">
+            <img src="{{ banner.image_430_url }}" />
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="sidebar-toggle">Категории</div>
+    </aside>
+  </section>
+{% endblock %}

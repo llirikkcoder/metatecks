@@ -1,0 +1,769 @@
+[
+{
+    "model": "content.aboutcompany",
+    "pk": 1,
+    "fields": {
+        "about_title": "О компании",
+        "about_text": "<p>Метатэкс — лидер по&amp;nbsp;производству навесного оборудования для&amp;nbsp;спецтехники в&amp;nbsp;России. Мы&amp;nbsp;предоставляем проверенные и&amp;nbsp;надежные решения, которые &nbsp;расширяют возможности вашей техники и&amp;nbsp;повышают производительность.</p>",
+        "people_title": "Но главное в Метатэксе — это люди",
+        "people_photo": "about/people/photo_people.jpg",
+        "phone_text": "Звонок в офис",
+        "phone_number": "+7 499 964-41-12"
+    }
+},
+{
+    "model": "content.aboutfact",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "text1": "разработано",
+        "number": "240",
+        "text2": "моделей оборудования",
+        "place": 1,
+        "order": 1
+    }
+},
+{
+    "model": "content.aboutfact",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "text1": "совместимо",
+        "number": "с 3000",
+        "text2": "марками спецтехники",
+        "place": 1,
+        "order": 2
+    }
+},
+{
+    "model": "content.aboutfact",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "text1": "произведено",
+        "number": "более 8920",
+        "text2": "единиц навесного оборудования",
+        "place": 1,
+        "order": 3
+    }
+},
+{
+    "model": "content.aboutfact",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "text1": "В штате",
+        "number": "100",
+        "text2": "сотрудников",
+        "place": 2,
+        "order": 1
+    }
+},
+{
+    "model": "content.aboutfact",
+    "pk": 5,
+    "fields": {
+        "base": 1,
+        "text1": "Работаем с",
+        "number": "2010",
+        "text2": "года",
+        "place": 2,
+        "order": 2
+    }
+},
+{
+    "model": "content.aboutadvantage",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "icon": "buro",
+        "list_title": "Конструкторское\r\nбюро",
+        "block_type": "regular",
+        "title": "Собственное конструктор­ское&nbsp;бюро",
+        "photo": "about/advantages/design-bureau-768.jpg",
+        "video": null,
+        "video_id": null,
+        "gallery": [],
+        "text": "<p>Наличие собственного конструкторского бюро и&amp;nbsp;современной производственной базы не&amp;nbsp;только позволяет нам производить навесное оборудование для большинства наименований импортной и&amp;nbsp;отечественной строительной техники, но&amp;nbsp;и&amp;nbsp;осуществлять нестандартные решения для выполнения сложных и&amp;nbsp;специфических работ.<br>&nbsp;</p>",
+        "button_text": "",
+        "button_link": "",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutadvantage",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "icon": "testing",
+        "list_title": "Испытательная\r\nбаза",
+        "block_type": "regular",
+        "title": "Испытательная база",
+        "photo": "",
+        "video": "https://youtube.com/watch?v=2DnPgGE0ADU",
+        "video_id": null,
+        "gallery": [],
+        "text": "<p>Все разработки нашего конструкторского бюро проходят тестирование и&amp;nbsp;обкатку в&amp;nbsp;рабочих условиях до&amp;nbsp;поступления в&amp;nbsp;производство и&amp;nbsp;продажу. Сроки испытаний зависят от&amp;nbsp;вида навесного оборудования, но&amp;nbsp;не&amp;nbsp;могут быть менее двойного срока гарантии. Конечный потребитель получает полностью проверенный и&amp;nbsp;доработанный продукт.</p>",
+        "button_text": "",
+        "button_link": "",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutadvantage",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "icon": "production",
+        "list_title": "Собственное\r\nпроизводство",
+        "block_type": "regular",
+        "title": "Собственное производство",
+        "photo": "",
+        "video": null,
+        "video_id": null,
+        "gallery": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ],
+        "text": "<p>Для производства навесного оборудования мы&amp;nbsp;используем только высококачественные износостойкие стали, начиная от&amp;nbsp;низколегированных сталей российского производства 09Г2С и&amp;nbsp;10ХСНД и&amp;nbsp;заканчивая высококачественными сталями европейского производства, такими как Hardox (Швеция), Estrong (Италия), Qurad (Бельгия) и&amp;nbsp;пр.</p><p>Современное оборудование, опытные специалисты, многоступенчатый контроль качества, а&amp;nbsp;также высококачественные материалы&amp;nbsp;— все это позволяет компании Метатэкс производить навесное оборудования высочайшего качества по&amp;nbsp;конкурентным ценам.</p>",
+        "button_text": "",
+        "button_link": "",
+        "order": 3,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutadvantage",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "icon": "storage",
+        "list_title": "Продукция в наличии<br>на складе",
+        "block_type": "warehouses",
+        "title": "Навесное оборудование в&nbsp;наличии на&nbsp;складах",
+        "photo": "about/advantages/sklad-768.jpg",
+        "video": null,
+        "video_id": null,
+        "gallery": [],
+        "text": "<p>Склады компании Метатэкс расположены в&amp;nbsp;целом ряде регионов России. На&amp;nbsp;центральном складе в&amp;nbsp;Московской области постоянно находится свыше 1000&amp;nbsp;единиц навесного оборудования для&amp;nbsp;наиболее распространенных моделей строительной и&amp;nbsp;коммунальной техники. Ассортимент готового оборудования постоянно пополняется, позволяя свести к&amp;nbsp;минимуму срок ожидания продукции.</p>",
+        "button_text": "",
+        "button_link": "",
+        "order": 4,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutadvantage",
+    "pk": 5,
+    "fields": {
+        "base": 1,
+        "icon": "compatibility",
+        "list_title": "Совместимость<br>с разной техникой",
+        "block_type": "brands",
+        "title": "Совместимое навесное оборудование",
+        "photo": "",
+        "video": null,
+        "video_id": null,
+        "gallery": [],
+        "text": "<p>Производимое навесное оборудование полностью совместимо со&amp;nbsp;специальной техникой ведущих мировых брендов.</p>",
+        "button_text": "К&nbsp;списку брендов",
+        "button_link": "#",
+        "order": 5,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutadvantage",
+    "pk": 6,
+    "fields": {
+        "base": 1,
+        "icon": "delivery",
+        "list_title": "Доставка<br>по всей России",
+        "block_type": "delivery",
+        "title": "Доставка в&nbsp;любой регион России",
+        "photo": "about/advantages/delivery-768.jpg",
+        "video": null,
+        "video_id": null,
+        "gallery": [],
+        "text": "<p>По&amp;nbsp;Москве и&amp;nbsp;Московской области мы&amp;nbsp;осуществляем доставку собственным автотранспортом. Сотрудничаем с&amp;nbsp;большинством известных транспортных компаний и&amp;nbsp;доставляем груз по&amp;nbsp;всей территории России. Наше оборудование&amp;nbsp;Вы можете получить в&amp;nbsp;терминалах компаний: Пэк, Энергия, Деловые линии, ЖелДорЭкспедиция, Байкал Сервис.</p><p>Современное оборудование, опытные специалисты, многоступенчатый контроль качества, а&amp;nbsp;также высококачественные материалы —&amp;nbsp;все это позволяет компании Метатэкс производить навесное оборудования высочайшего качества по&amp;nbsp;конкурентным ценам.</p>",
+        "button_text": "Подробно о&nbsp;доставке",
+        "button_link": "#",
+        "order": 6,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutwarehouse",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "name": "Cклад-магазин Метатэкс на&nbsp;се­вере Москвы",
+        "description": "Оператор площадки — компания «Вивогрупп»",
+        "address": "Московская&nbsp;обл., Химки, д.&nbsp;Елино, ул.&nbsp;Рабочая, д.&nbsp;7",
+        "schedule": "Пн-Пт 09:00-18:00 (по&nbsp;московскому времени)",
+        "phone": "+7 499 964-41-12",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutwarehouse",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "name": "Cклад-магазин Метатэкс на&nbsp;юге Москвы",
+        "description": "ООО «Горснаб­проект»",
+        "address": "г. Москва, ул. Головачёва д. 2а, территория ССК ВОО",
+        "schedule": "Пн-Пт 09:00-18:00 (по московскому времени)",
+        "phone": "+7 495 961-59-10",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "name": "Lovol",
+        "logo": "about/brands/lovol_logo.svg",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "name": "SDLG",
+        "logo": "about/brands/SDLG_logo.svg",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "name": "Bobcat",
+        "logo": "about/brands/bobcat.svg",
+        "order": 3,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "name": "JCB",
+        "logo": "about/brands/JCB.svg",
+        "order": 4,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 5,
+    "fields": {
+        "base": 1,
+        "name": "LiuGong",
+        "logo": "about/brands/LiuGong_logo.svg",
+        "order": 5,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 6,
+    "fields": {
+        "base": 1,
+        "name": "Polar Badger",
+        "logo": "about/brands/polar_logo.svg",
+        "order": 6,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 7,
+    "fields": {
+        "base": 1,
+        "name": "МКСМ",
+        "logo": "about/brands/Mksm.svg",
+        "order": 7,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 8,
+    "fields": {
+        "base": 1,
+        "name": "Case",
+        "logo": "about/brands/case.svg",
+        "order": 8,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 9,
+    "fields": {
+        "base": 1,
+        "name": "Locust",
+        "logo": "about/brands/locust.svg",
+        "order": 9,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 10,
+    "fields": {
+        "base": 1,
+        "name": "Mustang",
+        "logo": "about/brands/mustang.svg",
+        "order": 10,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 11,
+    "fields": {
+        "base": 1,
+        "name": "ANT",
+        "logo": "about/brands/Ant.svg",
+        "order": 11,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 12,
+    "fields": {
+        "base": 1,
+        "name": "Yugong",
+        "logo": "about/brands/Yugong_logo.svg",
+        "order": 12,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.aboutbrand",
+    "pk": 13,
+    "fields": {
+        "base": 1,
+        "name": "DISD",
+        "logo": "about/brands/disd_logo.svg",
+        "order": 13,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.abouttransportcompany",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "name": "Байкал Сервис",
+        "logo": "about/delivery/logo-baikalsr.svg",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.abouttransportcompany",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "name": "Деловые Линии",
+        "logo": "about/delivery/logo-dellin.svg",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.abouttransportcompany",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "name": "Энергия",
+        "logo": "about/delivery/logo-energy.svg",
+        "order": 3,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.abouttransportcompany",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "name": "ЖэлДорЭкспедиция",
+        "logo": "about/delivery/logo-jde.svg",
+        "order": 4,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.abouttransportcompany",
+    "pk": 5,
+    "fields": {
+        "base": 1,
+        "name": "ПЭК",
+        "logo": "about/delivery/logo-pec.svg",
+        "order": 5,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerdata",
+    "pk": 1,
+    "fields": {
+        "first_column_title": "Компания",
+        "second_column_title": "Продукция",
+        "third_column_title": "Медиа",
+        "fourth_column_title": "Личный кабинет",
+        "contacts_phone": "+7 800 222-54-32",
+        "contacts_email": "metall@spmet.ru"
+    }
+},
+{
+    "model": "content.footerfirstcolumnlink",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "title": "О компании",
+        "link": "#",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfirstcolumnlink",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "title": "Испытательная база",
+        "link": "#",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfirstcolumnlink",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "title": "Производство",
+        "link": "#",
+        "order": 3,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfirstcolumnlink",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "title": "Склады",
+        "link": "#",
+        "order": 4,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfirstcolumnlink",
+    "pk": 5,
+    "fields": {
+        "base": 1,
+        "title": "Отзывы",
+        "link": "#",
+        "order": 5,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfirstcolumnlink",
+    "pk": 6,
+    "fields": {
+        "base": 1,
+        "title": "Контакты",
+        "link": "#",
+        "order": 6,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footersecondcolumnlink",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "title": "Каталог",
+        "link": "#",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footersecondcolumnlink",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "title": "Акции",
+        "link": "#",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footersecondcolumnlink",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "title": "Доставка",
+        "link": "#",
+        "order": 3,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footersecondcolumnlink",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "title": "Бренды техники",
+        "link": "#",
+        "order": 4,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerthirdcolumnlink",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "title": "Новости",
+        "link": "#",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerthirdcolumnlink",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "title": "Статьи",
+        "link": "#",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerthirdcolumnlink",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "title": "Видео",
+        "link": "#",
+        "order": 3,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerthirdcolumnlink",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "title": "Фото",
+        "link": "#",
+        "order": 4,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerthirdcolumnlink",
+    "pk": 5,
+    "fields": {
+        "base": 1,
+        "title": "Файлы",
+        "link": "#",
+        "order": 5,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfourthcolumnlink",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "title": "Вход",
+        "link": "#",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfourthcolumnlink",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "title": "Заказы",
+        "link": "#",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfourthcolumnlink",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "title": "Оплата",
+        "link": "#",
+        "order": 3,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfourthcolumnlink",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "title": "Пользовательское соглашение",
+        "link": "#",
+        "order": 4,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footerfourthcolumnlink",
+    "pk": 5,
+    "fields": {
+        "base": 1,
+        "title": "Файлы",
+        "link": "#",
+        "order": 5,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footersociallink",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "icon": "vk",
+        "link": "https://vk.com/metateks",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footersociallink",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "icon": "telegram",
+        "link": "https://t.me/metateks_market",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.footersociallink",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "icon": "youtube",
+        "link": "https://www.youtube.com/@metateks4914",
+        "order": 3,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.headerdata",
+    "pk": 1,
+    "fields": {
+        "working_days": "ПН - ПТ",
+        "working_time": "09:00 - 18:00",
+        "contacts_phone": "+7 800 222-54-32",
+        "contacts_email": "info@metateks.ru"
+    }
+},
+{
+    "model": "content.headerlink",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "title": "Компания",
+        "link": "#",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.headerlink",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "title": "Акции",
+        "link": "#",
+        "order": 2,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.headerlink",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "title": "Доставка",
+        "link": "#",
+        "order": 3,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.headerlink",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "title": "Новости",
+        "link": "#",
+        "order": 4,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.headerlink",
+    "pk": 5,
+    "fields": {
+        "base": 1,
+        "title": "Статьи",
+        "link": "#",
+        "order": 5,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.headerlink",
+    "pk": 6,
+    "fields": {
+        "base": 1,
+        "title": "Контакты",
+        "link": "#",
+        "order": 6,
+        "is_shown": true
+    }
+}
+]

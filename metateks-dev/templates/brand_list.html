@@ -1,0 +1,61 @@
+{% extends '_base.html' %}
+{% load base_tags %}
+
+{% block title %}{{ seo_settings.brands.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ seo_settings.brands.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ seo_settings.brands.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ seo_settings.brands.get_meta_title }}{% endblock %}
+{% block og_description %}{{ seo_settings.brands.get_meta_desc }}{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section  wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>{{ seo_settings.brands.get_h1|safe }}</h1>
+    </div>
+    {% if seo_settings.brands.header_text %}
+      <p class="content-header__descr">{{ seo_settings.brands.get_header_text|safe|linebreaksbr }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Секция с категориями брендов  -->
+  <section class="brands wrap-pad-normal wrap--column wrap-pad--mob--min" style="padding-top: 0">
+
+    {% for cat_dict in categories.values %}
+      {% if cat_dict.brands|length %}
+        {% with cat_dict.obj as cat %}
+          <!-- Блок категория брендов -->
+          <div class="brands-category wrap--row-to-column">
+            <div class="brands-category__header">
+              <img class="brands-category_ico" src="{{ cat.icon_url }}" alt="Иконка {{ cat.get_name_plural }}" />
+              <h2>{{ cat.get_name_plural|capfirst }}</h2>
+            </div>
+
+            <div class="brands-category__main grid-container grid--column--7to4 grid--gap--same">
+              {% for brand_id in cat_dict.brands %}
+                {% with brands|get_item:brand_id as brand %}
+                  <a href="{{ brand.get_absolute_url }}" title="На страницу бренда {{ brand.name }}" class="brands-item">
+                    <div class="brands-item__wr">
+                      <div class="brend-logo__box">
+                        {% if brand.logo %}
+                          <img src="{{ brand.logo_url }}" alt="Логотип {{ brand.name }}" />
+                        {% else %}
+                          <h4 class="brand-logo-empty-name">{{ brand.name }}</h4>
+                        {% endif %}
+                      </div>
+                      <span class="brands-item__name">{{ brand.name }}</span>
+                    </div>
+                  </a>
+                {% endwith %}
+              {% endfor %}
+            </div>
+
+          </div>
+          <!-- Конец блок категория -->
+        {% endwith %}
+      {% endif %}
+    {% endfor %}
+
+  </section>
+{% endblock %}

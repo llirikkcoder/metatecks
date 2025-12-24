@@ -1,0 +1,32 @@
+{% load i18n admin_urls %}
+<style>
+  input[type=submit] { cursor: pointer; }
+</style>
+
+<div class="submit-row">
+  {% if not request.form_editing_locked and not original.is_mirror %}
+    {% if opts.label == 'payments.Payment' %}
+      {% if show_save_and_continue or show_save_as_new or show_save_and_add_another or show_save %}
+        <input type="submit" class="default" value="{% trans 'Продолжить' %}" name="_continue" />
+      {% endif %}
+
+    {% elif opts.model.show_payment_links %}
+      {% if show_save_and_continue %}<input type="submit" class="default" value="{% trans 'Save and continue editing' %}" name="_continue" />{% endif %}
+      {% if show_delete_link %}
+        {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+        <p class="deletelink-box"><a href="{% add_preserved_filters delete_url %}" class="deletelink">{% trans "Delete" %}</a></p>
+      {% endif %}
+      {% if show_save %}<input type="submit" value="Сохранить и вернуться к списку" name="_save" />{% endif %}
+
+    {% else %}
+      {% if show_save_and_continue %}<input type="submit" class="default" value="{% trans 'Save and continue editing' %}" name="_continue" />{% endif %}
+      {% if show_delete_link %}
+        {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+        <p class="deletelink-box"><a href="{% add_preserved_filters delete_url %}" class="deletelink">{% trans "Delete" %}</a></p>
+      {% endif %}
+      {% if show_save_as_new %}<input type="submit" value="{% trans 'Save as new' %}" name="_saveasnew" />{% endif %}
+      {% if show_save_and_add_another %}<input type="submit" value="{% trans 'Save and add another' %}" name="_addanother" />{% endif %}
+      {% if show_save %}<input type="submit" value="Сохранить и вернуться к списку" name="_save" />{% endif %}
+    {% endif %}
+  {% endif %}
+</div>

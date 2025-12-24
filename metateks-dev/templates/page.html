@@ -1,0 +1,31 @@
+{% extends '_base.html' %}
+
+{% block title %}{{ page.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ page.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ page.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ page.get_meta_title }}{% endblock %}
+{% block og_description %}{{ page.get_meta_desc }}{% endblock %}
+
+{% block content %}
+  <div class="content-header content-header--section wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>{{ page.title }}</h1>
+    </div>
+    {% if page.description %}
+      <p class="content-header__descr">{{ page.description|safe|linebreaksbr }}</p>
+    {% endif %}
+  </div>
+
+  {% if page.cover %}
+    <div class="content-main-top wrap-pad-normal wrap-pad--mob--min">
+      <div class="content-main-top__img"
+        style="background-image: url({{ page.cover_url }});">
+      </div>
+    </div>
+  {% endif %}
+
+  <article class="content-limited"{% if not page.cover %} style="padding-top: 0;"{% endif %}>
+    {{ page.text|safe }}
+  </article>
+{% endblock %}

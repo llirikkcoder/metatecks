@@ -1,0 +1,125 @@
+{% extends 'account/_account_base.html' %}
+{% load static %}
+
+{% block title %}Адрес доставки{% endblock %}
+{% block meta_description %}Адрес доставки{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Адрес доставки{% endblock %}
+{% block og_description %}Адрес доставки{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  {% include 'include/account_header.html' with page_title='Адрес доставки' %}
+  {% include 'include/account_navigation.html' with page_slug='addresses' %}
+
+  <!-- Секция с данными о доставке -->
+  <section class=" wrap-pad-normal wrap-pad--mob--min wrap--column" style="padding-top: 0;">
+
+    {% for a in addresses %}
+      {% with forloop.counter as i %}
+        <!-- Блок с данными о доставке -->
+        <div class="block-data js-block-container" data-obj-type="address">
+          <input class="js-account-radio" data-obj-type="address" type="radio" name="address" id="address{{i}}" value="{{ a.id }}" hidden{% if forloop.first %} checked{% endif %}>
+          <label for="address{{i}}" class="block-data__content">
+            <div class="block-data__control">
+              <div class="button-switch"></div>
+              <div class="block-btn-right">
+                <button class="btn-border light--bgrnd js-account-remove" data-obj-type="address" data-obj-id="{{ a.id }}" data-empty-div="#js-addresses-empty" aria-label="Удалить" title="Удалить адрес"><span class="met-ico-close-b"></span></button>
+              </div>
+            </div>
+            <div class="block-data__body block--data--wr">
+              <div class="block-data__address">
+                <span class="h4">Адрес</span>
+                <div class="grid-container grid--column--3to2to1 ">
+                  <dl>
+                    <dt>Область</dt>
+                    <dd class="data_editable">
+                      <span class="data_editable-text">{{ a.region }}</span>
+                      <input type="text" class="data_edit-input" name="region" data-id="{{ a.id }}" data-obj-type="address" required>
+                      <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                      <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                      <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>Город</dt>
+                    <dd class="data_editable">
+                      <span class="data_editable-text">{{ a.city }}</span>
+                      <input type="text" class="data_edit-input" name="city" data-id="{{ a.id }}" data-obj-type="address" required>
+                      <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                      <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                      <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>Улица / дом / (офис, квартира)</dt>
+                    <dd class="data_editable">
+                      <span class="data_editable-text">{{ a.address }}</span>
+                      <input type="text" class="data_edit-input" name="address" data-id="{{ a.id }}" data-obj-type="address" required>
+                      <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                      <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                      <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="block-data__name">
+                <span class="h4">Контактное лицо</span>
+                <div class="grid-container grid--column--3to2to1">
+                  <div class="block-data__name-block">
+                    <dl>
+                      <dt>Имя</dt>
+                      <dd class="data_editable">
+                        <span class="data_editable-text">{{ a.first_name }}</span>
+                        <input type="text" class="data_edit-input" name="first_name" data-id="{{ a.id }}" data-obj-type="address" required>
+                        <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                        <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                        <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+                      </dd>
+                    </dl>
+                    <dl>
+                      <dt>Отчество</dt>
+                      <dd class="data_editable">
+                        <span class="data_editable-text">{{ a.patronymic_name|default_if_none:'' }}</span>
+                        <input type="text" class="data_edit-input" name="patronymic_name" data-id="{{ a.id }}" data-obj-type="address">
+                        <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                        <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                        <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+                      </dd>
+                    </dl>
+                  </div>
+                  <dl>
+                    <dt>Фамилия</dt>
+                    <dd class="data_editable">
+                        <span class="data_editable-text">{{ a.last_name|default_if_none:'' }}</span>
+                      <input type="text" class="data_edit-input" name="last_name" data-id="{{ a.id }}" data-obj-type="address" required>
+                      <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                      <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                      <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>Телефон</dt>
+                    <dd class="data_editable">
+                      <span class="data_editable-text">{{ a.phone }}</span>
+                      <input type="text" class="data_edit-input" name="phone" data-id="{{ a.id }}" data-obj-type="address" required>
+                      <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+                      <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+                      <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+      {% endwith %}
+    {% endfor %}
+
+    <div id="js-addresses-empty" class="item-info-empty"{% if addresses %} style="display: none;"{% endif %}>
+      <span class="ico-info">i</span> <i>У вас пока нет сохраненных адресов</i>
+    </div>
+
+  </section>
+{% endblock %}

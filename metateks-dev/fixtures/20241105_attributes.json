@@ -1,0 +1,204 @@
+[
+{
+    "model": "catalog.attributeunit",
+    "pk": 1,
+    "fields": {
+        "created_at": "2024-11-05T12:00:19.158Z",
+        "updated_at": "2024-11-05T12:00:19.158Z",
+        "name": "тонны",
+        "name_html": "т",
+        "icon": "kg",
+        "order": 1
+    }
+},
+{
+    "model": "catalog.attributeunit",
+    "pk": 2,
+    "fields": {
+        "created_at": "2024-11-05T12:01:27.621Z",
+        "updated_at": "2024-11-05T12:01:27.621Z",
+        "name": "сантиметры",
+        "name_html": "см",
+        "icon": "gear",
+        "order": 2
+    }
+},
+{
+    "model": "catalog.attributeunit",
+    "pk": 3,
+    "fields": {
+        "created_at": "2024-11-05T12:02:12.444Z",
+        "updated_at": "2024-11-05T12:02:47.638Z",
+        "name": "кубометры",
+        "name_html": "м<sup>3</sup>",
+        "icon": "gear",
+        "order": 3
+    }
+},
+{
+    "model": "catalog.attributeunit",
+    "pk": 4,
+    "fields": {
+        "created_at": "2024-11-05T12:02:25.691Z",
+        "updated_at": "2024-11-05T12:02:25.691Z",
+        "name": "градусы",
+        "name_html": "°",
+        "icon": "gear",
+        "order": 4
+    }
+},
+{
+    "model": "catalog.attributeunit",
+    "pk": 5,
+    "fields": {
+        "created_at": "2024-11-05T12:02:35.739Z",
+        "updated_at": "2024-11-05T12:02:35.739Z",
+        "name": "килограммы",
+        "name_html": "кг",
+        "icon": "kg",
+        "order": 5
+    }
+},
+{
+    "model": "catalog.attribute",
+    "pk": 1,
+    "fields": {
+        "created_at": "2024-08-05T15:37:52.104Z",
+        "updated_at": "2024-11-05T12:04:39.470Z",
+        "name": "Грузоподъемность",
+        "name_admin": "",
+        "name_short": "Г/п машины",
+        "name_filter": "Грузоподъемность погрузчика",
+        "attr_type": "int",
+        "unit": 1,
+        "slug": "attr1",
+        "with_options": false,
+        "id_1c": null,
+        "is_synced_with_1c": false,
+        "order": 1
+    }
+},
+{
+    "model": "catalog.attribute",
+    "pk": 2,
+    "fields": {
+        "created_at": "2024-08-05T15:38:29.315Z",
+        "updated_at": "2024-11-05T12:04:43.855Z",
+        "name": "Ширина ковша",
+        "name_admin": "",
+        "name_short": "",
+        "name_filter": "",
+        "attr_type": "int",
+        "unit": 2,
+        "slug": "attr2",
+        "with_options": false,
+        "id_1c": null,
+        "is_synced_with_1c": false,
+        "order": 2
+    }
+},
+{
+    "model": "catalog.attribute",
+    "pk": 3,
+    "fields": {
+        "created_at": "2024-08-05T15:39:01.398Z",
+        "updated_at": "2024-11-05T12:04:49.567Z",
+        "name": "Объем ковша",
+        "name_admin": "",
+        "name_short": "",
+        "name_filter": "",
+        "attr_type": "float",
+        "unit": 3,
+        "slug": "attr3",
+        "with_options": false,
+        "id_1c": null,
+        "is_synced_with_1c": false,
+        "order": 3
+    }
+},
+{
+    "model": "catalog.attribute",
+    "pk": 4,
+    "fields": {
+        "created_at": "2024-08-05T15:39:26.521Z",
+        "updated_at": "2024-11-05T12:04:54.137Z",
+        "name": "Угол наклона",
+        "name_admin": "",
+        "name_short": "",
+        "name_filter": "",
+        "attr_type": "int",
+        "unit": 4,
+        "slug": "attr4",
+        "with_options": false,
+        "id_1c": null,
+        "is_synced_with_1c": false,
+        "order": 4
+    }
+},
+{
+    "model": "catalog.attribute",
+    "pk": 5,
+    "fields": {
+        "created_at": "2024-08-05T15:39:37.524Z",
+        "updated_at": "2024-11-05T12:04:58.985Z",
+        "name": "Масса ковша",
+        "name_admin": "",
+        "name_short": "",
+        "name_filter": "",
+        "attr_type": "int",
+        "unit": 5,
+        "slug": "attr5",
+        "with_options": false,
+        "id_1c": null,
+        "is_synced_with_1c": false,
+        "order": 5
+    }
+},
+{
+    "model": "catalog.attribute",
+    "pk": 6,
+    "fields": {
+        "created_at": "2024-08-05T15:39:55.818Z",
+        "updated_at": "2024-10-17T15:11:44.659Z",
+        "name": "Зубья",
+        "name_admin": "",
+        "name_short": "",
+        "name_filter": "",
+        "attr_type": "string",
+        "unit": null,
+        "slug": "attr6",
+        "with_options": true,
+        "id_1c": null,
+        "is_synced_with_1c": false,
+        "order": 6
+    }
+},
+{
+    "model": "catalog.attributeoption",
+    "pk": 1,
+    "fields": {
+        "created_at": "2024-08-05T15:39:55.823Z",
+        "updated_at": "2024-08-05T15:39:55.823Z",
+        "attribute": 6,
+        "value_string": "идут в комплекте",
+        "value_int": null,
+        "value_float": null,
+        "id_1c": null,
+        "order": 1
+    }
+},
+{
+    "model": "catalog.attributeoption",
+    "pk": 2,
+    "fields": {
+        "created_at": "2024-08-05T15:39:55.823Z",
+        "updated_at": "2024-10-17T06:52:45.013Z",
+        "attribute": 6,
+        "value_string": "приобретаются опционально",
+        "value_int": null,
+        "value_float": null,
+        "id_1c": null,
+        "order": 1
+    }
+}
+]

@@ -1,0 +1,36 @@
+{% extends 'about/_layout.html' %}
+{% load base_tags easy_thumbnails_tags static %}
+
+{% block title %}{{ seo_settings.media_files.get_meta_title }}{% if active_tag %} — # {{ active_tag }}{% endif %}{% endblock %}
+{% block meta_description %}{{ seo_settings.media_files.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ seo_settings.media_files.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ seo_settings.media_files.get_meta_title }}{% if active_tag %} — # {{ active_tag }}{% endif %}{% endblock %}
+{% block og_description %}{{ seo_settings.media_files.get_meta_desc }}{% endblock %}
+
+{% block h1 %}{{ seo_settings.media_files.get_h1|safe }}{% endblock %}
+
+{% block description %}
+  {% if seo_settings.media_files.header_text %}
+    <p class="content-header__descr">{{ seo_settings.media_files.get_header_text|safe|linebreaksbr }}</p>
+  {% endif %}
+{% endblock %}
+
+{% block nav_files %}<span class="content-nav__item content--nav--tem--select">Файлы</span>{% endblock %}
+
+{% block inner_content %}
+  <!-- Навигация тегов -->
+  {% include 'about/include/tags.html' %}
+
+  <!-- Список файлов -->
+  <section class="stocks-list wrap-pad-normal wrap--column content-limited" style="padding-top: 0">
+    {% for file in items %}
+      <div class="block-found">
+        <b><a class="block-found__name" href="{{ file.file.url }}" target="_blank" title="{{ file }}">{{ file }}</a></b>
+        <i><a class="block-found__link small-text" href="{{ file.file.url }}" target="_blank" title="{{ file.file.url }}">{{ file.file.url }}</a></i>
+      </div>
+    {% empty %}
+      <p>Файлы по данному тегу не найдены</p>
+    {% endfor %}
+  </section>
+{% endblock %}

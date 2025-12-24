@@ -1,0 +1,31 @@
+# Django/Python
+.Python
+*.py[cod]
+**/*.py[cod]
+*.env
+*.sqlite3
+celerybeat-schedule
+celerybeat.pid
+/main/settings/local.py
+/main/touchme
+/media/*
+/static/*
+temp/
+test/
+
+# OS or Editor folders, extensions
+.cache
+.DS_Store
+*.exe
+.idea
+.~lock*
+.log
+*.log
+*.log.*
+.project
+.settings
+*.sublime-project
+*.sublime-workspace
+Thumbs.db
+*.tmp*
+*.zip

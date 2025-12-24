@@ -1,0 +1,60 @@
+{% load base_tags catalog_tags %}
+
+<!-- ==== Карточка товара ==== -->
+<div class="card-product">
+  <a href="{{ product.get_absolute_url }}" class="card-product__link"
+    title="{{ product.name }}"></a>
+  <div class="card-product__top-wrap">
+    {% if product.is_popular %}
+      <span class="label-hit h4 font--light font--uppercase">Хит</span>
+    {% endif %}
+    {% if product.get_photo %}
+      <img src="{{ product.list_photo_url }}"
+        alt="{{ product.name }}" />
+    {% else %}
+      <img src="{{ product.sub_category.product_photo_url }}"
+        alt="{{ product.name }}" />
+    {% endif %}
+  </div>
+  <div class="card-product__middle-wrap">
+    <span class="h4">{{ product.name }}</span>
+    {# {% if attr_ids %} #}
+    {% if True %}
+      {% get_product_list_attrs product attr_ids attributes as attrs %}
+      {% if attrs %}
+        <ul class="small-text">
+          {% for a in attrs %}
+            <li>{{ a.name|safe }}: {{ a.value }}{% if a.unit %}{% if a.unit != '°' %} {% endif %}{{ a.unit|safe }}{% endif %}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endif %}
+    <div class="card-product__btn-more">
+      <hr />
+      <div class="btn-more">
+        <span class="met-ico-button-right"></span> <span
+          class="small-text font--uppercase">о&nbsp;товаре</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-product__bottom-wrap">
+    <div class="card-product__price-box">
+      {% with product.in_stock as in_stock %}
+        <span class="small-text">{% if in_stock %}в наличии {{ in_stock }} шт{% else %}под заказ{% endif %}</span>
+      {% endwith %}
+      {% get_product_promotion product as promo %}
+      {% if promo %}
+        {% get_promo_new_price promo product.price as new_price %}
+        <span class="h4 font--light old-price">{{ product.price|format_number }}&nbsp;₽</span>
+        <span class="h4 font--light">{{ new_price|format_number }}&nbsp;₽</span>
+      {% else %}
+        <span class="h4 font--light">{{ product.price|format_number }}&nbsp;₽</span>
+      {% endif %}
+    </div>
+    <!-- Кнопка купить в один клик -->
+    <a class="btn-small-buy" href="{{ product.get_absolute_url }}?add_to_cart">
+      <span class="small-text">Купить</span>
+    </a>
+  </div>
+</div>
+<!-- ==== Конец карточки товара ==== -->

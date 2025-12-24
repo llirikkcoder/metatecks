@@ -1,0 +1,228 @@
+[
+{
+    "model": "settings.settings",
+    "pk": 1,
+    "fields": {
+        "feedback_email": "email1@example.com\r\nemail2@example.com",
+        "orders_email": "email1@example.com\r\nemail2@example.com",
+        "title_suffix": "Метатэкс",
+        "robots_txt": "User-agent: *\r\nDisallow: \r\nHost: metateks.ru\r\nSitemap: https://metateks.ru/sitemap.xml"
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 1,
+    "fields": {
+        "key": "global",
+        "description": "Глобальные настройки",
+        "title": "Навесное оборудование «Метатэкс»",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 2,
+    "fields": {
+        "key": "home",
+        "description": "Домашняя страница",
+        "title": "Навесное оборудование «Метатэкс»",
+        "meta_desc": "Метатэкс — производитель навесного оборудования для спецтехники",
+        "meta_keyw": "Метатэкс, Навесное оборудование, Оборудование для спецтехники, Каталог оборудования,",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 3,
+    "fields": {
+        "key": "catalog",
+        "description": "Каталог",
+        "title": "Каталог навесного оборудования «Метатэкс»",
+        "meta_desc": "В каталоге представлено навесное оборудование для разного вида спецтехники",
+        "meta_keyw": "",
+        "h1": "Каталог навесного оборудования Метатэкс"
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 4,
+    "fields": {
+        "key": "brands",
+        "description": "Бренды",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 5,
+    "fields": {
+        "key": "promotions",
+        "description": "Акции",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 6,
+    "fields": {
+        "key": "about",
+        "description": "О компании",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 7,
+    "fields": {
+        "key": "media_photo",
+        "description": "О компании / Фото",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 8,
+    "fields": {
+        "key": "media_video",
+        "description": "О компании / Видео",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 9,
+    "fields": {
+        "key": "media_files",
+        "description": "О компании / Файлы",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 10,
+    "fields": {
+        "key": "news",
+        "description": "Новости",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 11,
+    "fields": {
+        "key": "articles",
+        "description": "Статьи",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 12,
+    "fields": {
+        "key": "contacts",
+        "description": "Контакты",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 13,
+    "fields": {
+        "key": "account",
+        "description": "Личный кабинет / Главная",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 14,
+    "fields": {
+        "key": "account_orders",
+        "description": "Личный кабинет / Мои заказы",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 15,
+    "fields": {
+        "key": "account_delivery",
+        "description": "Личный кабинет / Адрес доставки",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 16,
+    "fields": {
+        "key": "account_favorites",
+        "description": "Личный кабинет / Избранное",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 17,
+    "fields": {
+        "key": "account_profile",
+        "description": "Личный кабинет / Профиль",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+},
+{
+    "model": "settings.seosetting",
+    "pk": 18,
+    "fields": {
+        "key": "cart",
+        "description": "Корзина",
+        "title": "",
+        "meta_desc": "",
+        "meta_keyw": "",
+        "h1": ""
+    }
+}
+]

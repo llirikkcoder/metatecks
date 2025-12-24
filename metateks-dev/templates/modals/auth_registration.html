@@ -1,0 +1,60 @@
+<!-- Модальное окно "Регистрация на сайте" -->
+<div id="registration" class="modal modal-v2">
+
+  <header>
+    <h3>Регистрация на сайте</h3>
+  </header>
+
+  <form id="registrationForm" class="js-auth-form form-callback form--whaite" method="post" action="{% url 'api:auth:registration' %}">
+    <input type="hidden" name="current_url" value="{{ request.path }}">
+    <main>
+      <div class="error-messages" style="display: none;"></div>
+      <div class="field-row">
+        <label class="field-label" for="regFirstName">Имя<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input" id="regFirstName" required type="text" name="first_name" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="regPatronymicName">Отчество</label>
+        <input class="field-input" id="regPatronymicName" type="text" name="partonymic_name" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="regLastName">Фамилия</label>
+        <input class="field-input" id="regLastName" type="text" name="last_name" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="regEmail">Почта<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input required" id="regEmail" required autocomplete="on" type="email" name="email" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="regPhone">Телефон</label>
+        <input class="field-input" id="regPhone" autocomplete="on" type="tel" name="phone" value="" size="0"
+          placeholder="+7 (___) ___-__-__"/>
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="regPassword">Пароль<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input required" id="regPassword" required type="password" name="password" size="0"/>
+      </div>
+      <div class="checkbox-row">
+        <input class="checkbox required" id="regPrivacy" required type="checkbox" name="flag" data-msg="Выбор этого пункта обязателен">
+        <label for="regPrivacy">
+          <span class="small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
+              title="условия политики обработки персональных данных" target="_blank">условиями политики</a>
+            обработки
+            персональных данных <sup>
+              <font color="#FF5C00"> *</font>
+            </sup>
+          </span>
+        </label>
+      </div>
+    </main>
+
+    <footer>
+      <div class="modal-footer__left">
+        <span class="small-text">У вас уже есть аккаунт?</span>
+        <a href="#login" rel="modal:open" title="Вход на сайт">Войти на сайт</a>
+      </div>
+      <button name="Submit" value="Создать аккаунт" type="submit" class="btn-midl btn--orange"> <span class="btn__ico  met-ico-circle-right"></span> Создать аккаунт</button>
+    </footer>
+  </form>
+
+</div>

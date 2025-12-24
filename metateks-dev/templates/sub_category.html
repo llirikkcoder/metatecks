@@ -1,0 +1,270 @@
+{% extends '_base.html' %}
+{% load base_tags catalog_tags static %}
+
+{% block title %}{{ subcat.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ subcat.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ subcat.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ subcat.get_meta_title }}{% endblock %}
+{% block og_description %}{{ subcat.get_meta_desc }}{% endblock %}
+
+{% block early_head_scripts %}
+  <script src="{% static 'js/Hyphenopoly/Hyphenopoly_Loader.js' %}"></script>
+  <script>
+    Hyphenopoly.config({
+        require: {"ru": "FORCEHYPHENOPOLY"},
+        setup: {
+            selectors: {".break-word": {}}
+        }
+    });
+  </script>
+{% endblock %}
+
+{% block head_styles %}
+  <style>
+    {% include 'css/filter.css' %}
+  </style>
+{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--subsection wrap-pad-normal">
+    <nav class="content-header__nav">
+      <div class="content-header__leftbox-wr">
+        <a href="#" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+          <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+      </div>
+      <div class="bread-crumbs small-text">
+        <div>
+          <a href="{% url 'home' %}" title="На главную">Главная</a>&nbsp;<span>/</span> <a href="{% url 'catalog:home' %}"
+            title="Перейти в Каталог продукции">Каталог продукции</a>&nbsp;<span>/</span> <a href="{{ cat.get_absolute_url }}"
+            title="Перейти в {{ cat.get_title }}">{{ cat.get_title }}</a>&nbsp;<span>/</span> {{ subcat.get_title }}
+        </div>
+      </div>
+    </nav>
+    <div class="content-header__leftbox-wr">
+      <a class="content-header__ico" href="{{ cat.get_absolute_url }}" title="Оборудование {{ cat.name_lower }}">
+        <img src="{{ cat.icon_url }}"/>
+      </a>
+    </div>
+    <div class="content-header__title-wr">
+      <h1>{{ subcat.get_h1|safe }}</h1>
+    </div>
+  </div>
+  <!-- Секция с фотографией модели -->
+  <section class="model-summary  wrap-pad-min wrap--row-to-column wrap-pad--mob--none">
+    <div class="model-summary__left ">
+      <div class="model-img-wrap">
+        <img src="{{ subcat.photo_url }}" alt="" />
+        {% if price %}
+          <div class="model-price"><span class="h3">Цена от {{ price|format_number }} ₽</span></div>
+        {% endif %}
+      </div>
+    </div>
+    <aside>
+      <div class="model-info-wrap">
+        {% if subcat.purpose %}
+          <div class="model-info__top">
+            <h2>Назначение</h2>
+            <p>{{ subcat.purpose|safe|linebreaksbr }}</p>
+          </div>
+          <hr />
+        {% endif %}
+        <nav class="model-nav">
+          <div>
+            <h3>Выбрать:</h3>
+            <ul>
+              {% if attr %}
+                <li><a class="link-ico__white" href="#filter" title="Выбрать {{ attr.name|lowfirst }}"><span
+                      class="link-ico__ico {{ attr.icon_html }}"></span>&nbsp;<span
+                      class="link-ico__white-text break-word">{{ attr.name }}</span></a></li>
+              {% endif %}
+              <li><a class="link-ico__white" href="#filter" title="Выбрать бренд техники"><span
+                    class="link-ico__ico met-ico-brend"></span>&nbsp;<span
+                    class="link-ico__white-text">Бренд техники</span></a></li>
+            </ul>
+          </div>
+          {% if photos or videos %}
+            <div>
+              <h3>Смотреть:</h3>
+              <ul>
+                {% if photos %}
+                  <li><a class="link-ico__white" href="#photo" title="Посмотреть фотографии"><span
+                        class="link-ico__ico met-ico-photo"></span>&nbsp;<span
+                        class="link-ico__white-text">Фото</span></a></li>
+                {% endif %}
+                {% if videos %}
+                  <li><a class="link-ico__white" href="#video" title="Посмотреть видео"><span
+                        class="link-ico__ico met-ico-video"></span>&nbsp;<span
+                        class="link-ico__white-text">Видео</span></a>
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+          {% endif %}
+        </nav>
+
+      </div>
+    </aside>
+  </section>
+
+  <!-- Секция с описанием модели -->
+  {% if subcat.has_description_content %}
+    <section class="model-description  wrap-pad-min wrap--row-to-column wrap-pad--mob--none">
+      <div class="model-description__left">
+        <h2>Описание</h2>
+          {% if subcat.has_description %}
+            {{ subcat.description|safe }}
+          {% endif %}
+        {% if subcat.has_design_features %}
+          <h3>{{ subcat.design_features_title }}:</h3>
+          {{ subcat.design_features|safe }}
+        {% endif %}
+      </div>
+      {% if subcat.has_construction_features %}
+        <aside>
+          <h3>Особенности конструкции</h3>
+          {{ subcat.construction_features|safe }}
+        </aside>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  <!-- Секция с характеристиками модели -->
+  {% if subcat.has_attributes_table %}
+    <section class="model-specifications  wrap-pad-min wrap--column wrap-pad--mob--none">
+      <div class="model-specifications__head">
+        <h2><span class="met-ico-gear"></span>&nbsp;<span>Характеристики</span></h2>
+      </div>
+      <div class="scrollbar-box__wrap">
+        <div class="scrollbar-box__container table-container">
+          {{ subcat.attributes_table|safe }}
+        </div>
+        <div class="scrollbar-backing"></div>
+        <div class="scrollbar">
+          <div class="thumb"></div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- Секция с фильтром -->
+  <section id="filter" class="filtr-section  wrap-pad-normal wrap--column wrap-pad--mob--none">
+    <div class="h2-description__wrap">
+      <h2>Выберите нужный параметр</h2>
+      <p>Для отображения имеющихся позиций оборудования выберите нужный вам параметр в фильтре</p>
+    </div>
+    <div class="filtr-block">
+      <div class="filtr-block__tabl">
+        {% if attr %}
+          <div class="filtr-block__column-left">
+            <div class="filtr-block__header">
+              <span class="filtr-block__ico {{ attr.icon_html }}"></span><span class="h4">{{ attr.get_name_filter }}</span>
+            </div>
+            <div class="filtr-block__filters">
+              {% for o in attr_options %}
+                <a href="#" data-attr="{{ attr.slug }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--d-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name|striptags }}">{{ o.name|safe }}</a>
+              {% endfor %}
+              {# <a href="#" data-attr="{{ attr.slug }}" class="js-filter-option btn-small btn--d-grey" title="до 1,2 т">до 1,2 т</a> #}
+            </div>
+          </div>
+        {% endif %}
+        <div class="filtr-block__column-brends">
+          <div class="filtr-block__header">
+            <span class="filtr-block__ico met-ico-brend"></span><span class="h4">Бренд техники</span>
+          </div>
+          <div class="filtr-block__filters ">
+            <div class="scrollbar-box__wrap">
+              <div id="scrollbar-box__container2" class="scrollbar-box__container2 ">
+                <div class="scrollbar-box__inner" id="scrollbar-box">
+                  {% for o in brand_options %}
+                    <a href="#" data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}">{{ o.name }}</a>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="scrollbar2">
+                <div class="thumb2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Кнопка сброса фильтра -->
+      <div class="section-footer">
+        <div class="section-footer__button-wr">
+          <button class="js-reset-filter reset-filter-button btn-midl btn--grey" type="submit" title="Сбросить параметры фильтра"><span
+              class="btn__ico met-ico-reset"></span>Сбросить&nbsp;фильтр</button>
+        </div>
+        <hr />
+      </div>
+    </div>
+
+    <div class="js-filter-products" id="products">
+      {% include 'include/products_container.html' %}
+    </div>
+  </section>
+
+  <!-- Секция с фотографиями оборудования -->
+  {% if photos %}
+    {% include 'include/catalog_photos.html' with photos=photos only %}
+  {% endif %}
+
+  <!-- Секция с видео оборудования -->
+  {% if videos %}
+    {% include 'include/catalog_videos.html' with videos=videos only %}
+  {% endif %}
+
+  <!-- Отдел продаж -->
+  <section id="managers-home" class="managers-home wrap-pad-min wrap--column wrap-pad--mob--none">
+    <div class="content-limited">
+      <form id="formmanager" class="form-callback form--whaite" method="post">
+        <header>
+          <h3>Если есть вопросы, отправьте заявку менеджер свяжется с вами</h3>
+        </header>
+        <main>
+
+          <div class="field-row">
+            <label class="field-label" for="name">Ваше имя</label>
+            <input class="field-input" id="name" autocomplete="on" type="text" name="name" value=""
+              size="0" />
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="phone">Телефон<sup>
+                <font color="#FF5C00"> *</font>
+              </sup></label>
+            <input class="field-input required" id="phone" autocomplete="on" type="tel" name="phone"
+              value="" size="0" placeholder="+7 (___) ___-__-__" minlength="1"
+              data-msg="Заполните поле Телефон" />
+
+          </div>
+
+          <div class="checkbox-row">
+            <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+              data-msg="Выбор этого пункта обязателен">
+            <label for="privacy">
+            </label>
+            <span class="checkbox-text small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
+                title="условия политики обработки персональных данных" target="_blank">условиями
+                политики</a>
+              обработки
+              персональных данных <sup>
+                <font color="#FF5C00"> *</font>
+              </sup>
+            </span>
+          </div>
+        </main>
+
+        <footer>
+          <button name="Submit" value="Отправить" type="submit" class="btn-big btn--orange"><span class="btn__ico  met-ico-circle-right
+"></span> Заказать звонок</button>
+        </footer>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    {% include 'js/filter.js' %}
+  </script>
+{% endblock %}

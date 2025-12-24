@@ -1,0 +1,387 @@
+{% extends 'html/_layout.html' %}
+{% load static %}
+
+{% block title %}Профиль пользователя{% endblock %}
+{% block meta_description %}Профиль пользователя{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Профиль пользователя{% endblock %}
+{% block og_description %}Профиль пользователя{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--subsection content-header--ordinary  wrap-pad-normal">
+    <nav class="content-header__nav">
+      <div class="content-header__leftbox-wr">
+        <a href="#" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+          <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+      </div>
+      <div class="bread-crumbs small-text">
+        <div>
+          <a href="#" title="На главную">Главная</a>&nbsp;<span>/</span><a href="#"
+            title="Перейти на главную страницу личного кабинета">Личный
+            кабинет</a>&nbsp;<span>/</span><span>Профиль</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="content-header__title-wr">
+      <h1>Профиль</h1>
+
+    </div>
+
+
+  </div>
+
+  <!-- Внутренняя навигация раздела -->
+  <div class="content-nav_wrap wrap-pad-normal wrap-pad--mob--min">
+    <nav class="content-nav">
+      <a href="#" title="Главная" class="content-nav__item">Главная</a>
+      <a href="#" title="Мои заказы" class="content-nav__item">Мои заказы</a>
+      <a href="#" title="Адрес доставки" class="content-nav__item">Адрес доставки</a>
+      <a href="#" title="Избранное" class="content-nav__item">Избранное</a>
+      <span class="content-nav__item content--nav--tem--select">Профиль</span>
+    </nav>
+
+    <div class="section-footer">
+      <hr />
+    </div>
+  </div>
+
+  <!-- Секция с данными профилями -->
+  <section class="wrap-pad-normal h--left wrap-pad--mob--min wrap--column" style="padding-top: 0;">
+
+    <h2>Контакты владельца аккаунта</h2>
+    <!-- Блок с данными владельца аккаунта -->
+    <div class="block-data">
+
+      <div for="address1" class="block-data__content">
+
+        <div class="block-data__body grid-owner-contacts">
+
+          <!-- Аватар  -->
+          <div class="block-data__avatar">
+            <div class="avatar">
+              <div class="avatar-wrap">
+                <img class="img-avatar" src="/images/account/avatar-default.jpg" />
+              </div>
+            </div>
+            <button class="btn-border light--bgrnd" aria-label="Удалить" title="Сменить аватар"><span
+                class="h4">+</span></button>
+          </div>
+
+          <!-- Фамлия -->
+          <dl>
+            <dt>Фамилия</dt>
+            <dd class="data_editable">
+              <span class="h3 font--bold data_editable-text">Петров</span>
+              <input type="text" class="h3 font--bold data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!-- Имя -->
+          <dl>
+            <dt>Имя</dt>
+            <dd class="data_editable">
+              <span class="h3 font--bold data_editable-text">Евгений</span>
+              <input type="text" class="h3 font--bold data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!-- Отчество -->
+          <dl>
+            <dt>Отчество</dt>
+            <dd class="data_editable">
+              <span class="h3 font--bold data_editable-text">Вадимович</span>
+              <input type="text" class="h3 font--bold data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!-- Контактный телефон -->
+          <dl>
+            <dt>Контактный телефон</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">+7 960 845-34-78</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!-- Контактный телефон -->
+          <dl>
+            <dt>Email</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">petrovich@gmail.com</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+        </div>
+      </div>
+    </div>
+
+    <h2>Способы оплаты</h2>
+    <!-- Блок с данными оплата картой-->
+    <div class="block-data">
+      <input type="radio" name="pay" id="card" value="card" hidden checked="">
+      <label for="card" class="block-data__content">
+        <div class="block-data__control">
+          <div class="block-data__left">
+            <div class="button-switch"></div>
+            <h3>Онлайн оплата банковской картой</h3>
+          </div>
+          <div class="block-btn-right">
+            <button class="btn-border dark--bgrnd" aria-label="Удалить"><span
+                class="met-ico-close-b"></span></button>
+          </div>
+        </div>
+        <div class="block-data__body grid-container grid--column--4to1">
+
+          <!--  Карта - 1  -->
+          <div class="block-сard card--profile ">
+            <input type="radio" name="cards" id="card1" value="card1" hidden checked="">
+
+            <label for="card1" class="block-сard__wrap">
+              <div class="block-сard__in">
+                <div class="line">**4576 09/24</div>
+                <div class="block-сard__bottom">
+                  <div class="block-сard__selector">
+                    <div class="button-selector"></div>
+                    <span class="select-info small-text">основной способ оплаты</span>
+                    <span class="deselect-info  small-text">сделать основной</span>
+                  </div>
+                  <div class="logo-card"><img src="/images/account/logo-masterard.svg"
+                      alt="Логотип карты" />
+                  </div>
+                </div>
+              </div>
+            </label>
+            <button class="data_editcard-btn"><span class="met-ico-edit"></span></button>
+          </div>
+
+          <!--  Карта - 2  -->
+          <div class="block-сard card--profile">
+            <input type="radio" name="cards" id="card2" value="card2" hidden>
+
+            <label for="card2" class="block-сard__wrap">
+              <div class="block-сard__in">
+                <div class="line">**6833 12/23</div>
+                <div class="block-сard__bottom">
+                  <div class="block-сard__selector">
+                    <div class="button-selector"></div>
+                    <span class="select-info  small-text">основной способ оплаты</span>
+                    <span class="deselect-info  small-text">сделать основной</span>
+                  </div>
+
+                  <div class="logo-card"><img src="/images/account/logo-mir.svg" alt="Логотип карты" />
+                  </div>
+                </div>
+              </div>
+            </label>
+            <button class="data_editcard-btn"><span class="met-ico-edit"></span></button>
+          </div>
+          <!--  Карта - добавить  -->
+          <div class="block-сard card--add">
+            <div class="block-сard__wrap">
+              <div class="block-сard__in">
+                <div class="line"><span>добавить карту</span></div>
+                <div class="block-сard__bottom">
+                  <span class="btn-border"><span class="h4">+</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </label>
+    </div>
+
+    <!-- Блок с данными безналичная оплата  -->
+    <div class="block-data">
+      <input type="radio" name="pay" id="noncash" value="noncash" hidden>
+      <label for="noncash" class="block-data__content">
+        <div class="block-data__control">
+          <div class="block-data__left">
+            <div class="button-switch"></div>
+            <h3>Безналичная оплата для юридических лиц</h3>
+          </div>
+          <div class="block-btn-right">
+            <button class="btn-border dark--bgrnd" aria-label="Удалить"><span
+                class="met-ico-close-b"></span></button>
+          </div>
+        </div>
+        <div class="block-data__body grid-container grid--column--4to1">
+
+          <!--  Название организации  -->
+          <dl>
+            <dt>Название организации</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">Индивидуальный предприниматель Петров Евгений
+                Вадимович</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!--  Страна регистрации  -->
+          <dl>
+            <dt>Страна регистрации</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">Российская Федерация</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!--  ИНН организации -->
+          <dl>
+            <dt>ИНН организации</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">7627032221</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!--  КПП организации -->
+          <dl>
+            <dt>КПП организации</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">762701004</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+
+          <!--  Юридический адрес -->
+          <dl>
+            <dt>Юридический адрес</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">170010, Ленинградская область, г. Хмычи, ул. Мамонова, дом
+                2В</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+
+          <!--  Почтовый адрес -->
+          <dl>
+            <dt>Почтовый адрес</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">170010, Ленинградская область, г. Хмычи, ул. Мамонова, дом
+                2В</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+
+          <!--  Контактное лицо -->
+          <dl>
+            <dt>Контактное лицо</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">Петров Евгений Вадимович</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!--  Телефон -->
+          <dl>
+            <dt>Телефон</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">+7 960 845-34-78</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <!--  Email бухгалтера -->
+          <dl>
+            <dt>Email бухгалтера</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">petrovna@gmail.com</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <div>
+          </div>
+          <div>
+          </div>
+
+        </div>
+      </label>
+    </div>
+
+    <!-- Блок с данными Оплата при получении  -->
+    <div class="block-data">
+
+
+
+      <input type="radio" name="pay" id="uponreceipt" value="uponreceipt" hidden>
+      <label for="uponreceipt" class="block-data__content">
+        <div class="block-data__control">
+          <div class="block-data__left">
+            <div class="button-switch"></div>
+            <h3>Оплата при получении</h3>
+          </div>
+          <div class="block-btn-right">
+            <button class="btn-border dark--bgrnd" aria-label="Удалить"><span
+                class="met-ico-close-b"></span></button>
+          </div>
+        </div>
+        <div class="block-data__body grid-container grid--column--3to1">
+
+          <!--  Оплата при получении  -->
+          <p>
+            Вы можете оплатить вашу покупку наличными или картой при получении заказа
+          </p>
+
+          <div>
+          </div>
+          <div>
+          </div>
+
+        </div>
+      </label>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends '_base.html' %}
+
+{% block scripts %}
+  <!-- Плеер -->
+  <script src='/js/playerjs.js' type='text/javascript'></script>
+  <script type="text/javascript">
+  var player = new Playerjs({ replace: "video" });
+  </script>
+{% endblock %}

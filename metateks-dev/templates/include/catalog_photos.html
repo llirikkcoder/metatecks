@@ -1,0 +1,19 @@
+<section id="photo" class="wrap-pad-normal wrap--column  wrap-pad--mob--none">
+  <h2>Фотографии оборудования</h2>
+  <div class="media-catalog__photo-gal grid-container grid--gap--same grid--column--2to1">
+    {% for photo in photos %}
+      <a href="{{ photo.photo_big_url }}" title="Фото {{ forloop.counter }}" target="_blank"
+        data-fancybox="gallery">
+        <img src="{{ photo.photo_thumb_url }}" alt="Фото {{ forloop.counter }}">
+      </a>
+    {% endfor %}
+  </div>
+  {% comment %}
+    <div class="section-footer  wrap-pad--mob--none">
+      <a href="#" class="btn-more-large" title="показать еще"><span
+          class="met-ico-button-right"></span>
+        <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+      <hr />
+    </div>
+  {% endcomment %}
+</section>

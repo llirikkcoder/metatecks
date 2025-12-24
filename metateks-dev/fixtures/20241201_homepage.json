@@ -1,0 +1,206 @@
+[
+{
+    "model": "content.homepage",
+    "pk": 1,
+    "fields": {
+        "page_title": "Производитель навесного оборудования для&nbsp;спецтехники",
+        "about_title": "О компании",
+        "about_photo": "homepage/about/Photo-about-151.jpg",
+        "about_text": "<p>Основное направление деятельности компании Метатэкс&nbsp;&mdash; производство навесного оборудования для&nbsp;строительной и&nbsp;коммунальной техники. В&nbsp;наших цехах производится более 100&nbsp;модификаций навесного оборудования для&nbsp;более чем 3000&nbsp;моделей специальной техники.</p>",
+        "advantages_title": "Наши преимущества",
+        "news_title": "Новости",
+        "news_text": "События и&nbsp;новости компании Метатэкс. Анонсы новых разработок наших инженеров и&nbsp;репортажи с&nbsp;испытаний нашего оборудования.",
+        "articles_title": "Статьи",
+        "articles_text": "Здесь вы&nbsp;найдете всестороннюю техническую информацию о&nbsp;навесном оборудовании Метатэкс. А&nbsp;также в&nbsp;разделе мы&nbsp;публикуем полезные советы и&nbsp;рекомендации для&nbsp;эффективной работы с&nbsp;навеской.",
+        "photo_title": "Фото",
+        "photo_text": "В разделе фотогалереи вы&nbsp;сможете заглянуть внутрь производственных процессов и&nbsp;увидеть, как мы&nbsp;работаем. Это&nbsp;позволит вам лучше понять нашу компанию и&nbsp;то, как&nbsp;создается наше навесное оборудование.",
+        "video_title": "Видео",
+        "video_text": "В видеогалерее можно увидеть наше навесное оборудование в&nbsp;действии. В&nbsp;роликах показано, как&nbsp;продукция Метатэкс может сделать вашу работу легче и&nbsp;эффективней.",
+        "delivery_title": "Доставка по&nbsp;России со&nbsp;складов<br />Московской области",
+        "sales_title": "Отдел продаж",
+        "sales_text": "Чтобы заказать товар, свяжитесь с отделом продаж"
+    }
+},
+{
+    "model": "content.homepagefact",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "icon": "storage",
+        "text_large": "60%",
+        "text": "товаров в&nbsp;наличии на&nbsp;складе",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepagefact",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "icon": "productions",
+        "text_large": "",
+        "text": "Напрямую с&nbsp;завода без&nbsp;посредников",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepageadvantage",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "icon": "buro",
+        "text": "Конструкторское\r\nбюро",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepageadvantage",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "icon": "testing",
+        "text": "Испытательная\r\nбаза",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepageadvantage",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "icon": "production",
+        "text": "Собственное\r\nпроизводство",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepageadvantage",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "icon": "storage",
+        "text": "Продукция в наличии\r\nна складе",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepageadvantage",
+    "pk": 5,
+    "fields": {
+        "base": 1,
+        "icon": "compatibility",
+        "text": "Совместимость\r\nс разной техникой",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepageadvantage",
+    "pk": 6,
+    "fields": {
+        "base": 1,
+        "icon": "delivery",
+        "text": "Доставка\r\nпо всей России",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepagewarehouse",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "photo": "homepage/warehouses/storage-1_3801.jpg",
+        "name": "Cклад-магазин Метатэкс на&nbsp;се­вере Москвы",
+        "subtitle": "Оператор площадки — компания «Вивогрупп»",
+        "address": "г.&nbsp;Москва, Ленинградское шоссе, д.&nbsp;261, строение&nbsp;5",
+        "schedule": "Пн-Пт 09:00-18:00 (по&nbsp;московскому времени)",
+        "phone": "+7&nbsp;499&nbsp;964-41-12",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepagewarehouse",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "photo": "homepage/warehouses/storage-2_3801.jpg",
+        "name": "Cклад-магазин Метатэкс на&nbsp;юге Москвы",
+        "subtitle": "ООО&nbsp;«Горснаб­проект»",
+        "address": "г. Москва, ул.&nbsp;Головачёва д.&nbsp;2а, территория ССК&nbsp;ВОО",
+        "schedule": "Пн-Пт 09:00-18:00 (по&nbsp;московскому времени)",
+        "phone": "+7&nbsp;495&nbsp;961-59-10",
+        "order": 1
+    }
+},
+{
+    "model": "content.homepagesalesphone",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "phone": "+7 495 748-99-98",
+        "is_free": false,
+        "order": 1
+    }
+},
+{
+    "model": "content.homepagesalesphone",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "phone": "8 800 222-54-32",
+        "is_free": true,
+        "order": 1
+    }
+},
+{
+    "model": "content.homepagesalesmanager",
+    "pk": 1,
+    "fields": {
+        "base": 1,
+        "name": "Максим",
+        "name_dative": "Максиму",
+        "photo": "homepage/managers/Максим2.jpg",
+        "phone": "+7 903 758-46-18",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.homepagesalesmanager",
+    "pk": 2,
+    "fields": {
+        "base": 1,
+        "name": "Алексей",
+        "name_dative": "Алексею",
+        "photo": "homepage/managers/alex.jpg",
+        "phone": "+7 925 133-75-87",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.homepagesalesmanager",
+    "pk": 3,
+    "fields": {
+        "base": 1,
+        "name": "Христина",
+        "name_dative": "Христине",
+        "photo": "homepage/managers/Христина.jpg",
+        "phone": "+7 926 617-84-25",
+        "order": 1,
+        "is_shown": true
+    }
+},
+{
+    "model": "content.homepagesalesmanager",
+    "pk": 4,
+    "fields": {
+        "base": 1,
+        "name": "Степан",
+        "name_dative": "Степану",
+        "photo": "homepage/managers/Степан_2.jpg",
+        "phone": "+7 926 012-98-53",
+        "order": 1,
+        "is_shown": true
+    }
+}
+]

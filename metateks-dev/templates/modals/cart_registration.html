@@ -1,0 +1,60 @@
+<!-- Корзина: модальное окно "Регистрация на сайте" -->
+<div id="cart-registration" class="modal modal-v2">
+
+  <header>
+    <h3>Регистрация на сайте</h3>
+  </header>
+
+  <form id="cartRegistrationForm" class="js-cart-auth-form form-callback form--whaite" method="post" action="{% url 'api:auth:registration' %}">
+    <main>
+      <p>Для оформления заказа войдите на сайт или зарегистрируйтесь.</p>
+      <div class="error-messages" style="display: none;"></div>
+      <div class="field-row">
+        <label class="field-label" for="cartRegFirstName">Имя<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input" id="cartRegFirstName" required type="text" name="first_name" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="cartRegPatronymicName">Отчество</label>
+        <input class="field-input" id="cartRegPatronymicName" type="text" name="partonymic_name" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="cartRegLastName">Фамилия</label>
+        <input class="field-input" id="cartRegLastName" type="text" name="last_name" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="cartRegEmail">Почта<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input required" id="cartRegEmail" required autocomplete="on" type="email" name="email" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="cartRegPhone">Телефон</label>
+        <input class="field-input" id="cartRegPhone" autocomplete="on" type="tel" name="phone" value="" size="0"
+          placeholder="+7 (___) ___-__-__"/>
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="cartRegPassword">Пароль<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input required" id="cartRegPassword" required type="password" name="password" size="0"/>
+      </div>
+      <div class="checkbox-row">
+        <input class="checkbox required" id="cartRegPrivacy" required type="checkbox" name="flag" data-msg="Выбор этого пункта обязателен">
+        <label for="cartRegPrivacy">
+          <span class="small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
+              title="условия политики обработки персональных данных" target="_blank">условиями политики</a>
+            обработки
+            персональных данных <sup>
+              <font color="#FF5C00"> *</font>
+            </sup>
+          </span>
+        </label>
+      </div>
+    </main>
+
+    <footer>
+      <div class="modal-footer__left">
+        <span class="small-text">У вас уже есть аккаунт?</span>
+        <a href="#cart-login" rel="modal:open" title="Вход на сайт">Войти на сайт</a>
+      </div>
+      <button name="Submit" value="Создать аккаунт" type="submit" class="btn-midl btn--orange"> <span class="btn__ico  met-ico-circle-right"></span> Создать аккаунт</button>
+    </footer>
+  </form>
+
+</div>

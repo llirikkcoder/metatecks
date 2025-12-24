@@ -1,0 +1,82 @@
+{% extends '_base.html' %}
+{% load base_tags static %}
+
+{% block title %}{{ seo_settings.articles.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ seo_settings.articles.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ seo_settings.articles.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ seo_settings.articles.get_meta_title }}{% endblock %}
+{% block og_description %}{{ seo_settings.articles.get_meta_desc }}{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section  wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>{{ seo_settings.articles.get_h1|safe }}</h1>
+    </div>
+    {% if seo_settings.articles.header_text %}
+      <p class="content-header__descr">{{ seo_settings.articles.get_header_text|safe|linebreaksbr }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Секция со списком статей -->
+  <section class="section-aside  wrap-pad-normal  wrap-pad--mob--min" style="padding-top: 0;">
+    <div class="section-aside__left">
+      <div class="section-aside__left__wrap grid-container grid--column--2to1-mob grid--gap--same">
+        {% for post in items %}
+          <div class="anons-block">
+            <a href="{{ post.get_absolute_url }}" class="anons-block__left" title="Перейти к статье">
+              <img src="{{ post.cover_thumb_url }}" />
+            </a>
+            <div class="anons-block__right">
+              <div class="anons-block__top">
+                <a href="{{ post.get_absolute_url }}" class="anons-block__title"><h4>{{ post.title|safe }}</h4></a>
+                {% if post.short_description %}<p>{{ post.short_description|safe|linebreaksbr }}</p>{% endif %}
+              </div>
+              <div class="anons-block__bottom">
+                <i class="small-text">
+                  {% for cat in post.categories.all %}
+                    <a href="{{ cat.get_absolute_url }}" title="Статьи по теме #{{ cat }}">#{{ cat }}</a>
+                  {% endfor %}
+                </i>
+                <a href="{{ post.get_absolute_url }}" title="Читать статью" class="btn-more"><span class="met-ico-button-right"></span><span class="font--uppercase small-text">перейти к статье</span></a>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p>Статьи по данному запросу не найдены</p>
+        {% endfor %}
+      </div>
+      {% comment %}
+      <!-- блок показать еще -->
+      <div class="section-footer">
+        <a href="#" class="btn-more-large" title="загрузить еще статей"><span
+            class="met-ico-button-right"></span>
+          <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+        <hr />
+      </div>
+      <!-- Конец блока показать еще -->
+      {% endcomment %}
+    </div>
+
+    <aside class="aside-sidebar">
+      <div class="aside-sidebar__wrap">
+        <!-- Навигация по рубрикам -->
+        <nav class="nav-categories">
+          <a href="{% url 'articles:home' %}" class="btn-small btn--l-grey{% if not active_category %} btn--filtr--select{% endif %}">Все темы</a>
+          {% for cat in categories %}
+            <a href="{% if active_category == cat %}{% url 'articles:home' %}{% else %}{{ cat.get_absolute_url }}{% endif %}" class="btn-small btn--l-grey{% if active_category == cat %} btn--filtr--select{% endif %}">{{ cat }}</a>
+          {% endfor %}
+        </nav>
+
+        {% if banner %}
+          <a href="{{ banner.link }}"{% if banner.button_text %} title="{{ banner.button_text }}"{% endif %} target="_blank" class="banner-stock">
+            <img src="{{ banner.image_430_url }}" />
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="sidebar-toggle">Категории</div>
+    </aside>
+  </section>
+{% endblock %}

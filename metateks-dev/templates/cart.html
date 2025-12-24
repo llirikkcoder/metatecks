@@ -1,0 +1,587 @@
+{% extends '_base.html' %}
+{% load base_tags static %}
+
+{% block title %}Корзина товаров{% endblock %}
+{% block meta_description %}Корзина товаров{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Корзина товаров{% endblock %}
+{% block og_description %}Корзина товаров{% endblock %}
+
+{% block head_scripts %}
+  <script src="{% static 'js/script_metateks_cart.js' %}?v=0006"></script>
+{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div id="header" class="content-header content-header--section wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>Корзина</h1>
+    </div>
+    <p class="content-header__descr">Просмотрите выбранные товары, измените их&nbsp;количество или удалите ненужные. Когда&nbsp;будете готовы, оформите заказ.
+    </p>
+  </div>
+
+  <!-- Секция с заказа в корзине -->
+  <section id="js-cart-container" class="sidebar-block wrap-pad-normal wrap-pad--mob--min wrap--row-to-column" style="padding-top: 0;">
+    <div class="sidebar-block__left ">
+
+      <!-- Блок с заказом -->
+      <div class="block-cart wrap--column">
+
+        <div class="block-cart__control">
+          <div class="block-cart__control__left">
+            <input type="checkbox" id="selectAll" class="select-all"{% if is_everything_enabled %} checked{% endif %} hidden>
+            <label for="selectAll" class="small-text checkbox-cart">
+              <div class="button-switch"></div> Выбрать все
+            </label>
+          </div>
+          <div class="block-btn-right">
+            <button class="btn-border-full dark--bgrnd" id="js-clear-cart" aria-label="очистить корзину">
+              <span>очистить корзину</span>
+              <span class="met-ico-close-b"></span></button>
+          </div>
+        </div>
+
+        {% for item in products %}
+        {% with item.product as product %}
+          <div class="js-cart-product-container" data-product-id="{{ product.id }}">
+
+            <div class="block-cart-row js-cart-item" data-item-type="product" data-product-id="{{ product.id }}">
+              <input type="checkbox" id="item{{ product.id }}" class="item-checkbox"
+                data-item-type="product" data-product-id="{{ product.id }}"
+                {% if item.is_enabled %} checked{% endif %}
+                hidden
+              >
+              <label for="item{{ product.id }}" class="checkbox-cart">
+                <div class="button-switch"></div>
+              </label>
+
+              <div class="block-product">
+                <div class="block-product__left">
+                  <a href="{{ product.get_absolute_url }}" target="_blank" title="Перейти к товару" class="order-product-imgblock">
+                    <div class="order-product-imgblock__wrap">
+                      <div class="order-product-imgblock__in">
+                        {% if product.get_photo %}
+                          <img src="{{ product.list_photo_url }}" alt="{{ product.name }}" />
+                        {% else %}
+                          <img src="{{ item.sub_category.product_photo_url }}" alt="{{ product.name }}" />
+                        {% endif %}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="block-product__right">
+                  <div class="block-product__head">
+                    <div class="order-product-title">
+                      <span class="font--bold">{{ item.product }}</span>
+                      <span class="small-text">{{ item.category.get_name_product|safe }}</span>
+                    </div>
+                    <div class="block-btn-right">
+                      <button class="btn-border dark--bgrnd js-remove-item" data-item-type="extra" aria-label="Удалить">
+                        <span class="met-ico-close-b"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="block-product__bottom block--product--quantity">
+                    <div class="quantity-block">
+                      <i class="quantity-block__head">Количество</i>
+                      <div class="quantity-block__control">
+                        <button class="btn-decrease btn-border dark--bgrnd"
+                          aria-label="Уменьшить количество">-</button>
+                        <i><span class="quantity">{{ item.quantity }}</span>&nbsp;<span>шт.</span></i>
+                        <button class="btn-increase btn-border dark--bgrnd"
+                          aria-label="Увеличить количество">+</button>
+                      </div>
+                    </div>
+                    <span class="cart-product-price" style="display: none;">{{ item.price|format_number }} ₽</span>
+                    <span class="h4 font--light text--nowrap cart-product-cost">{{ item.cost|format_number }} ₽</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% for extra in item.extra %}
+            {% with extra.extra_product as extra_p %}
+              <div class="block-cart-row js-cart-item"
+                   data-item-type="extra" data-product-id="{{ product.id }}" data-extra-id="{{ extra_p.id }}">
+
+                <input type="checkbox" id="item{{ product.id }}_{{ extra_p.id }}" class="item-checkbox"
+                  data-item-type="extra" data-product-id="{{ product.id }}" data-extra-id="{{ extra_p.id }}"
+                  {% if item.is_enabled and extra.is_enabled %} checked{% endif %}
+                  hidden
+                >
+                <label for="item{{ product.id }}_{{ extra_p.id }}" class="checkbox-cart">
+                  <div class="button-switch"></div>
+                </label>
+                <div class="block-product">
+                  <div class="block-product__left">
+                    <div class="order-product-imgblock__wrap">
+                      <div class="order-product-imgblock__in">
+                        <img src="/images/account/option-485.jpg" alt="Фото доп.товара" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="block-product__right">
+                    <div class="block-product__head">
+                      <div class="order-product-title">
+                        <span class="font--bold">{{ extra_p }}</span>
+                        <span class="small-text">{{ item.category.get_name_product|safe }}</span>
+                      </div>
+                      <div class="block-btn-right">
+                        <button class="btn-border dark--bgrnd js-remove-item" data-item-type="extra" aria-label="Удалить">
+                          <span class="met-ico-close-b"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="block-product__bottom block--product--quantity">
+                      <div class="quantity-block">
+                        <i class="quantity-block__head">Количество</i>
+                        <div class="quantity-block__control">
+                          <button class="btn-decrease btn-border dark--bgrnd"
+                            aria-label="Уменьшить количество">-</button>
+                          <i><span class="quantity">{{ extra.quantity }}</span>&nbsp;<span>шт.</span></i>
+                          <button class="btn-increase btn-border dark--bgrnd"
+                            aria-label="Увеличить количество">+</button>
+                        </div>
+                      </div>
+                      <span class="cart-product-price" style="display: none;">{{ extra.price|format_number }} ₽</span>
+                      <span class="h4 font--light text--nowrap cart-product-cost">{{ extra.cost|format_number }} ₽</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endwith %}
+            {% endfor %}
+          </div>
+
+        {% endwith %}
+        {% empty %}
+          <div id="js-cart-empty" class="item-info-empty">
+            <span class="ico-info">i</span> <i>Вы ещё не добавили товары. Перейдите <a href="{% url 'catalog:home' %}" title="Перейти в каталог навесного оборудования">в каталог</a>, чтобы выбрать подходящее оборудование</i>
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- Секция с формами личного кабинета для незарегистрированного пользователя -->
+      <section>
+        <h2 id="delivery">Способы доставки</h2>
+        <!-- Блок с данными о доставке -->
+        <!-- Самовывоз-->
+        <div class="block-data">
+          <input type="radio" name="delivery" id="delivery1" value="pickup"{% if delivery_method == 'pickup' %} checked{% endif %} data-label="Самовывоз" hidden>
+          <label for="delivery1" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Самовывоз</h3>
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Транспортом Метатэкс -->
+        <div class="block-data">
+          <input type="radio" name="delivery" id="delivery2" value="metateks"{% if delivery_method == 'metateks' %} checked{% endif %} data-label="Транспортом Метатэкс" hidden>
+          <label for="delivery2" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Транспортом Метатэкс</h3>
+              </div>
+            </div>
+            <div class="block-data__info">
+              <p>Доставка осуществляется по&nbsp;Москве, Московской, Ярославской, Владимирской
+                и&nbsp;Тверской
+                областям</p>
+            </div>
+          </label>
+        </div>
+
+        <!-- Транспортной компанией -->
+        <div class="block-data">
+          <input type="radio" name="delivery" id="delivery3" value="company"{% if delivery_method == 'company' %} checked{% endif %} data-label="Транспортной компанией" hidden>
+          <label for="delivery3" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Транспортной компанией</h3>
+              </div>
+            </div>
+            <div class="block-data__info">
+              <p>Вы&nbsp;можете выбрать удобную вам транспортную компанию из&nbsp;списка, которая доставит
+                груз
+                по&nbsp;всей территории России. Наше оборудование&nbsp;Вы можете получить
+                в&nbsp;терминалах
+                соответствующей компании</p>
+
+              <!-- Выбор транспортных компаний  -->
+              <div class="block-select-trcompany grid-container grid--column--5to2">
+                {% for c in delivery_companies %}
+                  <input type="radio" name="trcompany" id="tk{{c.id}}" value="{{ c.id }}"{% if not delivery_company and forloop.first %} checked{% elif delivery_company == c.id %} checked{% endif %} data-label="{{ c.name }}" hidden />
+                  <label for="tk{{c.id}}" class="block-trcompany">
+                    <div class="trcompany-logo">
+                      <div class="trcompany-logo__in">
+                        <img src="{{ c.logo.url }}" alt="Лого {{ c.name }}" />
+                      </div>
+                    </div>
+                    <div class="button-switch_in"></div>
+                  </label>
+                {% endfor %}
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="toggle-block-address"{% if delivery_method == 'pickup' %} style="display: none"{% endif %}>
+          <h2 id="address">Адрес доставки</h2>
+          <div class="block-data">
+            <div class="block-data__content">
+              <div class="block-data__info">
+                <p>Укажите адрес, куда доставить заказ</p>
+                <form id="addressForm" class="form--whaite" method="post" action="{% url 'api:order:set-delivery-data' %}">
+                  <div class="error-messages" style="display: none;"></div>
+                  <div class="field-row">
+                    <label class="field-label" for="region">Область <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="region" name="region" value="{{ delivery_data|get_item_str:'region' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="city">Город <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="city" name="city" value="{{ delivery_data|get_item_str:'city' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="address">Улица / дом / (офис, квартира) <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="address" name="address" value="{{ delivery_data|get_item_str:'address' }}" required>
+                  </div>
+                  <div class="block-buttons-double">
+                    {% comment %}
+                      <a href="#chaddress" rel="modal:open" title="Выбрать другой адрес" class="save-button btn-change">
+                        <span class="btn__ico met-ico-edit"></span>
+                        <span>Выбрать другой адрес</span>
+                      </a>
+                    {% endcomment %}
+                    <button type="submit" class="save-button btn-save">
+                      <span class="btn__ico met-ico-accept"></span>
+                      <span>Сохранить</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 id="person">Контактное лицо</h2>
+        <!-- Блок с данными контактного лица -->
+
+        <div class="block-data">
+          <div class="block-data__content">
+            <div class="block-data__info">
+              <form id="userForm" class="form--whaite" method="post" action="{% url 'api:order:set-contacts-data' %}">
+                <div class="error-messages" style="display: none;"></div>
+                <div class="field-row">
+                  <label class="field-label" for="first_name">Имя <sup><font color="#FF5C00"> *</font></sup></label>
+                  <input class="field-input" type="text" id="first_name" name="first_name" value="{{ contacts_data|get_item_str:'first_name' }}" required>
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="first_name">Отчество</label>
+                  <input class="field-input" type="text" id="patronymic_name" name="patronymic_name" value="{{ contacts_data|get_item_str:'patronymic_name' }}">
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="last_name">Фамилия <sup><font color="#FF5C00"> *</font></sup></label>
+                  <input class="field-input" type="text" id="last_name" name="last_name" value="{{ contacts_data|get_item_str:'last_name' }}" required>
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="phone">Телефон <sup><font color="#FF5C00"> *</font></sup></label>
+                  <input class="field-input" type="text" id="phone" name="phone" placeholder="+7 (___) ___-__-__" value="{{ contacts_data|get_item_str:'phone' }}" required>
+                </div>
+
+                <div class="checkbox-row">
+                  <input class="checkbox required" id="privacyperson" type="checkbox" name="flagperson" data-msg="Выбор этого пункта обязателен" checked required>
+                  <label for="privacyperson"></label>
+                  <span class="checkbox-text small-text">Ознакомлен и согласен с <a
+                      href="/privacy_policy/" title="условия политики обработки персональных данных"
+                      target="_blank">условиями
+                      политики</a> обработки персональных данных <sup>
+                      <font color="#FF5C00"> *</font>
+                    </sup>
+                  </span>
+                </div>
+                <button type="submit" class="save-button btn-save"><span
+                    class="btn__ico  met-ico-accept"></span>
+                  <span>Сохранить</span></button>
+                {# <div id="errorMessage" class="error-message" style="display: none;"></div> #}
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <h2 id="payment">Методы оплаты</h2>
+        <!-- Блок с данными методов оплаты -->
+        <!-- Онлайн оплата банковской картой-->
+        <div class="block-data">
+          <input type="radio" name="payment" id="online" value="online"{% if payment_method == 'online' %} checked{% endif %} data-label="Оплата онлайн" hidden>
+          <label for="online" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Онлайн оплата банковской картой</h3>
+              </div>
+            </div>
+            <div class="block-data__info">
+              <form id="paymentCardForm" class="form--whaite js-payment-form" method="post" action="{% url 'api:order:set-payment-card-data' %}">
+                <div class="error-messages" style="display: none;"></div>
+                <div class="field-row">
+                  <label class="field-label" for="card_number">Номер карты <sup><font color="#FF5C00"> *</font></sup></label>
+                  <input class="field-input" type="text" id="card_number" name="card_number"
+                    placeholder="0000 0000 0000 0000" value="{{ card_data|get_item_str:'card_number' }}"{% if card_data %} disabled{% endif %} required>
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="card_name">Имя на карте <sup><font color="#FF5C00"> *</font></sup></label>
+                  <input class="field-input" type="text" id="card_name" name="card_name"
+                    placeholder="IVAN PETROV" value="{{ card_data|get_item_str:'card_name' }}"{% if card_data %} disabled{% endif %} required>
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="card_expire">Срок действия <sup><font color="#FF5C00"> *</font></sup></label>
+                  <input class="field-input" type="text" id="card_expire" name="card_expire"
+                    placeholder="MM/YY" value="{{ card_data|get_item_str:'card_expire' }}"{% if card_data %} disabled{% endif %} required>
+                </div>
+                <div class="field-row">
+                  <label class="field-label" for="card_cvv">CVV <sup><font color="#FF5C00"> *</font></sup></label>
+                  <input class="field-input" type="password" id="card_cvv" name="card_cvv" placeholder="***" value="{{ card_data|get_item_str:'card_cvv' }}"{% if card_data %} disabled{% endif %} required>
+                </div>
+                <button type="submit" class="save-button btn-save{% if card_data %} js-disabled{% endif %}">
+                  <span class="btn__ico met-ico-accept"></span>
+                  <span class="js-button-label">{% if card_data %}Добавить другую карту{% else %}Сохранить{% endif %}</span>
+                </button>
+                {# <div id="errorMessagePay" class="error-message" style=" display: none;"></div> #}
+              </form>
+            </div>
+          </label>
+        </div>
+
+        <!-- Безналичная оплата для юридических лиц -->
+        <div class="block-data">
+          <input type="radio" name="payment" id="non_cash" value="non_cash"{% if payment_method == 'non_cash' %} checked{% endif %} data-label="Безналичная оплата" hidden>
+          <label for="non_cash" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Безналичная оплата для&nbsp;юридических лиц</h3>
+              </div>
+            </div>
+            <div class="block-data__info">
+
+              <!-- Форма для безналичного расчета -->
+              <form id="paymentNoncashForm" class="form--whaite js-payment-form js-field-errors-prepend" method="post" action="{% url 'api:order:set-payment-cashless-data' %}">
+                <div class="error-messages" style="display: none;"></div>
+                <div class="grid-container grid--column--3to2to1">
+                  <div class="field-row">
+                    <label class="field-label" for="organization">Название организации <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="organization" name="organization" value="{{ cashless_data|get_item_str:'organization' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="jur_address">Юридический адрес <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="jur_address" name="jur_address" value="{{ cashless_data|get_item_str:'jur_address' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="jur_phone">Телефон <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="jur_phone" name="jur_phone" data-mask="phone" placeholder="+7 (___) ___-__-__" value="{{ cashless_data|get_item_str:'jur_phone' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="jur_email">E-mail <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="jur_email" name="jur_email" value="{{ cashless_data|get_item_str:'jur_email' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="inn">ИНН <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="inn" name="inn" value="{{ cashless_data|get_item_str:'inn' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="kpp">КПП <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="kpp" name="kpp" value="{{ cashless_data|get_item_str:'kpp' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="ogrn">ОГРН <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="ogrn" name="ogrn" value="{{ cashless_data|get_item_str:'ogrn' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="account">Р/С <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="account" name="account" value="{{ cashless_data|get_item_str:'account' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="bank">Банк <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="bank" name="bank" value="{{ cashless_data|get_item_str:'bank' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="bik">БИК <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="bik" name="bik" value="{{ cashless_data|get_item_str:'bik' }}" required>
+                  </div>
+                  <div class="field-row">
+                    <label class="field-label" for="director">Генеральный директор <sup><font color="#FF5C00"> *</font></sup></label>
+                    <input class="field-input" type="text" id="director" name="director" value="{{ cashless_data|get_item_str:'director' }}" required>
+                  </div>
+                </div>
+                <button type="submit" class="save-button btn-save">
+                  <span class="btn__ico  met-ico-accept"></span>
+                  <span>Сохранить</span>
+                </button>
+              </form>
+            </div>
+          </label>
+        </div>
+
+        <!-- Оплата при получении -->
+        <div class="block-data">
+          <input type="radio" name="payment" id="on_receipt" value="on_receipt"{% if payment_method == 'on_receipt' %} checked{% endif %} data-label="Оплата при получении" hidden>
+          <label for="on_receipt" class="block-data__content">
+            <div class="block-data__control">
+              <div class="block-data__left">
+                <div class="button-switch"></div>
+                <h3>Оплата при&nbsp;получении</h3>
+              </div>
+            </div>
+            <div class="block-data__info">
+              <p>Оплатить наличными или&nbsp;картой при&nbsp;получении заказа</p>
+            </div>
+          </label>
+        </div>
+      </section>
+    </div>
+
+    <aside class="fixed-mobile">
+      <div class="fixed-mobile-tab" id="fixedMobileTab"></div>
+      <div class="sidebar-block__aside__wr sidebar--cart" style="padding: 0;">
+        <!-- Блок с итоговой ценой -->
+        <div class="final-price-cart">
+          <div class="final-price-cart__wrap">
+            <div class="total-quantity">
+              <span>Товар:</span> <span id="total-quantity">{{ total_quantity }} шт.</span>
+            </div>
+            <span class="h3 font--light">Итого: <span id="total-price">{{ total_cost|format_number }} ₽</span></span>
+
+          </div>
+        </div>
+        <!-- Блок с информацией заказа -->
+        <div class="cart-order-info">
+
+          <dl>
+            <dt>Доставка:</dt>
+            <dd id="deliveryInfo">
+              {% if delivery_str %}
+                <span>{{ delivery_str }}</span> <a href="#delivery" class="data_edit-btn dark--bgrnd"><span class="met-ico-edit"></span></a></dd>
+              {% else %}
+                <a href="#delivery" title="Перейти и выбрать способ доставки"
+                    class="link-orange">Выбрать</a>
+              {% endif %}
+            </dd>
+
+            <dt class="toggle-address"{% if delivery_method == 'pickup' %} style="display: none"{% endif %}>Адрес доставки:</dt>
+            <dd class="toggle-address" id="addressInfo"{% if delivery_method == 'pickup' %} style="display: none"{% endif %}>
+              {% if address_str %}
+                <span>{{ address_str }}</span> <a href="#address" class="data_edit-btn dark--bgrnd"><span class="met-ico-edit"></span></a></dd>
+              {% else %}
+                <a href="#address"
+                  title="Перейти и заполнить данные" class="link-orange">Заполнить</a>
+              {% endif %}              
+            </dd>
+
+            <dt>Ваши данные:</dt>
+            <dd id="userDataInfo">
+              {% if contacts_str %}
+                <span>{{ contacts_str }}</span> <a href="#person" class="data_edit-btn dark--bgrnd"><span class="met-ico-edit"></span></a></dd>
+              {% else %}
+                <a href="#person" title="Перейти и заполнить данные"
+                    class="link-orange">Заполнить</a>
+              {% endif %}
+            </dd>
+
+            <dt>Оплата:</dt>
+            <dd id="paymentInfo">
+              {% if payment_str %}
+                <span>{{ payment_str }}</span> <a href="#payment" class="data_edit-btn dark--bgrnd"><span class="met-ico-edit"></span></a></dd>
+              {% else %}
+                <a href="#payment" title="Перейти и выбрать способ оплаты"
+                    class="link-orange">Выбрать</a>
+              {% endif %}
+            </dd>
+          </dl>
+
+          <!-- Кнопка оформить заказ -->
+          <div class="block-order-btn">
+            <a id="js-checkout-button" class="btn-big-buy" href="#">
+              <span class="btn__ico met-ico-accept"></span> <span>Оформить</span>
+            </a>
+
+            <div class="checkbox-row">
+              <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+                data-msg="Выбор этого пункта обязателен">
+              <label for="privacy">
+              </label>
+              <span class="checkbox-text small-text">Ознакомлен и согласен с <a class="link-white"
+                  href="/privacy_policy/" title="условия политики обработки персональных данных"
+                  target="_blank">условиями политики</a> обработки персональных данных <sup>
+                  <font color="#FF5C00"> *</font>
+                </sup>
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </aside>
+  </section>
+{% endblock %}
+
+{% block modals %}
+  {% include 'modals/cart_errors.html' %}
+  {% include 'modals/cart_login.html' %}
+  {% include 'modals/cart_registration.html' %}
+{% endblock %}
+
+{% block scripts %}
+  {% if not card_data %}
+    <script type="text/javascript">
+      $('input[name="card_number"]').mask('0000 0000 0000 0000', {clearIfNotMatch: true});
+      $('input[name="card_expire"]').mask('00/00', {clearIfNotMatch: true});
+      $('input[name="card_cvv"]').mask('000', {clearIfNotMatch: true});
+    </script>
+  {% endif %}
+  <script type="text/javascript">
+    var urls = {
+      "product": "{% url 'api:cart:update-item' %}",
+      "extra": "{% url 'api:cart:update-extra-item' %}",
+      "groupToggle": "{% url 'api:cart:group-toggle' %}",
+      "clearCart": "{% url 'api:cart:clear-cart' %}",
+      "updateData": {
+        "deliveryMethod": "{% url 'api:order:set-delivery-method' %}",
+        "deliveryData": "{% url 'api:order:set-delivery-data' %}",
+        "contactsData": "{% url 'api:order:set-contacts-data' %}",
+        "paymentMethod": "{% url 'api:order:set-payment-method' %}",
+        "paymentCardData": "{% url 'api:order:set-payment-card-data' %}",
+        "paymentCashlessData": "{% url 'api:order:set-payment-cashless-data' %}",
+      },
+      "checkout": "{% url 'api:order:checkout' %}",
+      "successOrder": "{% url 'account:orders' %}?p=created",
+    };
+    var isUserLogged = {{ request.user.is_authenticated|to_bool_js }};
+    var someData = {
+      "deliveryMethod": "{{ delivery_method }}",
+      "paymentMethod": "{{ payment_method }}",
+    };
+    var filledData = {
+      "deliveryMethod": {{ delivery_method|to_bool_js }},
+      "deliveryData": {{ delivery_data|to_bool_js }},
+      "contactsData": {{ contacts_data|to_bool_js }},
+      "paymentMethod": {{ payment_method|to_bool_js }},
+      "cardData": {{ card_data|to_bool_js }},
+      "cashlessData": {{ cashless_data|to_bool_js }},
+    };
+    var paymentMethodTexts = {
+      "online": "{{ cart_payment_str }}",
+      "non_cash": "{{ non_cash_payment_str }}",
+      "on_receipt": "{{ on_receipt_payment_str }}",
+    };
+  </script>
+{% endblock %}

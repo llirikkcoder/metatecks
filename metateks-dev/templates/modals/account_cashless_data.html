@@ -1,0 +1,71 @@
+{% load base_tags %}
+
+{% if not cashless_data %}
+  <!-- Модальное окно "Добавить данные организации" -->
+  <div id="non-cash-form" class="modal modal-v2 modal-custom">
+    <header>
+      <h3>Добавить данные организации</h3>
+    </header>
+    <form id="accountCashlessDataForm" class="form--whaite js-regular-form js-field-errors-prepend" method="post" action="{% url 'api:account:add-cashless-data' %}">
+      <main>
+        <!-- Форма для безналичного расчета -->
+        <div class="error-messages" style="display: none;"></div>
+        <div class="grid-container grid--column--3to2to1">
+          <div class="field-row">
+            <label class="field-label" for="organization">Название организации <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_organization" name="organization" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="jur_address">Юридический адрес <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_jur_address" name="jur_address" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="jur_phone">Телефон <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_jur_phone" name="jur_phone" data-mask="phone" placeholder="+7 (___) ___-__-__" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="jur_email">E-mail <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_jur_email" name="jur_email" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="inn">ИНН <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_inn" name="inn" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="kpp">КПП <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_kpp" name="kpp" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="ogrn">ОГРН <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_ogrn" name="ogrn" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="account">Р/С <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_account" name="account" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="bank">Банк <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_bank" name="bank" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="bik">БИК <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_bik" name="bik" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="director">Генеральный директор <sup><font color="#FF5C00"> *</font></sup></label>
+            <input class="field-input" type="text" id="modal_director" name="director" required>
+          </div>
+        </div>
+      </main>
+      <footer style="margin-top: -30px;">
+        <div class="block-buttons-double">
+          <button type="submit" class="save-button btn-midl btn--green">
+            <span class="btn__ico met-ico-accept"></span>
+            <span>Сохранить</span>
+          </button>
+          <a href="#close" rel="modal:close" class="btn-midl btn--grey button">Закрыть окно</a>
+        </div>
+      </footer>
+    </form>
+  </div>
+{% endif %}

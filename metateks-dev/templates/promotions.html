@@ -1,0 +1,74 @@
+{% extends '_base.html' %}
+{% load base_tags static %}
+
+{% block title %}{{ seo_settings.promotions.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ seo_settings.promotions.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ seo_settings.promotions.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ seo_settings.promotions.get_meta_title }}{% endblock %}
+{% block og_description %}{{ seo_settings.promotions.get_meta_desc }}{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section  wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>{{ seo_settings.promotions.get_h1|safe }}</h1>
+    </div>
+    {% if seo_settings.promotions.header_text %}
+      <p class="content-header__descr">{{ seo_settings.promotions.get_header_text|safe|linebreaksbr }}</p>
+    {% endif %}
+  </div>
+
+  {% if promo.count %}
+    <!-- Секция со списком акций  -->
+    <section class="stocks-list wrap-pad-normal wrap--column wrap-pad--mob--min" style="padding-top: 0">
+      {% for p in promo %}
+        <!-- Блок акции 1 -->
+        <div id="promo{{ p.id }}" class="stocks-block">
+          <div class="stocks-block__head stocks-block__head--{{ p.banner_design }}">
+            <img class="show--desc" src="{{ p.banner_url }}" title="Акция" />
+            <img class="show--mob" src="{{ p.banner_695_url }}" title="Акция" />
+            <div class="stocks-block__head-in">
+              <div class="stocks-block__head-info">
+                {% if p.old_price %}
+                  <span class="stocks-block__old-price h2">{{ p.old_price|format_number }}&nbsp;₽</span><br />
+                {% endif %}
+                {% if p.new_price %}
+                  <span class="stocks-block__new-price h1">{{ p.new_price|format_number }}&nbsp;₽</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="stocks-block__descr wrap--row-to-column">
+            <div class="stocks-block__descr-left">
+              <h2>{{ p.name|safe }}</h2>
+              {% if p.description %}
+                <p>{{ p.description|safe|linebreaksbr }}</p>
+              {% endif %}
+            </div>
+            <div class="stocks-block__descr-right">
+              <p class="h4 font--light font--uppercase">Акция действует {{ p.dates_str|safe }}.
+                {% if p.model_id %}Выберите нужную модель на&nbsp;странице и&nbsp;сделайте заказ{% else %}Перейдите на&nbsp;страницу товара и&nbsp;сделайте заказ{% endif %}. Либо позвоните нам по&nbsp;телефону: <a href="tel:+78002225432" class="link-orange text--nowrap"
+                  title="Позвонить">+7 800 222-54-32</a></p>
+              {% if p.model_id %}
+                <a href="{{ p.model.get_absolute_url }}#filter" target="_blank" class="btn-midl btn--green" title="Товары по акции">
+                  <span class="btn__ico met-ico-circle-right"></span> Товары по акции
+                </a>
+              {% else %}
+                <a href="{{ p.product.get_absolute_url }}" target="_blank" class="btn-midl btn--green" title="Товар по акции">
+                  <span class="btn__ico met-ico-circle-right"></span> Товар по акции
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <!-- Конец блока акции -->
+      {% endfor %}
+    </section>
+
+  {% else %}
+    <section class="stocks-list wrap-pad-normal wrap--column wrap-pad--mob--min">
+      <h4>В данный момент нет активных акций</h4>
+    </section>
+  {% endif %}
+{% endblock %}

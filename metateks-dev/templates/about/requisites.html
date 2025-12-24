@@ -1,0 +1,32 @@
+{% extends 'about/_layout.html' %}
+
+{% block title %}{{ page.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ page.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ page.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ page.get_meta_title }}{% if active_tag %} — # {{ active_tag }}{% endif %}{% endblock %}
+{% block og_description %}{{ page.get_meta_desc }}{% endblock %}
+
+{% block h1 %}{{ page }}{% endblock %}
+
+{% block description %}
+  {% if page.description %}
+    <p class="content-header__descr">{{ page.description|safe|linebreaksbr }}</p>
+  {% endif %}
+{% endblock %}
+
+{% block nav_requisites %}<span class="content-nav__item content--nav--tem--select">Реквизиты</span>{% endblock %}
+
+{% block inner_content %}
+  {% if page.cover %}
+    <div class="content-main-top wrap-pad-normal wrap-pad--mob--min">
+      <div class="content-main-top__img"
+        style="background-image: url({{ page.cover_url }});">
+      </div>
+    </div>
+  {% endif %}
+
+  <article class="content-limited"{% if not page.cover %} style="padding-top: 0;"{% endif %}>
+    {{ page.text|safe }}
+  </article>
+{% endblock %}

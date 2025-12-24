@@ -1,0 +1,46 @@
+{% load base_tags %}
+
+{% if with_filter or not with_popular_products %}
+  <!-- Отфильтрованные товары -->
+  <h2>{{ subcat.full_name_plural }}{% if with_model %}: {{ model }}{% else %}{% endif %}{% if brand %} {{ brand }}{% endif %}</h2>
+
+  <!-- Список товаров -->
+  {% if products_count %}
+    <div class="js-products-list product-list grid-container grid--column--4to2">
+      {% include 'include/products_list.html' %}
+    </div>
+    {% if paginator.has_more %}
+      <div class="js-load-more-container section-footer wrap-pad--mob--none">
+        <a href="#" data-offset="{{ paginator.new_offset }}" class="js-load-more btn-more-large" title="показать еще"><span class="met-ico-button-right"></span>
+          <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+        <hr />
+      </div>
+    {% endif %}
+
+  {% else %}
+    <h4 class="products-empty">Товаров по вашему запросу не найдено</h4>
+  {% endif %}
+
+{% elif with_popular_products %}
+  <!-- Популярные товары оборудования в этом сезоне -->
+  <h2>Популярные {{ subcat.full_name_plural|lowfirst|safe }}</h2>
+
+  <!-- Swiper слайдер для товаров -->
+  <div class="swiper slider-products">
+    <div class="swiper-wrapper">
+      {% for product in popular_products %}
+        <div class="swiper-slide">
+          {% include 'include/product_card.html' with product=product attr_ids=subcat.attr_products_ids attributes=attributes only %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination__wrap">
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+
+{% else %}
+  <h4 class="products-empty">Товаров по вашему запросу не найдено</h4>
+{% endif %}

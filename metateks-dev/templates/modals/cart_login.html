@@ -1,0 +1,37 @@
+<!-- Корзина: модальное окно "Вход на сайт" -->
+<div id="cart-login" class="modal modal-v2">
+
+  <header>
+    <h3>Вход на сайт</h3>
+  </header>
+
+  <form id="cartLoginForm" class="js-cart-auth-form form-callback form--whaite" method="post" action="{% url 'api:auth:login' %}">
+    <main>
+      <p>Для оформления заказа войдите на сайт или зарегистрируйтесь.</p>
+      <div class="error-messages" style="display: none;"></div>
+      <div class="field-row">
+        <label class="field-label" for="cartLoginEmail">Почта<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input required" id="cartLoginEmail" required autocomplete="on" type="email" name="email" size="0" />
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="cartLoginPassword">Пароль<sup><font color="#FF5C00"> *</font></sup></label>
+        <input class="field-input required" id="cartLoginPassword" required type="password" name="password" size="0"/>
+      </div>
+      <div class="checkbox-row">
+        <input class="checkbox" id="cartLoginRemember" type="checkbox" name="remember">
+        <label for="cartLoginRemember">
+          <span class="small-text">Запомнить меня</span>
+        </label>
+      </div>
+    </main>
+
+    <footer>
+      <div class="modal-footer__left">
+        <span class="small-text">У вас нет аккаунта?</span>
+        <a href="#cart-registration" rel="modal:open" title="Регистрация на сайте">Регистрация</a>
+      </div>
+      <button name="Submit" value="Войти" type="submit" class="btn-midl btn--orange"><span class="btn__ico met-ico-circle-right"></span> Войти</button>
+    </footer>
+  </form>
+
+</div>

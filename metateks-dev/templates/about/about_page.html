@@ -1,0 +1,217 @@
+{% extends 'about/_layout.html' %}
+{% load base_tags easy_thumbnails_tags static %}
+
+{% block title %}{{ seo_settings.about.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ seo_settings.about.get_meta_desc }}{% endblock %}
+{% block meta_keywords %}{{ seo_settings.about.get_meta_keyw }}{% endblock %}
+
+{% block og_title %}{{ seo_settings.about.get_meta_title }}{% endblock %}
+{% block og_description %}{{ seo_settings.about.get_meta_desc }}{% endblock %}
+
+{% block h1 %}{{ about.about_title|safe }}{% endblock %}
+
+{% block description %}
+  {% if about.about_text %}
+    <p class="content-header__descr">{{ about.about_text|remove_p|safe }}</p>
+  {% endif %}
+{% endblock %}
+
+{% block nav_about %}<span class="content-nav__item content--nav--tem--select">О компании</span>{% endblock %}
+
+{% block inner_content %}
+  <!-- Шапка раздела -->
+  <div class="content-main-top wrap-pad-normal wrap-pad--mob--min">
+    <div class="about-info content-main-top__img">
+      <div class="about-info__in">
+        <div class="about-info__top grid-container grid--column--3to2">
+          {% for fact in facts1 %}
+            <div class="about-info__item">
+              <span class="h4 font--uppercase font--light">{{ fact.text1 }}</span>
+              <span class="h2">{{ fact.number }}</span>
+              <span class="h4 font--light">{{ fact.text2 }}</span>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="about-info__bottom">
+          {% for fact in facts2 %}
+            <div class="h4 font--light">
+              {{ fact.text1 }} <span class="h3 font--light">{{ fact.number }}</span> {{ fact.text2 }}
+            </div>
+            {% if not forloop.last %}
+              <div class="line-point"><span></span></div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--  Секция с преимуществами  -->
+  <section id="company-about" class="wrap-pad-normal wrap--column">
+    <h3>Наши преимущества</h3>
+    <div class="grid-container grid--column--6-3to2 block-advantage">
+      {% for adv in advantages %}
+        <div class="block-advantage__item">
+          <div class="block-advantage__img-wrap">
+            <span>
+              <img src="{{ adv.get_icon_url }}" alt="{{ adv }}" />
+            </span>
+          </div>
+          <a href="#{{ adv.icon }}" title="Перейти к разделу {{ adv }}">{{ adv.list_title|linebreaksbr }}</a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% for adv in advantages %}
+
+    {% if adv.block_type == 'brands' %}
+      <!-- заголовок и список брендов -->
+      <section id="{{ adv.icon }}" class="wrap--column">
+        <div class="wrap-pad-normal" style="padding-bottom: 0;">
+          <h2>{{ adv.title|safe }}</h2>
+        </div>
+        <div class="scrolling-container scrolling--brands">
+          <div class="scrolling-track">
+            {% for b in brands %}
+              <!-- {{ b }} -->
+              <a href="{{ b.get_absolute_url }}" class="about-scrolling-item scrolling-item" title="Страница бренда {{ b }}"><img src="{{ b.about_logo_url }}" alt="Логотип {{ b }}"></a>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      <!-- описание -->
+      {% if adv.text or adv.has_button %}
+        <section class="block-split wrap-pad-normal wrap--column">
+          <div class="block-split__wrap">
+            <div class="block-split__left">
+              <div class="block-split__content">
+              </div>
+            </div>
+            <div class="block-split__right">
+              <div class="block-split__content">
+                {{ adv.text|safe }}
+                {% if adv.has_button %}
+                  <a href="{{ adv.button_link }}" target="_blank" class="btn-more-large" title="{{ adv.button_text|clean_html }}"><span
+                      class="met-ico-button-right"></span> <span
+                      class="btn-more-large__text font--uppercase font--light">{{ adv.button_text|safe }}</span></a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </section>
+      {% endif %}
+
+    {% else %}
+      <section id="{{ adv.icon }}" class="block-split{% if adv.has_small_columns %} small--box{% endif %} wrap-pad-normal wrap--column">
+        <h2>{{ adv.title|safe }}</h2>
+        <div class="block-split__wrap">
+          <div class="block-split__left">
+            <div class="block-split__content">
+
+              {% if adv.photo %}
+                <img src="{{ adv.photo_url }}" alt="{{ adv.title|clean_html }}" />
+              {% endif %}
+
+              {% if adv.has_video %}
+                <div class="media-home__video-items-plwr">
+                  {{ adv.video|safe }}
+                </div>
+              {% endif %}
+
+              {% if adv.gallery %}
+                <div class="swiper slider-advertising slider--img--content">
+                  <div class="swiper-wrapper">
+                    {% for image in adv.gallery.objects.all %}
+                      <div class="swiper-slide">
+                        <a href="{{ image.image|thumbnail_url:'about_advantage_gallery_big' }}" title="Фото {{ forloop.counter }}" target="_blank"
+                          data-fancybox="gallery">
+                          <img src="{{ image.image|thumbnail_url:'about_advantage_gallery_thumb' }}" alt="Фото {{ forloop.counter }}" /></a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+                  <div class="swiper-pagination__wrap">
+                    <div class="swiper-pagination"></div>
+                  </div>
+                </div>
+              {% endif %}
+
+            </div>
+          </div>
+          <div class="block-split__right">
+            <div class="block-split__content">
+              {{ adv.text|safe }}
+              {% if adv.has_button %}
+                <a href="{{ adv.button_link }}" target="_blank" class="btn-more-large" title="{{ adv.button_text|clean_html }}"><span
+                    class="met-ico-button-right"></span> <span
+                    class="btn-more-large__text font--uppercase font--light">{{ adv.button_text|safe }}</span></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if adv.block_type == 'warehouses' and warehouses.count %}
+      <section class="block-split small--box wrap-pad-normal wrap--column" style="padding-top: 0">
+        <div class="block-split__wrap">
+          <div class="block-split__left">
+            <div class="block-split__content">
+              {% for wh in warehouses %}
+                <h3>{{ wh.name|safe }}</h3>
+                {% if wh.description %}
+                  <h4 class="font--light font--uppercase">{{ wh.description|safe }}</h4>
+                {% endif %}
+                <dl>
+                  {% if wh.address %}
+                    <dt><span class="dl-ico met-ico-geotag"></span> Адрес:</dt>
+                    <dd>{{ wh.address|safe }}</dd>
+                  {% endif %}
+                  {% if wh.schedule %}
+                    <dt><span class="dl-ico met-ico-time"></span> Режим работы:</dt>
+                    <dd>{{ wh.schedule|safe }}</dd>
+                  {% endif %}
+                  {% if wh.phone %}
+                    <dt><span class="dl-ico met-ico-telephone"></span> Телефон:</dt>
+                    <dd><a href="tel:{{ wh.phone|format_phone }}" title="Позвонить по телефону {{ wh.phone }}">{{ wh.phone }}</a></dd>
+                  {% endif %}
+                </dl>
+              {% if not forloop.last %}
+            </div>
+          </div>
+          <div class="block-split__right">
+            <div class="block-split__content">
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+    {% elif adv.block_type == 'delivery' and companies.count %}
+      <section class="wrap--column" style="padding-top: 0;">
+        <div class="scrolling-container scrolling--delivery">
+          <div class="scrolling-track">
+            {% for company in companies %}
+              <div class="about-scrolling-item scrolling-item">
+                <img src="{{ company.logo.url }}" alt="Логотип {{ company.name }}">
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+
+  <section id="about-people" class="wrap-pad-normal wrap--column wrap-pad--mob--min">
+    <h2>{{ about.people_title|safe }}</h2>
+    <img class="about-img" src="{{ about.people_photo_url }}" alt="Фотография коллектива Метатэкс" />
+    <div class="btn-block">
+      <a href="tel:{{ about.phone_number|format_phone }}" class="btn-big btn--orange">
+        <span class="btn__ico met-ico-telephone"></span>{{ about.phone_text }}</a>
+      <span class="h2 font--light">{{ about.phone_number }}</span>
+    </div>
+  </section>
+{% endblock %}

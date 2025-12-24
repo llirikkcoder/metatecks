@@ -1,0 +1,29 @@
+{% extends '_base.html' %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>{% block h1 %}{% endblock %}</h1>
+    </div>
+    {% block description %}{% endblock %}
+  </div>
+
+  <!-- Внутренняя навигация раздела -->
+  <div class="content-nav_wrap wrap-pad-normal wrap-pad--mob--min">
+    <nav class="content-nav">
+      {% block nav_about %}<a href="{% url 'about:home' %}" title="О компании" class="content-nav__item">О компании</a>{% endblock %}
+      {% block nav_requisites %}<a href="{% url 'page' 'about/requisites' %}" title="Реквизиты" class="content-nav__item">Реквизиты</a>{% endblock %}
+      {% block nav_video %}<a href="{% url 'about:video' %}" title="Видео" class="content-nav__item">Видео</a>{% endblock %}
+      {% block nav_photo %}<a href="{% url 'about:photo' %}" title="Фото" class="content-nav__item">Фото</a>{% endblock %}
+      {% block nav_files %}<a href="{% url 'about:files' %}" title="Файлы" class="content-nav__item">Файлы</a>{% endblock %}
+    </nav>
+
+    <div class="section-footer">
+      <hr />
+    </div>
+  </div>
+
+  {% block inner_content %}
+  {% endblock %}
+{% endblock %}

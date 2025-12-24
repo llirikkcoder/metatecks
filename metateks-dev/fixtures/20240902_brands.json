@@ -1,0 +1,458 @@
+[
+{
+    "model": "catalog.brand",
+    "pk": 1,
+    "fields": {
+        "created_at": "2024-08-05T15:23:48.956Z",
+        "updated_at": "2024-09-02T02:45:20.892Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Boulder",
+        "slug": "boulder",
+        "logo": "brands/logos/boulder_logo.svg",
+        "photo": "brands/photos/header-brand__1920х1080.jpeg",
+        "description": "",
+        "text": "<p style=\"margin-left:0px;\">Бренд Boulder более пяти лет выпускает на российский рынок высококачественную современную спецтехнику.</p><p style=\"margin-left:0px;\">Boulder производит погрузчики и экскаваторы, подготовленные к реалиям работыв России: способные эффективно работать при минусовых температурах, проходящие по любому рельефу, не требовательные к топливу и оригинальным запчастям.</p><p style=\"margin-left:0px;\">Отслеживая мировые технологические новинки, Boulder постоянно расширяет линейку предлагаемой техники. А мы производим различные модели навесного оборудования которые подходят для спецтехники Boulder, максимально расширяя её функционал и делая её ещё более совершенной и отвечающей самым разным задачам потребителей.</p>",
+        "order": 1
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 2,
+    "fields": {
+        "created_at": "2024-08-05T15:24:15.662Z",
+        "updated_at": "2024-09-02T02:45:20.816Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "SDLG",
+        "slug": "sdlg",
+        "logo": "brands/logos/SDLG_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "<p>&nbsp;</p>",
+        "order": 2
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 3,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.824Z",
+        "updated_at": "2024-09-02T02:45:20.824Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Bobcat",
+        "slug": "bobcat",
+        "logo": "brands/logos/bobcat.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 3
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 4,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.830Z",
+        "updated_at": "2024-09-02T02:45:20.830Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "JCB",
+        "slug": "jcb",
+        "logo": "brands/logos/JCB.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 4
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 5,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.837Z",
+        "updated_at": "2024-09-02T02:45:20.837Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "LiuGong",
+        "slug": "liugong",
+        "logo": "brands/logos/LiuGong_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 5
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 6,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.841Z",
+        "updated_at": "2024-09-02T02:45:20.841Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Polar Badger",
+        "slug": "polar-badger",
+        "logo": "brands/logos/polar_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 6
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 7,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.847Z",
+        "updated_at": "2024-09-02T02:46:18.862Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "МКСМ",
+        "slug": "mksm",
+        "logo": "brands/logos/Mksm.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 7
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 8,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.853Z",
+        "updated_at": "2024-09-02T02:45:20.853Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Case",
+        "slug": "case",
+        "logo": "brands/logos/case.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 8
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 9,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.858Z",
+        "updated_at": "2024-09-02T02:45:20.858Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Locust",
+        "slug": "locust",
+        "logo": "brands/logos/locust.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 9
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 10,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.863Z",
+        "updated_at": "2024-09-02T02:45:20.863Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Mustang",
+        "slug": "mustang",
+        "logo": "brands/logos/mustang.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 10
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 11,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.869Z",
+        "updated_at": "2024-09-02T02:45:20.869Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "ANT",
+        "slug": "ant",
+        "logo": "brands/logos/Ant.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 11
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 12,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.874Z",
+        "updated_at": "2024-09-02T02:45:20.874Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Yugong",
+        "slug": "yugong",
+        "logo": "brands/logos/Yugong_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 12
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 13,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.880Z",
+        "updated_at": "2024-09-02T02:45:20.880Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "DISD",
+        "slug": "disd",
+        "logo": "brands/logos/disd_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 13
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 14,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.887Z",
+        "updated_at": "2024-09-02T02:45:20.887Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Lovol",
+        "slug": "lovol",
+        "logo": "brands/logos/lovol_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 14
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 15,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.897Z",
+        "updated_at": "2024-09-02T02:45:20.897Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "SEM",
+        "slug": "sem",
+        "logo": "brands/logos/sem_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 15
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 16,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.903Z",
+        "updated_at": "2024-09-02T02:45:20.903Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Doosan",
+        "slug": "doosan",
+        "logo": "brands/logos/doosan_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 16
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 17,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.908Z",
+        "updated_at": "2024-09-02T02:45:20.908Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Hyundai",
+        "slug": "hyundai",
+        "logo": "brands/logos/hyundai.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 17
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 18,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.912Z",
+        "updated_at": "2024-09-02T02:45:20.912Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Shantui",
+        "slug": "shantui",
+        "logo": "brands/logos/shantui-seeklogo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 18
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 19,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.918Z",
+        "updated_at": "2024-09-02T02:45:20.918Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Bull",
+        "slug": "bull",
+        "logo": "brands/logos/bull.png",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 19
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 20,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.923Z",
+        "updated_at": "2024-09-02T02:45:20.923Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "NEO",
+        "slug": "neo",
+        "logo": "brands/logos/neo_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 20
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 21,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.928Z",
+        "updated_at": "2024-09-02T02:45:20.928Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Molot",
+        "slug": "molot",
+        "logo": "brands/logos/molot_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 21
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 22,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.935Z",
+        "updated_at": "2024-09-02T02:45:20.935Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Lonking",
+        "slug": "lonking",
+        "logo": "brands/logos/Lonking.jpeg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 22
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 23,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.940Z",
+        "updated_at": "2024-09-02T02:45:20.940Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "XGMA",
+        "slug": "xgma",
+        "logo": "brands/logos/xgma_logo.svg",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 23
+    }
+},
+{
+    "model": "catalog.brand",
+    "pk": 24,
+    "fields": {
+        "created_at": "2024-09-02T02:45:20.945Z",
+        "updated_at": "2024-09-02T02:45:20.945Z",
+        "meta_title": "",
+        "meta_description": "",
+        "meta_keywords": "",
+        "seo_text": "",
+        "name": "Komatsu",
+        "slug": "komatsu",
+        "logo": "brands/logos/Komatsu.png",
+        "photo": "",
+        "description": "",
+        "text": "",
+        "order": 24
+    }
+}
+]

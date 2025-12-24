@@ -1,0 +1,107 @@
+{% extends 'html/_layout.html' %}
+{% load static %}
+
+{% block title %}Фотогалерея{% endblock %}
+{% block meta_description %}Фотогалерея{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Фотогалерея{% endblock %}
+{% block og_description %}Фотогалерея{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section  wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>Фотогалерея</h1>
+    </div>
+    <p class="content-header__descr">
+      Полистайте фото и развлечитесь! Тут вы найдете всякое про нашу жизнь, работу и продукцию. Делимся яркими кадрами.</p>
+  </div>
+
+  <!-- Внутренняя навигация раздела -->
+  <div class="content-nav_wrap wrap-pad-normal wrap-pad--mob--min">
+    <nav class="content-nav">
+      <a href="#" title="О компании" class="content-nav__item">О компании</a>
+      <a href="#" title="Реквизиты" class="content-nav__item">Реквизиты</a>
+      <a href="#" title="Отзывы" class="content-nav__item">Отзывы</a>
+      <a href="#" title="Видео" class="content-nav__item">Видео</a>
+      <span class="content-nav__item content--nav--tem--select">Фото</span>
+      <a href="#" title="Файлы" class="content-nav__item">Файлы</a>
+    </nav>
+
+    <div class="section-footer">
+      <hr />
+    </div>
+  </div>
+  <!-- Навигация тегов -->
+  <div class="tags-nav_wrap wrap-pad-normal wrap-pad--mob--min" >
+    <nav class="tags-nav">
+      <a href="#" class="btn-teg" title="Тег — Для мини-погрузчиков"># Для мини-погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для фронтальных-погрузчиков"># Для фронтальных-погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для экскаваторов-погрузчиков"># Для экскаваторов-погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для мини-тракторов"># Для мини-тракторов</a>
+      <a href="#" class="btn-teg" title="Тег — Для мини-экскаваторов"># Для мини-экскаваторов</a>
+      <a href="#" class="btn-teg" title="Тег — Для телескопических погрузчиков"># Для телескопических погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для вилочных погрузчиков"># Для вилочных погрузчиков</a>
+      <a href="#" class="btn-teg" title="Тег — Для экскаваторов"># Для экскаваторов</a>
+      <a href="#" class="btn-teg" title="Тег — Испытания"># Испытания</a>
+      <a href="#" class="btn-teg" title="Тег — Производство"># Производство</a>
+      <a href="#" class="btn-teg" title="Тег — Выставки"># Выставки</a>
+    </nav>
+  </div>
+  <!-- Сетка видео-анонсов -->
+  <section class="grid-container grid--column--3to1 grid--gap--min wrap-pad-normal wrap-pad--mob--min"  style="padding-top: 0">
+    <!-- Элемент 1 -->
+    <div class="gallery-item">
+      <a href="/images/photogal/photo8-1980.jpg" title="Фото 1" target="_blank" data-fancybox="gallery">
+        <img class="" src="/images/photogal/photo8-768.jpg" alt="Ковш на минипогрузчик готов к испытаниям" /></a>
+      <span>Ковш на минипогрузчик готов к испытаниям</span>
+
+    </div>
+
+    <!-- Элемент 2 -->
+    <div class="gallery-item">
+      <a href="/images/photogal/photo10-1980.jpg" title="Фото 2" target="_blank" data-fancybox="gallery">
+        <img class="" src="/images/photogal/photo10-768.jpg" alt="Чистим дорогу от пыли этим жарким летом" /></a>
+      <span>Чистим дорогу от пыли этим жарким летом</span>
+
+    </div>
+
+
+    <!-- Элемент 3 -->
+    <div class="gallery-item">
+      <a href="/images/about/production/photo3-1980.jpg" title="Фото 3" target="_blank" data-fancybox="gallery">
+        <img class="" src="/images/about/production/photo3-768.jpg" alt="Навеску на технику делают брутальные парти" /></a>
+      <span>Навеску на технику делают брутальные парти</span>
+
+    </div>
+
+
+    <!-- Элемент 4 -->
+    <div class="gallery-item">
+      <a href="/images/photogal/photo7-1980.jpg" title="Фото 4" target="_blank" data-fancybox="gallery">
+        <img class="" src="/images/about/production/photo7-768.jpg" alt="Оператор на гибочном станке" /></a>
+      <span>Оператор на гибочном станке</span>
+    </div>
+
+    <!-- Элемент 5 -->
+    <div class="gallery-item">
+      <a href="/images/photogal/photo5-1980.jpg" title="Фото 5" target="_blank" data-fancybox="gallery">
+        <img class="" src="/images/photogal/photo5-768.jpg" alt="Сварщики за работой" /></a>
+      <span>Сварщики за работой</span>
+    </div>
+
+    <!-- Элемент 6 -->
+    <div class="gallery-item">
+      <a href="/images/photogal/photo11-1980.jpg" title="Фото 5" target="_blank" data-fancybox="gallery">
+        <img class="" src="/images/photogal/photo11-768.jpg" alt="Челюстной ковш на минитрактор" /></a>
+      <span>Челюстной ковш на минитрактор</span>
+    </div>
+  </section>
+  <!-- блок показать еще -->
+  <div class="section-footer">
+    <a href="#" class="btn-more-large" title="загрузить еще статей"><span class="met-ico-button-right"></span>
+      <span class="btn-more-large__text font--uppercase font--light">показать еще</span></a>
+    <hr />
+  </div>
+{% endblock %}

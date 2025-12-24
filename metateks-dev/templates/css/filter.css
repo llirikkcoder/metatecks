@@ -1,0 +1,9 @@
+span.break-word {
+  word-wrap: break-word;
+  hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+}
+.reset-filter-button { cursor: pointer; }
+.products-empty { text-align: center; font-weight: 400; }

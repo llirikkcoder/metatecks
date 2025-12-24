@@ -1,0 +1,198 @@
+{% extends 'html/_layout.html' %}
+{% load static %}
+
+{% block title %}Адрес доставки{% endblock %}
+{% block meta_description %}Адрес доставки{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Адрес доставки{% endblock %}
+{% block og_description %}Адрес доставки{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--subsection content-header--ordinary  wrap-pad-normal">
+    <nav class="content-header__nav">
+      <div class="content-header__leftbox-wr">
+        <a href="#" class="btn-more-large" title="Перейти назад"><span class="met-ico-button-left"></span>
+          <span class="btn-more-large__text font--uppercase font--light">назад</span></a>
+      </div>
+      <div class="bread-crumbs small-text">
+        <div>
+          <a href="#" title="На главную">Главная</a>&nbsp;<span>/</span><a href="#"
+            title="Перейти на главную страницу личного кабинета">Личный
+            кабинет</a>&nbsp;<span>/</span><span>Адрес доставки</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="content-header__title-wr">
+      <h1>Адрес доставки</h1>
+
+    </div>
+
+
+  </div>
+
+  <!-- Внутренняя навигация раздела -->
+  <div class="content-nav_wrap wrap-pad-normal wrap-pad--mob--min">
+    <nav class="content-nav">
+      <a href="#" title="Главная" class="content-nav__item">Главная</a>
+      <a href="#" title="Мои заказы" class="content-nav__item">Мои заказы</a>
+      <span class="content-nav__item content--nav--tem--select">Адрес доставки</span>
+      <a href="#" title="Избранное" class="content-nav__item">Избранное</a>
+      <a href="#" title="Профиль" class="content-nav__item">Профиль</a>
+    </nav>
+
+    <div class="section-footer">
+      <hr />
+    </div>
+  </div>
+
+  <!-- Секция с данными о доставке -->
+  <section class=" wrap-pad-normal wrap-pad--mob--min wrap--column" style="padding-top: 0;">
+
+    <!-- Блок с данными о доставке -->
+
+    <div class="block-data">
+      <input type="radio" name="address" id="address1" value="1" hidden checked="">
+      <label for="address1" class="block-data__content">
+        <div class="block-data__control">
+          <div class="button-switch"></div>
+          <div class="block-btn-right">
+            <button class="btn-border light--bgrnd" aria-label="Удалить"><span
+                class="met-ico-close-b"></span></button>
+          </div>
+        </div>
+        <div class="block-data__body grid-container grid--column--5to1">
+          <dl>
+            <dt>Область</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">Ленинградская</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Город</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">Хмычи</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Улица / дом / (офис, квартира)</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">ул. Мамонова, д 28</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Контактное лицо</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">Петров Евгений</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Контактный телефон</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">+7 960 845-34-78</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+        </div>
+      </label>
+    </div>
+
+    <!-- Блок с данными о доставке -->
+
+    <div class="block-data">
+      <input type="radio" name="address" id="address2" value="2" hidden>
+      <label for="address2" class="block-data__content">
+        <div class="block-data__control">
+          <div class="button-switch"></div>
+          <div class="block-btn-right">
+            <button class="btn-border  light--bgrnd" aria-label="Удалить"><span
+                class="met-ico-close-b"></span></button>
+          </div>
+        </div>
+        <div class="block-data__body grid-container grid--column--5to1">
+          <dl>
+            <dt>Область</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">Ленинградская</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Город</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">Хмычи</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Улица / дом / (офис, квартира)</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">ул. Рубленная, д 2, к 34</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Контактное лицо</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">Петров Евгений</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Контактный телефон</dt>
+            <dd class="data_editable">
+              <span class="data_editable-text">+7 960 845-34-78</span>
+              <input type="text" class="data_edit-input">
+              <button class="data_edit-btn"><span class="met-ico-edit"></span></button>
+              <button class="data_ok-btn"><span class="met-ico-checkbox"></span></button>
+              <button class="data_cancel-btn"><span class=" met-ico-close-b"></span></button>
+            </dd>
+          </dl>
+
+        </div>
+      </label>
+    </div>
+  </section>
+{% endblock %}

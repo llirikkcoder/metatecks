@@ -1,0 +1,33 @@
+<!-- Страницы в аккаунте: внутренняя навигация раздела -->
+<div class="content-nav_wrap wrap-pad-normal wrap-pad--mob--min">
+  <nav class="content-nav">
+    {% if page_slug == 'home' %}
+      <span class="content-nav__item content--nav--tem--select">Главная</span>
+    {% else %}
+      <a href="{% url 'account:home' %}" title="Главная" class="content-nav__item">Главная</a>
+    {% endif %}
+    {% if page_slug == 'orders' %}
+      <span class="content-nav__item content--nav--tem--select">Мои заказы</span>
+    {% else %}
+      <a href="{% url 'account:orders' %}" title="Мои заказы" class="content-nav__item">Мои заказы</a>
+    {% endif %}
+    {% if page_slug == 'addresses' %}
+      <span class="content-nav__item content--nav--tem--select">Адрес доставки</span>
+    {% else %}
+      <a href="{% url 'account:addresses' %}" title="Адрес доставки" class="content-nav__item">Адрес доставки</a>
+    {% endif %}
+    {% if page_slug == 'favorites' %}
+      <span class="content-nav__item content--nav--tem--select">Избранное</span>
+    {% else %}
+      <a href="{% url 'account:favorites' %}" title="Избранное" class="content-nav__item">Избранное</a>
+    {% endif %}
+    {% if page_slug == 'profile' %}
+      <span class="content-nav__item content--nav--tem--select">Профиль</span>
+    {% else %}
+      <a href="{% url 'account:profile' %}" title="Профиль" class="content-nav__item">Профиль</a>
+    {% endif %}
+  </nav>
+  <div class="section-footer">
+    <hr />
+  </div>
+</div>

@@ -1,0 +1,18 @@
+{% load base_tags %}
+
+{% if last_canceled_order %}
+  <!-- Модальное окно "Заказ отменен" -->
+  <div id="canceled" class="modal modal-v2">
+    <header>
+      <h3>Заказ №&nbsp;{{ last_canceled_order.number|nbsp }} отменен</h3>
+    </header>
+    <main>
+      <p>{{ user.first_name }}, ваш заказ №&nbsp;{{ last_canceled_order.number|nbsp }} успешно отменен.</p>
+    </main>
+    <footer>
+      <a href="#close" rel="modal:close" class="btn-midl btn--green button">
+        Закрыть окно
+      </a>
+    </footer>
+  </div>
+{% endif %}

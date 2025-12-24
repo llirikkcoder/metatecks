@@ -1,0 +1,47 @@
+{% extends 'admin/base.html' %}
+{% load i18n suit_tags custom_suit_tags %}
+
+{% block bodyclass %}{{ block.super|custom_suit_body_class:request }}{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <style>
+    a.skip-to-content-link { display: none !important; }
+    /*div#changelist-filter { display: block !important; padding-left: 20px; }*/
+    .fade:not(.show) {
+      opacity: 100;
+    }
+  </style>
+{% endblock %}
+
+{% block footer_content %}
+  <div class="row">
+
+    <div class="col-xs-12 col-sm-3 footer-links">
+      {% block footer_links %}
+        <a href="http://metateks.ru/" target="_blank">Сайт Метатэкс (текущий)</a>
+        <a href="https://metateks.vlch.dev/" target="_blank">Сайт Метатэкс (в разработке)</a>
+      {% endblock %}
+    </div>
+
+    <div class="col-xs-12 col-sm-6 text-sm-center footer-copyright">
+      {% block copyright %}
+        Copyright &copy;
+        {% now "Y" %} Metateks.ru
+      {% endblock %}
+    </div>
+
+    <div class="col-xs-12 col-sm-3 text-sm-right footer-version">
+      {% block footer_branding %}
+        {% with admin_name=site_header|default:_('Django administration') django_version='django_version'|suit_conf:request %}
+          {{ admin_name }} Admin
+          <span style="font-size: 12px">
+            <br/>
+            Django {{ django_version }}
+          </span>
+        {% endwith %}
+      {% endblock %}
+    </div>
+
+  </div>
+{% endblock %}

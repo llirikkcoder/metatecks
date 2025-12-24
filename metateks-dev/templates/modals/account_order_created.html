@@ -1,0 +1,18 @@
+{% load base_tags %}
+
+{% if last_order %}
+  <!-- Модальное окно "Заказ успешно оформлен" -->
+  <div id="created" class="modal modal-v2">
+    <header>
+      <h3>Заказ №&nbsp;{{ last_order.number|nbsp }} оформлен!</h3>
+    </header>
+    <main>
+      <p>{{ user.first_name }}, ваш заказ успешно оформлен. Номер заказа: {{ last_order.number|nbsp }}.</p>
+    </main>
+    <footer>
+      <a href="#close" rel="modal:close" class="btn-midl btn--green button">
+        Закрыть окно
+      </a>
+    </footer>
+  </div>
+{% endif %}

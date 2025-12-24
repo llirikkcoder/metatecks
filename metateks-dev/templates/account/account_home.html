@@ -1,0 +1,191 @@
+{% extends 'account/_account_base.html' %}
+{% load base_tags %}
+
+{% block title %}Аккаунт{% endblock %}
+{% block meta_description %}Аккаунт{% endblock %}
+{% block meta_keywords %} {% endblock %}
+
+{% block og_title %}Аккаунт{% endblock %}
+{% block og_description %}Аккаунт{% endblock %}
+
+{% block content %}
+  <!-- Шапка контента -->
+  <div class="content-header content-header--section  wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>Личный кабинет</h1>
+    </div>
+    <p class="content-header__descr">Управляйте своими заказами легко и&nbsp;удобно. Вся необходимая информация
+      и&nbsp;функции для&nbsp;работы с&nbsp;нашей продукцией доступны в&nbsp;одном месте.
+    </p>
+  </div>
+
+  {% include 'include/account_navigation.html' with page_slug='home' %}
+
+  <!-- Секция с виджетами -->
+  <section class="sidebar-block  wrap-pad-normal wrap-pad--mob--min wrap--row-to-column" style="padding-top: 0;">
+    <div class="sidebar-block__left  grid-acount-home">
+
+      <!-- Блок личные данные -->
+      <div class="grid-acount-home__item">
+        <div class="grid-acount-home__item__wrap">
+        <div class="acount-home-person">
+          <div class="acount-home-person__left">
+            <div class="avatar">
+              <div class="avatar-wrap">
+                <img class="img-avatar" src="{{ user.get_account_avatar_url }}" />
+              </div>
+            </div>
+            <span class="h3 font--bold">{{ user.get_name }}</span>
+            <ul>
+              {% if user.phone %}
+                <li><span class="dl-ico met-ico-telephone"></span> {{ user.phone }}</li>
+              {% endif %}
+              <li><span class="dl-ico  met-ico_mail"></span> {{ user.email }}</li>
+            </ul>
+          </div>
+          <div class="acount-home-person__right">
+            <a href="{% url 'account:logout' %}" title="Выйти из аккаунта" class="btn-more"><span
+                class="met-ico-button-right"></span>
+              <span class="font--uppercase small-text">выйти</span></a>
+          </div>
+        </div>
+        </div>
+        <a href="{% url 'account:profile' %}#contacts" target="_blank" class="acount-home-link" title="Редактировать данные профиля"></a>
+      </div>
+
+      <!-- Блок способ оплаты -->
+      <div class="grid-acount-home__item">
+        <div class="grid-acount-home__item__wrap">
+          <span class="h3 font--bold">Способ оплаты</span>
+
+          {% if user.payment_method %}
+            <div class="h4">{{ user.payment_method_full_str|safe }}</div>
+
+            {% if user.payment_method == 'online' and card %}
+              <div class="block-сard card--home">
+                <div class="block-сard__wrap">
+                  <div class="block-сard__in">
+                    <div class="line">{{ card.card_number_line }}</div>
+                    <div class="block-сard__bottom">
+                      <div class="block-сard__select"></div>
+                      {% if card.card_type %}
+                        <div class="logo-card">{{ card.card_logo_html|safe }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="item-info-empty">
+              <i>Редактировать</i>
+            </div>
+
+          {% else %}
+            <!-- Инфо для пустых блоков -->
+            <div class="item-info-empty">
+              <span class="ico-info">i</span> <i>Выберите способ оплаты</i>
+            </div>
+          {% endif %}
+
+        </div>
+        <a href="{% url 'account:profile' %}#payment" target="_blank" class="acount-home-link" title="Редактировать способ оплаты"></a>
+      </div>
+
+      <!-- Блок Избранные товары -->
+      <div class="grid-acount-home__item">
+        <div class="grid-acount-home__item__wrap">
+          <span class="h3 font--bold">Избранное</span>
+          {% if favorites %}
+            <div class="favorites-home">
+              {% for obj in favorites %}
+              {% with obj.product as p %}
+                <a href="{{ p.get_link_url }}" title="Перейти к товару «{{ p.name }}»‎" target="_blank" class="favorites-home__item">
+                  <div class="favorites-home__wrap">
+                    <span class="met-ico-heart-filled"></span>
+                    {% if p.get_photo %}
+                      <img src="{{ p.list_photo_url }}" alt="{{ p.name }}" />
+                    {% else %}
+                      <img src="{{ p.sub_category.product_micro_url }}" alt="{{ p.name }}" />
+                    {% endif %}
+                  </div>
+                </a>
+              {% endwith %}
+              {% endfor %}
+            </div>
+          {% else %}
+            <!-- Инфо для пустых блоков -->
+            <div class="item-info-empty">
+              <span class="ico-info">i</span> <i>У вас пока нет избранных товаров</i>
+            </div>
+          {% endif %}
+        </div>
+        <a href="{% url 'account:favorites' %}" target="_blank" class="acount-home-link" title="Редактировать избранные товары"></a>
+      </div>
+
+    </div>
+    <aside>
+      <div class="sidebar-block__aside__wr">
+        <span class="h3 font--bold">Мои заказы{% if orders_count %} ({{ orders_count }}){% endif %}</span>
+
+        {% if order %}
+          <!-- Блок заказа -->
+          <div class="order-home">
+            <!-- Информация о заказнном товаре -->
+            {% for item in order.items.all %}
+              <div class="order-home__product">
+                {% if forloop.first %}
+                  <div class="order-home__product__head">
+                    <!-- Картинка товара в заказе -->
+                    <div class="order-product-imgblock">
+                      <div class="order-product-imgblock__wrap">
+                        <div class="order-product-imgblock__in">
+                          {% with order.first_product as product %}
+                            {% if product.get_photo %}
+                              <img src="{{ product.list_photo_url }}" />
+                            {% else %}
+                              <img src="{{ product.sub_category.product_photo_url }}" />
+                            {% endif %}
+                          {% endwith %}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="order-home__product__status small-text">
+                      <span>Статус</span>
+                      <span class="indicator_status">{{ order.get_status_display }}</span>
+                    </div>
+                  </div>
+                {% endif %}
+                <div class="order-product-title">
+                  <span class="font--bold">{{ item.item_name }}</span>
+                  {% if item.is_product %}
+                    <span class="small-text">{{ item.item_subtitle|safe }}</span>
+                  {% endif %}
+                </div>
+                <div class="order-home__product__info">
+                  <span class="quantity small-text">{{ item.quantity }}&nbsp;шт</span>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="order-home__bottom">
+              <div class="order-home__bottom__price">
+                <span class="small-text">Сумма</span>
+                <span class="h4 font--light">{{ order.total_cost|format_number }}&nbsp;₽</span>
+              </div>
+              <a href="{{ order.get_absolute_url }}" title="подробнее" class="btn-more btn--more--w"><span
+                  class="met-ico-button-right"></span>
+                <span class="font--uppercase small-text">подробнее</span></a>
+            </div>
+          </div>
+
+        {% else %}
+          <!-- Инфо для пустых блоков -->
+          <a href="{% url 'account:orders' %}" target="_blank" title="Страница заказаов" class="item-info-empty">
+            <span class="ico-info">i</span> <i>У вас пока нет заказов.</i>
+          </a>
+        {% endif %}
+
+      </div>
+    </aside>
+  </section>
+{% endblock %}
