@@ -3,6 +3,9 @@
 *.py[cod]
 **/*.py[cod]
 *.env
+.env.docker
+.env.*
+!.env.example
 *.sqlite3
 celerybeat-schedule
 celerybeat.pid

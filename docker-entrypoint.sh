@@ -39,13 +39,14 @@ wait_for_db()
 END
 
 echo "==> Running database migrations..."
-python manage.py migrate --noinput --fake-initial || python manage.py migrate --noinput --fake
+python manage.py migrate --noinput
 
 echo "==> Collecting static files..."
-python manage.py collectstatic --noinput --clear
+python manage.py collectstatic --noinput
 
 # Загрузка fixtures только при первом запуске
-if [ ! -f /app/.fixtures_loaded ]; then
+# Флаг хранится в /app/logs для сохранения между пересозданиями контейнера
+if [ ! -f /app/logs/.fixtures_loaded ]; then
     echo "==> Loading initial fixtures..."
 
     # Проверка существования fixtures
@@ -61,7 +62,7 @@ if [ ! -f /app/.fixtures_loaded ]; then
         python manage.py loaddata fixtures/20250607_delivery_companies.json || true
         python manage.py loaddata fixtures/20250820_cities.json || true
 
-        touch /app/.fixtures_loaded
+        touch /app/logs/.fixtures_loaded
         echo "==> Fixtures loaded successfully!"
     else
         echo "==> No fixtures found, skipping..."

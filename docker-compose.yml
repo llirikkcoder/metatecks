@@ -11,13 +11,14 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-metateks_password}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    # Порты закрыты для безопасности - доступ только внутри Docker сети
+    # Для отладки раскомментируйте: ports: ["5432:5432"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-metateks}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
     networks:
       - metateks_network
 
@@ -28,13 +29,14 @@ services:
     command: redis-server --appendonly yes
     volumes:
       - redis_data:/data
-    ports:
-      - "6379:6379"
+    # Порты закрыты для безопасности - доступ только внутри Docker сети
+    # Для отладки раскомментируйте: ports: ["6379:6379"]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 3s
       retries: 5
+    restart: unless-stopped
     networks:
       - metateks_network
 
@@ -60,11 +62,12 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/admin/login/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+    restart: unless-stopped
     networks:
       - metateks_network
 
@@ -82,9 +85,11 @@ services:
     env_file:
       - .env.docker
     depends_on:
-      - db
-      - redis
-      - web
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - metateks_network
 
@@ -117,8 +122,10 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - static_volume:/app/static:ro
       - ./media:/app/media:ro
+      - ./assets:/app/assets:ro
     depends_on:
       - web
+    restart: unless-stopped
     networks:
       - metateks_network
 
