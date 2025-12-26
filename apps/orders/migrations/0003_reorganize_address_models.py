@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userdeliveryaddressdata',
             name='patronymic_name',
-            field=models.CharField(blank=True, null=True, verbose_name='Отчество'),
+            field=models.CharField(blank=True, max_length=31, null=True, verbose_name='Отчество'),
         ),
         migrations.AddField(
             model_name='userdeliveryaddressdata',

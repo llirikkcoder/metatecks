@@ -110,7 +110,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('first_name', models.CharField(max_length=31, verbose_name='Имя')),
-                ('patronymic_name', models.CharField(blank=True, null=True, verbose_name='Отчество')),
+                ('patronymic_name', models.CharField(blank=True, max_length=31, null=True, verbose_name='Отчество')),
                 ('last_name', models.CharField(max_length=31, verbose_name='Фамилия')),
                 ('phone', models.CharField(max_length=31, verbose_name='Телефон')),
                 ('addresses', models.ManyToManyField(blank=True, related_name='contacts_data', to='orders.userdeliveryaddressdata', verbose_name='Адрес')),
@@ -195,7 +195,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('first_name', models.CharField(max_length=31, verbose_name='Имя')),
-                ('patronymic_name', models.CharField(blank=True, null=True, verbose_name='Отчество')),
+                ('patronymic_name', models.CharField(blank=True, max_length=31, null=True, verbose_name='Отчество')),
                 ('last_name', models.CharField(max_length=31, verbose_name='Фамилия')),
                 ('phone', models.CharField(max_length=31, verbose_name='Телефон')),
                 ('order', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='contacts_data', to='orders.order')),

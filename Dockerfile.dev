@@ -1,0 +1,74 @@
+# Development Dockerfile - оптимизирован для быстрой разработки
+FROM python:3.11-slim
+
+# Метаданные
+LABEL maintainer="metateks@example.com"
+LABEL description="Metateks E-commerce Platform - Development"
+
+# Переменные окружения для разработки
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    DJANGO_DEBUG=True
+
+# Рабочая директория
+WORKDIR /app
+
+# Установка системных зависимостей (меньше, чем в production)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Для Pillow
+    libjpeg-dev \
+    libpng-dev \
+    libwebp-dev \
+    zlib1g-dev \
+    # Для PostgreSQL
+    libpq-dev \
+    # Утилиты для разработки
+    gcc \
+    g++ \
+    make \
+    wget \
+    curl \
+    git \
+    vim \
+    # Дополнительные инструменты для отладки
+    iputils-ping \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Копирование requirements
+COPY requirements-conda.txt requirements-pip.txt ./
+
+# Установка Python зависимостей + инструменты для разработки
+RUN pip install --upgrade pip && \
+    pip install -r requirements-conda.txt && \
+    pip install -r requirements-pip.txt && \
+    pip install psycopg2-binary && \
+    # Дополнительные инструменты для разработки
+    pip install \
+        django-debug-toolbar \
+        ipython \
+        ipdb \
+        django-extensions \
+        werkzeug
+
+# НЕ копируем код - он будет смонтирован через volume!
+# Код монтируется в docker-compose.dev.yml
+
+# Создание директорий
+RUN mkdir -p /app/media /app/static /app/logs
+
+# Создание непривилегированного пользователя
+RUN useradd -m -u 1000 metateks && \
+    chown -R metateks:metateks /app
+
+# Переключение на непривилегированного пользователя
+USER metateks
+
+# Открытие порта
+EXPOSE 8000
+
+# Для dev режима используем runserver вместо gunicorn
+# Команда задается в docker-compose.dev.yml
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

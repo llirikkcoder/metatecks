@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='city',
             name='subdomain',
-            field=models.CharField(blank=True, default='', help_text='<город>.metateks.ru', max_length=31, unique=True, verbose_name='Поддомен'),
+            field=models.CharField(blank=True, default='', help_text='<город>.metateks.ru', max_length=31, null=True, unique=True, verbose_name='Поддомен'),
         ),
     ]

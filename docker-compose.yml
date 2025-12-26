@@ -40,7 +40,7 @@ services:
     networks:
       - metateks_network
 
-  # Django приложение
+  # Django приложение (Production режим - Stateless)
   web:
     build:
       context: .
@@ -48,7 +48,8 @@ services:
     container_name: metateks_web
     command: gunicorn --bind 0.0.0.0:8000 --workers 4 --timeout 120 main.wsgi:application
     volumes:
-      - .:/app
+      # Код и зависимости в образе - НЕ монтируем!
+      # Монтируем только изменяемые данные:
       - static_volume:/app/static
       - ./media:/app/media
       - ./logs:/app/logs
@@ -71,7 +72,7 @@ services:
     networks:
       - metateks_network
 
-  # Celery Worker
+  # Celery Worker (Production режим - Stateless)
   celery:
     build:
       context: .
@@ -79,7 +80,8 @@ services:
     container_name: metateks_celery
     command: celery -A main worker --loglevel=info --concurrency=2
     volumes:
-      - .:/app
+      # Код в образе - НЕ монтируем!
+      # Монтируем только изменяемые данные:
       - ./media:/app/media
       - ./logs:/app/logs
     env_file:
@@ -118,11 +120,15 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      # Конфигурация nginx
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      # Статика собрана в образе web и попадает в static_volume
       - static_volume:/app/static:ro
+      # Media и assets - изменяемые данные
       - ./media:/app/media:ro
-      - ./assets:/app/assets:ro
+      # Assets теперь в образе (через collectstatic или COPY)
+      # Если assets нужны отдельно от static, создайте assets_volume
     depends_on:
       - web
     restart: unless-stopped

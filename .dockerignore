@@ -71,8 +71,11 @@ metateks_dump*
 
 # Docker
 Dockerfile
+Dockerfile.dev
 docker-compose*.yml
+docker-compose.yml.backup
 .dockerignore
+docker/
 
 # Environment
 .env
@@ -105,3 +108,21 @@ npm-debug.log
 tmp/
 temp/
 *.tmp
+
+# VPS integration scripts (не нужны в образе)
+conf/vps/
+
+# Development files
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Assets (будут собраны через collectstatic)
+# Раскомментируйте, если assets должны быть в образе:
+# !assets/
+
+# Conda/Pip cache
+.conda/
+.cache/pip/

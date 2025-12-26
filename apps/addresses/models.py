@@ -22,7 +22,7 @@ class City(models.Model):
     name = models.CharField('Название', max_length=31)
     subdomain = models.CharField(
         'Поддомен', max_length=31,
-        unique=True, blank=True, default='',
+        unique=True, blank=True, null=True, default='',
         help_text='<город>.metateks.ru',
     )
     name_loct = models.CharField(
