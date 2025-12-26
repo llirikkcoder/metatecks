@@ -1,5 +1,3 @@
-version: '3.8'
-
 # Development окружение с hot-reload
 # Запуск: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 
