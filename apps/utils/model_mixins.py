@@ -136,26 +136,146 @@ class MetatagModel(models.Model):
     def get_h1_title(self):
         return self.get_title()
 
+    # методы для работы с шаблонами
+
+    def get_template_field(self, field_name: str):
+        """
+        Получение шаблона с учетом наследования
+
+        Args:
+            field_name: имя поля ('meta_title_template', 'meta_desc_template' и т.д.)
+
+        Returns:
+            Шаблон или None
+        """
+        # 1. Проверяем собственный шаблон
+        template = getattr(self, field_name, None)
+        if template:
+            return template
+
+        # 2. Наследование для ProductModel от SubCategory
+        if self.__class__.__name__ == 'ProductModel':
+            if hasattr(self, 'sub_category') and self.sub_category:
+                template = getattr(self.sub_category, field_name, None)
+                if template:
+                    return template
+                # Проверяем Category через SubCategory
+                if hasattr(self.sub_category, 'category') and self.sub_category.category:
+                    template = getattr(self.sub_category.category, field_name, None)
+                    if template:
+                        return template
+
+        # 3. Наследование для SubCategory от Category
+        elif self.__class__.__name__ == 'SubCategory':
+            if hasattr(self, 'category') and self.category:
+                template = getattr(self.category, field_name, None)
+                if template:
+                    return template
+
+        # 4. Наследование для Product от ProductModel
+        elif self.__class__.__name__ == 'Product':
+            if hasattr(self, 'model') and self.model:
+                # Сначала проверяем у ProductModel
+                template = getattr(self.model, field_name, None)
+                if template:
+                    return template
+                # Потом проверяем у SubCategory через модель
+                if hasattr(self.model, 'sub_category') and self.model.sub_category:
+                    template = getattr(self.model.sub_category, field_name, None)
+                    if template:
+                        return template
+                    # Наконец проверяем у Category
+                    if hasattr(self.model.sub_category, 'category') and self.model.sub_category.category:
+                        template = getattr(self.model.sub_category.category, field_name, None)
+                        if template:
+                            return template
+
+        return None
+
+    def apply_template(self, template: str, city=None) -> str:
+        """
+        Применение шаблона с заменой плейсхолдеров
+
+        Args:
+            template: шаблон с плейсхолдерами
+            city: объект City для геолокации
+
+        Returns:
+            Обработанная строка
+        """
+        from apps.utils.seo_templates import apply_seo_template
+        return apply_seo_template(self, template, city=city)
+
     # seo-методы
 
     def _get_meta_title(self):
-        meta_title = self.meta_title
-        if meta_title:
-            return meta_title
+        """Получение meta title с поддержкой шаблонов"""
+        # 1. Приоритет: явно заполненное поле
+        if self.meta_title:
+            return self.meta_title
+
+        # 2. Шаблон (с наследованием)
+        template = self.get_template_field('meta_title_template')
+        if template:
+            return self.apply_template(template)
+
+        # 3. Fallback - текущая логика
         title_suffix = Settings.get_seo_title_suffix()
         return '{} — {}'.format(self.get_title(), title_suffix)
 
     def get_meta_title(self):
         return seo_replace(self._get_meta_title())
 
+    def _get_meta_desc(self):
+        """Получение meta description с поддержкой шаблонов"""
+        # 1. Приоритет: явно заполненное поле
+        if self.meta_description:
+            return self.meta_description
+
+        # 2. Шаблон (с наследованием)
+        template = self.get_template_field('meta_desc_template')
+        if template:
+            return self.apply_template(template)
+
+        # 3. Fallback
+        return self.get_title()
+
     def get_meta_desc(self):
-        return seo_replace(self.meta_description or self.get_title())
+        return seo_replace(self._get_meta_desc())
+
+    def _get_meta_keyw(self):
+        """Получение meta keywords с поддержкой шаблонов"""
+        # 1. Приоритет: явно заполненное поле
+        if self.meta_keywords:
+            return self.meta_keywords
+
+        # 2. Шаблон (с наследованием)
+        template = self.get_template_field('meta_keywords_template')
+        if template:
+            return self.apply_template(template)
+
+        # 3. Fallback
+        return self.get_title()
 
     def get_meta_keyw(self):
-        return seo_replace(self.meta_keywords or self.get_title())
+        return seo_replace(self._get_meta_keyw())
+
+    def _get_h1(self):
+        """Получение H1 с поддержкой шаблонов"""
+        # 1. Приоритет: явно заполненное поле
+        if self.h1:
+            return self.h1
+
+        # 2. Шаблон (с наследованием)
+        template = self.get_template_field('h1_template')
+        if template:
+            return self.apply_template(template)
+
+        # 3. Fallback
+        return self.get_h1_title()
 
     def get_h1(self):
-        return seo_replace(self.h1 or self.get_h1_title())
+        return seo_replace(self._get_h1())
 
     # админка
 

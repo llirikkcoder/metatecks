@@ -35,6 +35,28 @@ class ProductModel(DatesBaseModel, MetatagModel):
     # характеристики
     attrs = models.JSONField(default=dict)
 
+    # SEO шаблоны
+    meta_title_template = models.CharField(
+        'Шаблон Meta Title',
+        max_length=511, blank=True,
+        help_text='Используйте плейсхолдеры: {name}, {brand}, {price}, {attr:название}'
+    )
+    meta_desc_template = models.TextField(
+        'Шаблон Meta Description',
+        blank=True,
+        help_text='Используйте плейсхолдеры: {name}, {price}, {vendor_code}, {city}, {region}, {attr:грузоподъемность}'
+    )
+    h1_template = models.CharField(
+        'Шаблон H1',
+        max_length=511, blank=True,
+        help_text='Используйте плейсхолдеры для динамической генерации заголовка'
+    )
+    meta_keywords_template = models.TextField(
+        'Шаблон Meta Keywords',
+        blank=True,
+        help_text='(опционально) Используйте плейсхолдеры'
+    )
+
     # настройки показа на сайте
     is_shown = models.BooleanField('Показывать на сайте', default=True)
     is_popular = models.BooleanField('Показывать в списке «Популярное»', default=False)

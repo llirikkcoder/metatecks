@@ -135,11 +135,11 @@ services:
 
 volumes:
   postgres_data:
-    driver: local
+    name: metateks_postgres_data
   redis_data:
-    driver: local
+    name: metateks_redis_data
   static_volume:
-    driver: local
+    name: metateks_static_volume
 
 networks:
   metateks_network:

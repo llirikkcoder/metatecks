@@ -55,6 +55,8 @@ class ProductModelAdmin(
         ('media', 'Медиа-файлы'),
         ('attributes', 'Характеристики'),
         ('settings', 'Настройки показа'),
+        ('seo', 'SEO'),
+        ('seo-templates', 'SEO Шаблоны'),
         ('1с', 'Данные из 1C'),
     )
     form = ProductModelForm
@@ -79,13 +81,65 @@ class ProductModelAdmin(
             'classes': ('suit-tab', 'suit-tab-settings',),
             'fields': ('is_shown', 'is_popular', 'created_at', 'updated_at',),
         }),
+        ('SEO (явные значения)', {
+            'classes': ('suit-tab', 'suit-tab-seo',),
+            'description': '''
+                <p style="background: #fff3cd; padding: 10px; border-left: 4px solid #ffc107;">
+                    <strong>Внимание:</strong> Если заполните поля ниже, они будут использоваться вместо шаблонов.
+                    <br>Для массового управления используйте вкладку "SEO Шаблоны".
+                </p>
+            ''',
+            'fields': (
+                'meta_title',
+                'meta_description',
+                'meta_keywords',
+                'h1',
+                'seo_text',
+                'show_instruction',
+            ),
+        }),
+        ('SEO Шаблоны (автогенерация)', {
+            'classes': ('suit-tab', 'suit-tab-seo-templates',),
+            'description': '''
+                <div style="padding: 10px; background: #f0f8ff; border-left: 4px solid #4CAF50; margin-bottom: 15px;">
+                    <h3 style="margin-top: 0;">Доступные плейсхолдеры:</h3>
+                    <ul style="columns: 2;">
+                        <li><code>{name}</code> - название модели</li>
+                        <li><code>{vendor_code}</code> - артикул</li>
+                        <li><code>{price}</code> - цена (число)</li>
+                        <li><code>{price_formatted}</code> - цена форматированная</li>
+                        <li><code>{category}</code> - название категории</li>
+                        <li><code>{subcategory}</code> - название подкатегории</li>
+                        <li><code>{attr:название}</code> - значение атрибута</li>
+                        <li><code>{city}</code>, <code>{city_loct}</code> - геолокация</li>
+                    </ul>
+                    <p><strong>Примеры атрибутов:</strong></p>
+                    <ul>
+                        <li><code>{attr:грузоподъемность}</code> - по имени</li>
+                        <li><code>{attr:load_capacity}</code> - по slug</li>
+                    </ul>
+                    <p><strong>Примеры шаблонов:</strong></p>
+                    <ul>
+                        <li>Title: <code>{name} - купить в {city_loct} — Метатэкс</code></li>
+                        <li>Description: <code>Продажа {name}. Цена: {price_formatted}. Артикул: {vendor_code}</code></li>
+                    </ul>
+                    <p><em>Если не заполнено, наследуется от подкатегории или категории.</em></p>
+                </div>
+            ''',
+            'fields': (
+                'meta_title_template',
+                'meta_desc_template',
+                'h1_template',
+                'meta_keywords_template',
+            ),
+        }),
         ('Данные из 1C', {
             'classes': ('suit-tab', 'suit-tab-1с',),
             'fields': ('is_synced_with_1c', 'bar_code', 'vendor_code',),
         }),
     )
     inlines = [ProductPhotoInline, ProductVideoInline]
-    readonly_fields = ('id', 'created_at', 'updated_at', 'attrs_empty', 'is_synced_with_1c', 'bar_code', 'vendor_code',)
+    readonly_fields = ('id', 'created_at', 'updated_at', 'attrs_empty', 'is_synced_with_1c', 'bar_code', 'vendor_code', 'show_instruction',)
     search_fields = ('name',)
     select_related = ('category', 'sub_category',)
 

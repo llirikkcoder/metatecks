@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.http import HttpResponse
 from django.urls import include, path, register_converter
 from django.views.generic import TemplateView, RedirectView
 
@@ -17,7 +18,15 @@ register_converter(DateConverter, 'post_date')
 admin.site.site_header = 'Метатэкс'
 
 
+def health_check(request):
+    """Health check endpoint for Docker"""
+    return HttpResponse("OK", content_type="text/plain")
+
+
 urlpatterns = [
+    # health check
+    path('health/', health_check, name='health'),
+
     # api
     path('api/', include(('apps.api.urls', 'api'))),
 

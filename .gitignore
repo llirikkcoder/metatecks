@@ -13,6 +13,9 @@ celerybeat.pid
 /main/touchme
 /media/*
 /static/*
+/logs/*
+/backups/*
+/vps_data/*
 temp/
 test/
 

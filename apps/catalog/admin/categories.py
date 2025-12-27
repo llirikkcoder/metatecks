@@ -24,6 +24,7 @@ class CategoryAdmin(ImageThumbnailsAdminMixin, SortableAdminMixin, admin.ModelAd
     suit_form_tabs = (
         ('default', 'Категория'),
         ('seo', 'SEO'),
+        ('seo-templates', 'SEO Шаблоны'),
         ('1с', 'Синхронизация с 1C'),
     )
     fieldsets = (
@@ -46,6 +47,34 @@ class CategoryAdmin(ImageThumbnailsAdminMixin, SortableAdminMixin, admin.ModelAd
         ('SEO', {
             'classes': ('suit-tab', 'suit-tab-seo',),
             'fields': ('meta_title', 'meta_description', 'meta_keywords', 'h1', 'show_instruction',),
+        }),
+        ('SEO Шаблоны', {
+            'classes': ('suit-tab', 'suit-tab-seo-templates',),
+            'description': '''
+                <div style="padding: 10px; background: #f0f8ff; border-left: 4px solid #4CAF50; margin-bottom: 15px;">
+                    <h3 style="margin-top: 0;">Доступные плейсхолдеры:</h3>
+                    <ul style="columns: 2;">
+                        <li><code>{name}</code> - название объекта</li>
+                        <li><code>{category}</code> - название категории</li>
+                        <li><code>{category_lower}</code> - категория в нижнем регистре</li>
+                        <li><code>{city}</code> - название города</li>
+                        <li><code>{city_loct}</code> - город в предложном падеже</li>
+                        <li><code>{region}</code> - название региона</li>
+                        <li><code>{region_loct}</code> - регион в предложном падеже</li>
+                    </ul>
+                    <p><strong>Примеры:</strong></p>
+                    <ul>
+                        <li>Title: <code>{category} в {city_loct} — Метатэкс</code></li>
+                        <li>Description: <code>Продажа {category_lower} в {region}. Доставка по {city}</code></li>
+                    </ul>
+                </div>
+            ''',
+            'fields': (
+                'meta_title_template',
+                'meta_desc_template',
+                'h1_template',
+                'meta_keywords_template',
+            ),
         }),
         ('Синхронизация с 1C', {
             'classes': ('suit-tab', 'suit-tab-1с',),
@@ -77,6 +106,7 @@ class SubCategoryAdmin(ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, So
         ('extra-products', 'Дополнительные товары'),
         ('settings', 'Настройки показа'),
         ('seo', 'SEO'),
+        ('seo-templates', 'SEO Шаблоны'),
         ('1с', 'Синхронизация с 1C'),
     )
     fieldsets = (
@@ -103,6 +133,36 @@ class SubCategoryAdmin(ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, So
         ('SEO', {
             'classes': ('suit-tab', 'suit-tab-seo',),
             'fields': ('meta_title', 'meta_description', 'meta_keywords', 'h1', 'show_instruction',),
+        }),
+        ('SEO Шаблоны', {
+            'classes': ('suit-tab', 'suit-tab-seo-templates',),
+            'description': '''
+                <div style="padding: 10px; background: #f0f8ff; border-left: 4px solid #4CAF50; margin-bottom: 15px;">
+                    <h3 style="margin-top: 0;">Доступные плейсхолдеры:</h3>
+                    <ul style="columns: 2;">
+                        <li><code>{name}</code> - название подкатегории</li>
+                        <li><code>{subcategory}</code> - название подкатегории</li>
+                        <li><code>{subcategory_single}</code> - подкатегория в ед. числе</li>
+                        <li><code>{category}</code> - название категории</li>
+                        <li><code>{category_lower}</code> - категория в нижнем регистре</li>
+                        <li><code>{city}</code>, <code>{city_loct}</code> - геолокация</li>
+                        <li><code>{region}</code>, <code>{region_loct}</code> - регион</li>
+                    </ul>
+                    <p><strong>Примеры:</strong></p>
+                    <ul>
+                        <li>Title: <code>{subcategory} для {category_lower} — купить в {city_loct}</code></li>
+                        <li>H1: <code>{subcategory} для {category_lower}</code></li>
+                        <li>Description: <code>{subcategory_single} для {category_lower}. Выбирайте в фильтре свой бренд.</code></li>
+                    </ul>
+                    <p><em>Если шаблон не заполнен, наследуется от категории.</em></p>
+                </div>
+            ''',
+            'fields': (
+                'meta_title_template',
+                'meta_desc_template',
+                'h1_template',
+                'meta_keywords_template',
+            ),
         }),
         ('Синхронизация с 1C', {
             'classes': ('suit-tab', 'suit-tab-1с',),

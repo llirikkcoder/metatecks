@@ -40,6 +40,28 @@ class Category(SearchResultModelMixin, DatesBaseModel, MetatagModel):
     )
     price_list = models.FileField('Файл с прайсом', null=True, blank=True, upload_to='categories/price_lists/')
 
+    # SEO шаблоны
+    meta_title_template = models.CharField(
+        'Шаблон Meta Title',
+        max_length=511, blank=True,
+        help_text='Используйте плейсхолдеры: {name}, {category}, {city}, {region}'
+    )
+    meta_desc_template = models.TextField(
+        'Шаблон Meta Description',
+        blank=True,
+        help_text='Используйте плейсхолдеры: {name}, {category}, {city}, {region}'
+    )
+    h1_template = models.CharField(
+        'Шаблон H1',
+        max_length=511, blank=True,
+        help_text='Используйте плейсхолдеры для динамической генерации заголовка'
+    )
+    meta_keywords_template = models.TextField(
+        'Шаблон Meta Keywords',
+        blank=True,
+        help_text='(опционально) Используйте плейсхолдеры'
+    )
+
     is_shown = models.BooleanField('Показывать на сайте', default=True)
     is_synced_with_1c = models.BooleanField('Синхронизовано с 1C', default=False)
 
@@ -168,6 +190,28 @@ class SubCategory(SearchResultModelMixin, DatesBaseModel, MetatagModel):
     attr_ids = models.JSONField(default=list)
     attr_products_ids = models.JSONField(default=list)
     attr_filter_ids = models.JSONField(default=list)
+
+    # SEO шаблоны
+    meta_title_template = models.CharField(
+        'Шаблон Meta Title',
+        max_length=511, blank=True,
+        help_text='Используйте плейсхолдеры: {name}, {category}, {subcategory}, {city}, {region}'
+    )
+    meta_desc_template = models.TextField(
+        'Шаблон Meta Description',
+        blank=True,
+        help_text='Используйте плейсхолдеры: {name}, {subcategory}, {city}, {region}'
+    )
+    h1_template = models.CharField(
+        'Шаблон H1',
+        max_length=511, blank=True,
+        help_text='Используйте плейсхолдеры для динамической генерации заголовка'
+    )
+    meta_keywords_template = models.TextField(
+        'Шаблон Meta Keywords',
+        blank=True,
+        help_text='(опционально) Используйте плейсхолдеры'
+    )
 
     is_shown = models.BooleanField('Показывать на сайте', default=True)
     is_popular = models.BooleanField('Показывать в списке «Популярное»', default=False)
