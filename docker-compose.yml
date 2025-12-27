@@ -52,7 +52,7 @@ services:
       - ./media:/app/media
       - ./logs:/app/logs
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8001:8000"  # localhost-only для VPS deployment
     env_file:
       - .env.docker
     depends_on:
@@ -115,8 +115,8 @@ services:
     image: nginx:alpine
     container_name: metateks_nginx
     ports:
-      - "80:80"
-      - "443:443"
+      - "127.0.0.1:8080:80"
+      # - "443:443"  # HTTPS закомментирован, настроите на системном nginx
     volumes:
       # Конфигурация nginx
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
