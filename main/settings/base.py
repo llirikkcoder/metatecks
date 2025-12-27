@@ -163,7 +163,7 @@ WSGI_APPLICATION = 'main.wsgi.application'
 ASGI_APPLICATION = 'main.asgi.application'
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = '/admin/'
 
 # APPEND_SLASH = True
 # # REMOVE_SLASH = True
