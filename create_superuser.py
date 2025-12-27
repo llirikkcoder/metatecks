@@ -38,9 +38,11 @@ def create_admin_user():
 
         # Обновляем пароль и права
         user.set_password(password)
-        user.is_staff = True
+        user.is_admin = True
         user.is_superuser = True
         user.is_active = True
+        user.first_name = 'Администратор'
+        user.last_name = 'Системы'
         user.save()
 
         print(f"✓ Пароль обновлен, права администратора установлены")
@@ -48,10 +50,11 @@ def create_admin_user():
         # Создаем нового пользователя
         user = User.objects.create_superuser(
             email=email,
-            password=password,
-            first_name='Администратор',
-            last_name='Системы'
+            password=password
         )
+        user.first_name = 'Администратор'
+        user.last_name = 'Системы'
+        user.save()
         print(f"✓ Суперпользователь создан успешно")
 
     print()
