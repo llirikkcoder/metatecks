@@ -200,6 +200,12 @@ USE_TZ = True
 
 SESSION_COOKIE_AGE = 31536000  # 1 year in seconds
 
+# Cookie settings для работы по HTTP (без HTTPS)
+SESSION_COOKIE_SECURE = False  # True только для HTTPS
+SESSION_COOKIE_SAMESITE = 'Lax'  # Разрешает cookie в обычных переходах
+CSRF_COOKIE_SECURE = False  # True только для HTTPS
+CSRF_COOKIE_SAMESITE = 'Lax'  # Разрешает CSRF cookie
+
 
 SILENCED_SYSTEM_CHECKS = [
     'templates.E003',
