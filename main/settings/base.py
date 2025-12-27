@@ -59,6 +59,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'some_secret_key')
 DEBUG = False
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(' ')
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',') if origin.strip()]
 DEFAULT_SCHEME = os.getenv('DEFAULT_SCHEME', 'http')
 DEFAULT_SITENAME = os.getenv('DEFAULT_SITENAME', 'localhost:8000')
 
