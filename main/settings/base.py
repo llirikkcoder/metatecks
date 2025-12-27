@@ -206,6 +206,11 @@ SESSION_COOKIE_SAMESITE = 'Lax'  # Разрешает cookie в обычных �
 CSRF_COOKIE_SECURE = False  # True только для HTTPS
 CSRF_COOKIE_SAMESITE = 'Lax'  # Разрешает CSRF cookie
 
+# Настройки для работы через nginx прокси
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 SILENCED_SYSTEM_CHECKS = [
     'templates.E003',
