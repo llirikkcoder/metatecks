@@ -1,15 +1,22 @@
 #!/bin/bash
 set -e
 
-echo "==> Waiting for database to be ready..."
-python << END
+# Проверяем нужно ли ждать PostgreSQL
+# Пропускаем если USE_SQLITE=1 или DATABASE_URL не задан
+if [ "${USE_SQLITE}" = "1" ] || [ "${USE_SQLITE}" = "true" ]; then
+    echo "==> Using SQLite, skipping database wait..."
+elif [ -z "${DATABASE_URL}" ]; then
+    echo "==> No DATABASE_URL set, using SQLite fallback..."
+else
+    echo "==> Waiting for PostgreSQL database to be ready..."
+    python << END
 import sys
 import time
 import psycopg2
 from urllib.parse import urlparse
 
 def wait_for_db():
-    db_url = "${DATABASE_URL:-postgresql://metateks:metateks_password@db:5432/metateks}"
+    db_url = "${DATABASE_URL}"
     parsed = urlparse(db_url)
 
     max_retries = 30
@@ -25,7 +32,7 @@ def wait_for_db():
                 port=parsed.port
             )
             conn.close()
-            print("Database is ready!")
+            print("PostgreSQL database is ready!")
             return True
         except psycopg2.OperationalError:
             retry_count += 1
@@ -37,6 +44,7 @@ def wait_for_db():
 
 wait_for_db()
 END
+fi
 
 echo "==> Running database migrations..."
 python manage.py migrate --noinput
