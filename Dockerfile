@@ -57,7 +57,7 @@ USER metateks
 # Сбор статических файлов (будет выполнено в entrypoint)
 # RUN python manage.py collectstatic --noinput
 
-# Открытие порта
+# Открытие порта (Railway использует динамический PORT)
 EXPOSE 8000
 
 # Entrypoint скрипт
@@ -66,5 +66,5 @@ RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-# Команда по умолчанию
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--timeout", "120", "main.wsgi:application"]
+# Команда по умолчанию (использует $PORT от Railway, fallback на 8000)
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-8000} --workers 4 --timeout 120 main.wsgi:application"]
