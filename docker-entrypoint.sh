@@ -49,6 +49,39 @@ fi
 echo "==> Running database migrations..."
 python manage.py migrate --noinput
 
+# Создание суперпользователя если задана переменная
+if [ "${CREATE_SUPERUSER}" = "1" ] || [ "${CREATE_SUPERUSER}" = "true" ]; then
+    echo "==> Creating superuser..."
+    python << END
+import os
+import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'main.settings')
+django.setup()
+
+from apps.users.models import User
+
+email = os.getenv('SUPERUSER_EMAIL', 'admin@metateks.ru')
+password = os.getenv('SUPERUSER_PASSWORD', 'MetaTeks2025Admin!')
+
+if User.objects.filter(email=email).exists():
+    print(f'✓ Superuser {email} already exists')
+    user = User.objects.get(email=email)
+    user.set_password(password)
+    user.is_staff = True
+    user.is_superuser = True
+    user.save()
+    print(f'✓ Password updated')
+else:
+    user = User.objects.create_superuser(
+        email=email,
+        password=password,
+        first_name='Admin',
+        last_name='Metateks'
+    )
+    print(f'✓ Superuser created: {email}')
+END
+fi
+
 echo "==> Collecting static files..."
 python manage.py collectstatic --noinput
 

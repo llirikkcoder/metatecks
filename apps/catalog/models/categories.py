@@ -148,7 +148,27 @@ class Category(SearchResultModelMixin, DatesBaseModel, MetatagModel):
     def get_title(self):
         return f'Навесное оборудование {self.name_lower}'
 
-    def get_h1_title(self):
+    def get_meta_title(self, city=None):
+        """Получение meta title с поддержкой шаблонов"""
+        if self.meta_title_template:
+            from apps.utils.seo_templates import apply_seo_template
+            return apply_seo_template(self, self.meta_title_template, city=city)
+        return self.get_title()
+
+    def get_meta_description(self, city=None):
+        """Получение meta description с поддержкой шаблонов"""
+        if self.meta_desc_template:
+            from apps.utils.seo_templates import apply_seo_template
+            return apply_seo_template(self, self.meta_desc_template, city=city)
+        # Fallback на старое поведение
+        return self.meta_desc or ''
+
+    def get_h1_title(self, city=None):
+        """Получение H1 с поддержкой шаблонов"""
+        if self.h1_template:
+            from apps.utils.seo_templates import apply_seo_template
+            return mark_safe(apply_seo_template(self, self.h1_template, city=city))
+        # Fallback на старое поведение
         _name = self.name_lower.replace(' ', '&nbsp;', 1)
         return mark_safe(f'Навесное оборудование {_name}')
 
@@ -309,13 +329,32 @@ class SubCategory(SearchResultModelMixin, DatesBaseModel, MetatagModel):
     def get_title(self):
         return self.get_full_name(for_html=False)
 
-    def get_h1_title(self):
+    def get_meta_title(self, city=None):
+        """Получение meta title с поддержкой шаблонов"""
+        if self.meta_title_template:
+            from apps.utils.seo_templates import apply_seo_template
+            return apply_seo_template(self, self.meta_title_template, city=city)
+        return self.get_title()
+
+    def get_h1_title(self, city=None):
+        """Получение H1 с поддержкой шаблонов"""
+        if self.h1_template:
+            from apps.utils.seo_templates import apply_seo_template
+            return mark_safe(apply_seo_template(self, self.h1_template, city=city))
         return self.get_full_name(for_html=True)
 
     META_DESCRIPTION = '{}. Выбирайте в фильтре свой бренд и нужное вам оборудование Метатэкс'
 
-    def get_meta_desc(self):
+    def get_meta_desc(self, city=None):
+        """Получение meta description с поддержкой шаблонов"""
+        if self.meta_desc_template:
+            from apps.utils.seo_templates import apply_seo_template
+            return apply_seo_template(self, self.meta_desc_template, city=city)
         return self.meta_description or self.META_DESCRIPTION.format(self.get_title())
+
+    def get_meta_description(self, city=None):
+        """Alias для совместимости"""
+        return self.get_meta_desc(city=city)
 
     @property
     def has_description(self):

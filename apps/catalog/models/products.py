@@ -339,6 +339,28 @@ class Product(DatesBaseModel, MetatagModel):
     def get_title(self):
         return self.name
 
+    def get_meta_title(self, city=None):
+        """Получение meta title с поддержкой шаблонов"""
+        if self.meta_title_template:
+            from apps.utils.seo_templates import apply_seo_template
+            return apply_seo_template(self, self.meta_title_template, city=city)
+        return self.meta_title or self.get_title()
+
+    def get_meta_description(self, city=None):
+        """Получение meta description с поддержкой шаблонов"""
+        if self.meta_desc_template:
+            from apps.utils.seo_templates import apply_seo_template
+            return apply_seo_template(self, self.meta_desc_template, city=city)
+        return self.meta_desc or ''
+
+    def get_h1_title(self, city=None):
+        """Получение H1 с поддержкой шаблонов"""
+        if self.h1_template:
+            from apps.utils.seo_templates import apply_seo_template
+            from django.utils.safestring import mark_safe
+            return mark_safe(apply_seo_template(self, self.h1_template, city=city))
+        return self.h1 or self.get_title()
+
     @property
     def has_description(self):
         text = self.description
