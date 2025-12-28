@@ -174,12 +174,26 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
 
 # Database configuration
-# Use DATABASE_URL if provided (Docker/production), otherwise use SQLite (local development)
+# USE_SQLITE=1 - force SQLite (для быстрого деплоя без БД)
+# DATABASE_URL - use PostgreSQL/MySQL (production)
+# Otherwise - fallback to SQLite (local development)
+
+USE_SQLITE = os.getenv('USE_SQLITE', '0').lower() in ('1', 'true', 'yes')
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-if DATABASE_URL:
+if USE_SQLITE:
+    # Принудительно используем SQLite (для тестирования фронта без данных)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+elif DATABASE_URL:
+    # Используем PostgreSQL/MySQL из DATABASE_URL
     DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
 else:
+    # Fallback на SQLite для локальной разработки
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
