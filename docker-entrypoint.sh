@@ -52,7 +52,29 @@ python manage.py migrate --noinput
 # Создание суперпользователя если задана переменная
 if [ "${CREATE_SUPERUSER}" = "1" ] || [ "${CREATE_SUPERUSER}" = "true" ]; then
     echo "==> Creating/updating superuser..."
-    python manage.py ensure_superuser
+    python manage.py ensure_superuser || echo "Warning: ensure_superuser failed, trying inline script..."
+
+    # Fallback: inline скрипт если ensure_superuser не сработал
+    python -c "
+from apps.users.models import User
+email = 'admin@metateks.ru'
+password = 'MetaTeks2025Admin!'
+try:
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
+        user.set_password(password)
+        user.is_admin = True
+        user.is_superuser = True
+        user.is_active = True
+        user.save()
+        print(f'✓ Superuser {email} updated (inline)')
+    else:
+        user = User.objects.create_superuser(email=email, password=password)
+        print(f'✓ Superuser {email} created (inline)')
+    print(f'  is_admin: {user.is_admin}, is_superuser: {user.is_superuser}, is_active: {user.is_active}')
+except Exception as e:
+    print(f'✗ Error creating superuser: {e}')
+" || echo "Inline script also failed"
 fi
 
 echo "==> Collecting static files..."
