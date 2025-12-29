@@ -20,6 +20,9 @@ celerybeat.pid
 temp/
 test/
 
+# Docker local overrides
+docker-compose.override.yml
+
 # OS or Editor folders, extensions
 .cache
 .DS_Store
