@@ -201,10 +201,13 @@ USE_TZ = True
 
 SESSION_COOKIE_AGE = 31536000  # 1 year in seconds
 
-# Cookie settings для работы по HTTP (без HTTPS)
-SESSION_COOKIE_SECURE = False  # True только для HTTPS
+# Cookie settings для работы по HTTP/HTTPS
+SESSION_COOKIE_DOMAIN = os.getenv('SESSION_COOKIE_DOMAIN', None)  # Для поддоменов: .example.com
+SESSION_COOKIE_SECURE = env_bool('SESSION_COOKIE_SECURE', False)  # True для HTTPS
 SESSION_COOKIE_SAMESITE = 'Lax'  # Разрешает cookie в обычных переходах
-CSRF_COOKIE_SECURE = False  # True только для HTTPS
+
+CSRF_COOKIE_DOMAIN = os.getenv('CSRF_COOKIE_DOMAIN', None)  # Для поддоменов: .example.com
+CSRF_COOKIE_SECURE = env_bool('CSRF_COOKIE_SECURE', False)  # True для HTTPS
 CSRF_COOKIE_SAMESITE = 'Lax'  # Разрешает CSRF cookie
 
 # Настройки для работы через nginx прокси
