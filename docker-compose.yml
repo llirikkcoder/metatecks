@@ -128,7 +128,8 @@ services:
       # Assets теперь в образе (через collectstatic или COPY)
       # Если assets нужны отдельно от static, создайте assets_volume
     depends_on:
-      - web
+      web:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - metateks_network
