@@ -1,6 +1,8 @@
 import json
 
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
 from apps.addresses.models import Warehouse
@@ -8,6 +10,7 @@ from apps.addresses.constants import CHOSEN_CITY_ID, CHOSEN_WAREHOUSE_ID
 from apps.utils.common import get_error_message
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ChooseWarehouseView(View):
 
     def post(self, request, *args, **kwargs):
