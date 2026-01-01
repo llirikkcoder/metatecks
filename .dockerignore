@@ -126,3 +126,5 @@ conf/vps/
 # Conda/Pip cache
 .conda/
 .cache/pip/
+backups/
+scripts/
