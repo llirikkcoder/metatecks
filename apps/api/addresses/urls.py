@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import ChooseWarehouseView
+from .views import choose_warehouse_view
 
 
 urlpatterns = [
-    path('choose_warehouse/', ChooseWarehouseView.as_view(), name='choose-warehouse'),
+    path('choose_warehouse/', choose_warehouse_view, name='choose-warehouse'),
 ]

@@ -1,36 +1,22 @@
 import json
 
 from django.http import JsonResponse
-from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import View
+from django.views.decorators.http import require_http_methods
 
 from apps.addresses.models import Warehouse
 from apps.addresses.constants import CHOSEN_CITY_ID, CHOSEN_WAREHOUSE_ID
 from apps.utils.common import get_error_message
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class ChooseWarehouseView(View):
+@csrf_exempt
+@require_http_methods(["POST"])
+def choose_warehouse_view(request):
+    """API endpoint для выбора склада"""
+    try:
+        body = request.body
+        data = json.loads(body) if body else {}
 
-    def post(self, request, *args, **kwargs):
-        result = None
-        try:
-            body = request.body
-            data = json.loads(request.body) if body else {}
-            result = self.action(request, data)
-        except ValueError:
-            return JsonResponse({'result': 'error', 'error': 'Неправильный формат запроса'}, status=400)
-        except Exception as exc:
-            err_message = get_error_message(exc)
-            return JsonResponse({'result': 'error', 'error': err_message}, status=400)
-
-        response = {'result': 'ok'}
-        if result:
-            response.update(result)
-        return JsonResponse(response)
-
-    def action(self, request, data):
         warehouse_id = data['warehouse']
         current_url = data['current_url']
         redirect_url = current_url
@@ -44,4 +30,10 @@ class ChooseWarehouseView(View):
         if city != request.city:
             redirect_url = city.get_redirect_to(current_url)
 
-        return {'redirect_url': redirect_url}
+        return JsonResponse({'result': 'ok', 'redirect_url': redirect_url})
+
+    except ValueError:
+        return JsonResponse({'result': 'error', 'error': 'Неправильный формат запроса'}, status=400)
+    except Exception as exc:
+        err_message = get_error_message(exc)
+        return JsonResponse({'result': 'error', 'error': err_message}, status=400)
