@@ -15,8 +15,5 @@ class DisableCSRFForAPIMiddleware(MiddlewareMixin):
     """Отключает CSRF проверку для API эндпоинта выбора склада"""
 
     def process_request(self, request):
-        print(f"[DEBUG] DisableCSRFForAPIMiddleware: path={request.path}")
         if request.path == '/api/addresses/choose_warehouse/':
-            print("[DEBUG] Setting _dont_enforce_csrf_checks=True")
             setattr(request, '_dont_enforce_csrf_checks', True)
-            print(f"[DEBUG] Attribute set: {getattr(request, '_dont_enforce_csrf_checks', None)}")
