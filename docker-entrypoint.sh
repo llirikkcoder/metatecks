@@ -39,6 +39,7 @@ wait_for_db()
 END
 
 echo "==> Running database migrations..."
+echo "==> Note: Migrations include PostgreSQL type cleanup to prevent IntegrityError"
 python manage.py migrate --noinput
 
 echo "==> Collecting static files..."

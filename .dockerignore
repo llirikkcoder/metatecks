@@ -128,3 +128,28 @@ conf/vps/
 .cache/pip/
 backups/
 scripts/
+
+# Specs and planning (not needed in container)
+.specify/
+specs/
+*.spec.md
+*.plan.md
+*.tasks.md
+*.research.md
+
+# WSL config
+.wslconfig*
+
+# Large test/data files
+vps_data/
+*_backup*
+*_files/
+test_*.txt
+test_*.sh
+admin_cookies*.txt
+c*.txt
+script_*.js
+
+# Claude/IDE config
+.claude/
+*.bak

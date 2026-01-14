@@ -7,7 +7,9 @@
       "Bash(chmod:*)",
       "Bash(ls:*)",
       "Bash(cat:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(rsync:*)",
+      "Bash(docker volume:*)"
     ]
   }
 }

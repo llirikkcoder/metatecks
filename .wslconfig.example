@@ -1,0 +1,19 @@
+# WSL2 Configuration Example
+# Скопируйте этот файл в C:\Users\<YourUser>\.wslconfig
+# и перезапустите WSL командой: wsl --shutdown
+
+[wsl2]
+# Распределяемая память (рекомендуется 8GB для Docker сборок)
+memory=8GB
+
+# Количество процессоров
+processors=4
+
+# Размер swap-файла
+swap=2GB
+
+# Путь к swap-файлу (по желанию)
+swapFile=C:\\temp\\wsl-swap.vhdx
+
+# Рекомендуется для устранения SIGBUS ошибок при сборке Docker образов
+# при работе над проектом в WSL2

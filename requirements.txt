@@ -1,0 +1,57 @@
+# Combined requirements for local development
+
+# Core Django and utilities
+Django==4.2.13
+python-dotenv==1.0.1
+python-dateutil==2.9.0
+requests==2.32.3
+
+# Images and thumbnails
+Pillow==10.4.0
+easy-thumbnails==2.8.5
+sorl-thumbnail==12.10.0
+
+# Django extensions
+django-extensions==3.2.3
+django-solo==2.3.0
+
+# Development tools
+ipdb==0.13.13
+ipython==8.26.0
+
+# Celery and async tasks
+Celery==5.4.0
+redis==5.2.1
+
+# Django admin and UI
+django-admin-sortable2==2.2.1
+django-suit-v2-pm==2.4
+django-object-actions==4.2.0
+
+# Django utilities
+django-appconf==1.0.6
+django-crequest==2018.5.11
+django-dirtyfields==1.9.5
+django-galleryfield==2.2.0
+django-ipware==7.0.1
+django-multiselectfield==0.1.13
+django-sortedm2m==3.1.1
+django-tinymce==4.1.0
+django-treenode==0.22.2
+
+# Database
+dj-database-url==2.2.0
+
+# Cache
+easy_cache==2.0.0
+
+# Utilities
+filetype==1.2.0
+ipinfo==5.1.1
+pytils==0.4.1
+regex==2024.11.6
+
+# Django Watson (search) - install last
+# If this fails, comment it out and install manually:
+# pip install git+https://github.com/etianen/django-watson.git@refs/pull/309/head
+# git+https://github.com/etianen/django-watson.git@refs/pull/309/head

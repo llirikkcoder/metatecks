@@ -19,6 +19,7 @@ celerybeat.pid
 /vps_data/*
 temp/
 test/
+venv/
 
 # Docker local overrides
 docker-compose.override.yml
