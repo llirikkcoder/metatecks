@@ -50,3 +50,4 @@ Thumbs.db
 production_dump*.json
 metateks_dump*
 db_from_vps.sqlite3
+nul 
