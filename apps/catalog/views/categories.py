@@ -336,14 +336,26 @@ class SubCategoryView(DetailView):
 
         # - варианты в фильтре: бренд
         brands = Brand.objects.filter(id__in=all_products.values_list('brand_id', flat=True))
-        brand_options = [
-            {
+        brand_options = []
+        for b in brands:
+            # Получаем модели для бренда из текущей подкатегории (через products)
+            # Используем RelatedManager для правильной работы связи
+            brand_products = all_products.filter(brand=b)
+            brand_model_ids = brand_products.values_list('model_id', flat=True).distinct()
+            brand_models = list(
+                all_models
+                .filter(id__in=brand_model_ids)
+                .exclude(vendor_code__isnull=True)
+                .exclude(vendor_code='')
+                .values_list('vendor_code', flat=True)
+                .order_by('vendor_code')
+            )
+            brand_options.append({
                 'value': b.id,
                 'name': b.name,
                 'is_chosen': self._get_is_chosen('brand', b.id),
-            }
-            for b in brands
-        ]
+                'models': brand_models,  # Список моделей из 1С
+            })
         BRAND_ATTR_SLUG = Brand.get_attr_slug()
 
         # - варианты в фильтре: атрибут
