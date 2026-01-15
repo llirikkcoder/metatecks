@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-{% load base_tags catalog_tags static %}
+{% load base_tags catalog_tags static catalog_extras %}
 
 {% block title %}{{ subcat.get_meta_title }}{% endblock %}
 {% block meta_description %}{{ subcat.get_meta_desc }}{% endblock %}
@@ -176,9 +176,22 @@
           <div class="filtr-block__filters ">
             <div class="scrollbar-box__wrap">
               <div id="scrollbar-box__container2" class="scrollbar-box__container2 ">
-                <div class="scrollbar-box__inner" id="scrollbar-box">
+                <div class="scrollbar-box__inner" id="brand-filter">
                   {% for o in brand_options %}
-                    <a href="#" data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}">{{ o.name }}</a>
+                    {% if o.models %}
+                      <details class="brand-details">
+                        <summary data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option js-filter-brand-with-models btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}">{{ o.name }}</summary>
+                        <div class="brand-dropdown models-dropdown">
+                          <div class="brand-dropdown__list">
+                            {% for model in o.models %}
+                              <button type="button" class="brand-dropdown__item" data-brand="{{ o.name }}" data-model="{{ model }}">{{ model }}</button>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </details>
+                    {% else %}
+                      <a href="#" data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}">{{ o.name }}</a>
+                    {% endif %}
                   {% endfor %}
                 </div>
               </div>
@@ -189,10 +202,12 @@
           </div>
         </div>
       </div>
+      <!-- Выбранные модели -->
+      <div class="filtr-block__selected" id="selected-models" aria-live="polite"></div>
       <!-- Кнопка сброса фильтра -->
       <div class="section-footer">
         <div class="section-footer__button-wr">
-          <button class="js-reset-filter reset-filter-button btn-midl btn--grey" type="submit" title="Сбросить параметры фильтра"><span
+          <button class="js-reset-filter reset-filter-button btn-midl btn--grey" type="button" id="reset-filters" title="Сбросить параметры фильтра"><span
               class="btn__ico met-ico-reset"></span>Сбросить&nbsp;фильтр</button>
         </div>
         <hr />
@@ -265,6 +280,20 @@
 
 {% block scripts %}
   <script type="text/javascript">
+    // Предотвращаем фильтрацию для брендов с dropdown моделей
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      // Ищем ближайший элемент с классом js-filter-brand-with-models
+      var brandWithModels = target.closest('.js-filter-brand-with-models');
+      if (brandWithModels) {
+        // Предотвращаем всплытие события к jQuery обработчику
+        e.stopPropagation();
+        e.preventDefault();
+        // Даем details/summary работать как обычно (открывать dropdown)
+        return true;
+      }
+    }, true); // capture phase - срабатывает до jQuery
+
     {% include 'js/filter.js' %}
   </script>
 {% endblock %}

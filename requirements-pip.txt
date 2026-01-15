@@ -1,5 +1,6 @@
 Celery==5.4.0
 django-admin-sortable2==2.2.1
+python-dotenv==1.0.1
 django-appconf==1.0.6
 django-crequest==2018.5.11
 django-dirtyfields==1.9.5

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(docker --version:*)",
+      "Bash(docker-compose:*)",
+      "Bash(chmod:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(curl:*)",
+      "Bash(rsync:*)",
+      "Bash(docker volume:*)"
+    ]
+  }
+}
