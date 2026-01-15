@@ -19,6 +19,7 @@ celerybeat.pid
 /vps_data/*
 temp/
 test/
+.venv/
 
 # Docker local overrides
 docker-compose.override.yml
@@ -49,3 +50,4 @@ Thumbs.db
 production_dump*.json
 metateks_dump*
 db_from_vps.sqlite3
+nul 
