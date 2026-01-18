@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-{% load base_tags catalog_tags static %}
+{% load base_tags catalog_tags static catalog_extras %}
 
 {% block title %}{{ subcat.get_meta_title }}{% endblock %}
 {% block meta_description %}{{ subcat.get_meta_desc }}{% endblock %}
@@ -169,119 +169,131 @@
             </div>
           </div>
         {% endif %}
-                  <div class="filtr-block__column-brends">
-                    <div class="filtr-block__header">
-                      <span class="filtr-block__ico met-ico-brend"></span><span class="h4">Бренд техники</span>
-                    </div>
-                    <div class="filtr-block__filters ">
-                      <div class="scrollbar-box__wrap">
-                        <div id="scrollbar-box__container2" class="scrollbar-box__container2 ">
-                          <div class="scrollbar-box__inner" id="brand-filter">
-                            {% for o in brand_options %}
-                              <a href="#" data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}"
-                                {% if o.name == 'BOULDER' or o.name == 'XCMG' %}
-                                  data-models='["M345-XT 80","M345-XT 100","M365-XL 120","M220-Lite","E120 Electric"]'
-                                {% endif %}
-                              >{{ o.name }}</a>
+        <div class="filtr-block__column-brends">
+          <div class="filtr-block__header">
+            <span class="filtr-block__ico met-ico-brend"></span><span class="h4">Бренд техники</span>
+          </div>
+          <div class="filtr-block__filters ">
+            <div class="scrollbar-box__wrap">
+              <div id="scrollbar-box__container2" class="scrollbar-box__container2 ">
+                <div class="scrollbar-box__inner" id="brand-filter">
+                  {% for o in brand_options %}
+                    {% if o.models %}
+                      <details class="brand-details">
+                        <summary data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option js-filter-brand-with-models btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}">{{ o.name }}</summary>
+                        <div class="brand-dropdown models-dropdown">
+                          <div class="brand-dropdown__list">
+                            {% for model in o.models %}
+                              <button type="button" class="brand-dropdown__item" data-brand="{{ o.name }}" data-model="{{ model }}">{{ model }}</button>
                             {% endfor %}
                           </div>
                         </div>
-                        <div class="scrollbar2">
-                          <div class="thumb2"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Выбранные модели -->
-                <div class="filtr-block__selected" id="selected-models" aria-live="polite"></div>
-                <!-- Кнопка сброса фильтра -->
-                <div class="section-footer">
-                  <div class="section-footer__button-wr">
-                    <button class="js-reset-filter reset-filter-button btn-midl btn--grey" type="button" id="reset-filters" title="Сбросить параметры фильтра"><span
-                        class="btn__ico met-ico-reset"></span>Сбросить&nbsp;фильтр</button>
-                  </div>
-                  <hr />
+                      </details>
+                    {% else %}
+                      <a href="#" data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}">{{ o.name }}</a>
+                    {% endif %}
+                  {% endfor %}
                 </div>
               </div>
-          
-              <div class="js-filter-products" id="products">
-                {% include 'include/products_container.html' %}
+              <div class="scrollbar2">
+                <div class="thumb2"></div>
               </div>
-            </section>
-          
-            <!-- ЕДИНЫЙ дропдаун (динамически наполняется) -->
-            <div class="brand-dropdown" id="brandDropdown" hidden>
-              <div class="brand-dropdown__header">
-                <span class="brand-dropdown__title" id="brandDropdownTitle"></span>
-                <button type="button" class="brand-dropdown__close" id="brandDropdownClose" aria-label="Закрыть">×</button>
-              </div>
-              <div class="brand-dropdown__list" id="brandDropdownList" role="listbox" aria-label="Список моделей"></div>
             </div>
-          
-            <!-- Секция с фотографиями оборудования -->
-            {% if photos %}
-              {% include 'include/catalog_photos.html' with photos=photos only %}
-            {% endif %}
-          
-            <!-- Секция с видео оборудования -->
-            {% if videos %}
-              {% include 'include/catalog_videos.html' with videos=videos only %}
-            {% endif %}
-          
-            <!-- Отдел продаж -->
-            <section id="managers-home" class="managers-home wrap-pad-min wrap--column wrap-pad--mob--none">
-              <div class="content-limited">
-                <form id="formmanager" class="form-callback form--whaite" method="post">
-                  <header>
-                    <h3>Если есть вопросы, отправьте заявку менеджер свяжется с вами</h3>
-                  </header>
-                  <main>
-          
-                    <div class="field-row">
-                      <label class="field-label" for="name">Ваше имя</label>
-                      <input class="field-input" id="name" autocomplete="on" type="text" name="name" value=""
-                        size="0" />
-                    </div>
-                    <div class="field-row">
-                      <label class="field-label" for="phone">Телефон<sup>
-                          <font color="#FF5C00"> *</font>
-                        </sup></label>
-                      <input class="field-input required" id="phone" autocomplete="on" type="tel" name="phone"
-                        value="" size="0" placeholder="+7 (___) ___-__-__" minlength="1"
-                        data-msg="Заполните поле Телефон" />
-          
-                    </div>
-          
-                    <div class="checkbox-row">
-                      <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
-                        data-msg="Выбор этого пункта обязателен">
-                      <label for="privacy">
-                      </label>
-                      <span class="checkbox-text small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
-                          title="условия политики обработки персональных данных" target="_blank">условиями
-                          политики</a>
-                        обработки
-                        персональных данных <sup>
-                          <font color="#FF5C00"> *</font>
-                        </sup>
-                      </span>
-                    </div>
-                  </main>
-          
-                  <footer>
-                    <button name="Submit" value="Отправить" type="submit" class="btn-big btn--orange"><span class="btn__ico  met-ico-circle-right
-          "></span> Заказать звонок</button>
-                  </footer>
-                </form>
-              </div>
-            </section>
-          {% endblock %}
-          
-          {% block scripts %}
-            <script type="text/javascript" src="{% static 'js/model_filter.js' %}"></script>
-            <script type="text/javascript">
-              {% include 'js/filter.js' %}
-            </script>
-          {% endblock %}
-          
+          </div>
+        </div>
+      </div>
+      <!-- Выбранные модели -->
+      <div class="filtr-block__selected" id="selected-models" aria-live="polite"></div>
+      <!-- Кнопка сброса фильтра -->
+      <div class="section-footer">
+        <div class="section-footer__button-wr">
+          <button class="js-reset-filter reset-filter-button btn-midl btn--grey" type="button" id="reset-filters" title="Сбросить параметры фильтра"><span
+              class="btn__ico met-ico-reset"></span>Сбросить&nbsp;фильтр</button>
+        </div>
+        <hr />
+      </div>
+    </div>
+
+    <div class="js-filter-products" id="products">
+      {% include 'include/products_container.html' %}
+    </div>
+  </section>
+
+  <!-- Секция с фотографиями оборудования -->
+  {% if photos %}
+    {% include 'include/catalog_photos.html' with photos=photos only %}
+  {% endif %}
+
+  <!-- Секция с видео оборудования -->
+  {% if videos %}
+    {% include 'include/catalog_videos.html' with videos=videos only %}
+  {% endif %}
+
+  <!-- Отдел продаж -->
+  <section id="managers-home" class="managers-home wrap-pad-min wrap--column wrap-pad--mob--none">
+    <div class="content-limited">
+      <form id="formmanager" class="form-callback form--whaite" method="post">
+        <header>
+          <h3>Если есть вопросы, отправьте заявку менеджер свяжется с вами</h3>
+        </header>
+        <main>
+
+          <div class="field-row">
+            <label class="field-label" for="name">Ваше имя</label>
+            <input class="field-input" id="name" autocomplete="on" type="text" name="name" value=""
+              size="0" />
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="phone">Телефон<sup>
+                <font color="#FF5C00"> *</font>
+              </sup></label>
+            <input class="field-input required" id="phone" autocomplete="on" type="tel" name="phone"
+              value="" size="0" placeholder="+7 (___) ___-__-__" minlength="1"
+              data-msg="Заполните поле Телефон" />
+
+          </div>
+
+          <div class="checkbox-row">
+            <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+              data-msg="Выбор этого пункта обязателен">
+            <label for="privacy">
+            </label>
+            <span class="checkbox-text small-text">Ознакомлен и согласен с <a href="/privacy_policy/"
+                title="условия политики обработки персональных данных" target="_blank">условиями
+                политики</a>
+              обработки
+              персональных данных <sup>
+                <font color="#FF5C00"> *</font>
+              </sup>
+            </span>
+          </div>
+        </main>
+
+        <footer>
+          <button name="Submit" value="Отправить" type="submit" class="btn-big btn--orange"><span class="btn__ico  met-ico-circle-right
+"></span> Заказать звонок</button>
+        </footer>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    // Предотвращаем фильтрацию для брендов с dropdown моделей
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      // Ищем ближайший элемент с классом js-filter-brand-with-models
+      var brandWithModels = target.closest('.js-filter-brand-with-models');
+      if (brandWithModels) {
+        // Предотвращаем всплытие события к jQuery обработчику
+        e.stopPropagation();
+        e.preventDefault();
+        // Даем details/summary работать как обычно (открывать dropdown)
+        return true;
+      }
+    }, true); // capture phase - срабатывает до jQuery
+
+    {% include 'js/filter.js' %}
+  </script>
+{% endblock %}
