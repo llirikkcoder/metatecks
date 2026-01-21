@@ -30,6 +30,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     curl \
     git \
+    # Для переключения пользователя
+    gosu \
     && rm -rf /var/lib/apt/lists/*
 
 # Копирование requirements
@@ -51,8 +53,8 @@ RUN mkdir -p /app/media /app/static /app/logs
 RUN useradd -m -u 1000 metateks && \
     chown -R metateks:metateks /app
 
-# Переключение на непривилегированного пользователя
-USER metateks
+# НЕ переключаемся на пользователя здесь - делаем это в entrypoint
+# USER metateks
 
 # Сбор статических файлов (будет выполнено в entrypoint)
 # RUN python manage.py collectstatic --noinput
