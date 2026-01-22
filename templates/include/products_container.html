@@ -2,7 +2,7 @@
 
 {% if with_filter or not with_popular_products %}
   <!-- Отфильтрованные товары -->
-  <h2>{{ subcat.full_name_plural }}{% if with_model %}: {{ model }}{% else %}{% endif %}{% if brand %} {{ brand }}{% endif %}</h2>
+  <h2>{{ subcat.full_name_plural }}{% if with_model %}: {{ model }}{% else %}{% endif %}{{ filter_display_text }}</h2>
 
   <!-- Список товаров -->
   {% if products_count %}

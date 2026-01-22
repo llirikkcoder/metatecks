@@ -298,6 +298,9 @@ class SubCategoryView(DetailView):
             if with_popular:
                 popular_products = popular_products.select_related('model').prefetch_related('stock_balance').order_by('?')[:7]
 
+        # Формируем текст выбранных фильтров для заголовка
+        filter_display_text = self.get_filter_display_text()
+
         return {
             'with_filter': self.with_filter,
             'attributes': ATTRIBUTES,
@@ -311,11 +314,66 @@ class SubCategoryView(DetailView):
             'paginator': self.paginator,
             'popular_products': popular_products,
             'with_popular_products': with_popular,
+            'filter_display_text': filter_display_text,
         }
 
     def _get_is_chosen(self, attr_name, value):
         values = self.f.get(attr_name, [])
         return value in values or str(value) in values
+
+    def get_filter_display_text(self):
+        """
+        Формирует текст выбранных фильтров для отображения в заголовке.
+        Формат: (параметр значение1, значение2, …)
+        Бренды выводятся без названия параметра.
+        """
+        if not self.f:
+            return ''
+
+        parts = []
+
+        # Фильтр по атрибуту
+        if 'attr' in self.f and self.attr:
+            attr_values = self.f['attr']
+            attr_name = self.attr.name
+
+            # Получаем названия выбранных значений
+            attr_display = []
+
+            # Если атрибут с опциями
+            if self.attr.with_options:
+                options = {o.id: o.name for o in self.attr.options.all()}
+                for val in attr_values:
+                    if val in options:
+                        attr_display.append(str(options[val]))
+
+            # Если атрибут с фильтр-опциями
+            elif self.attr.filter_options.count():
+                options = {o.id: o.name for o in self.attr.filter_options.all()}
+                for val in attr_values:
+                    if val in options:
+                        attr_display.append(str(options[val]))
+
+            # Если обычные значения
+            else:
+                unit = f' {self.attr.unit}' if self.attr.unit else ''
+                attr_display = [f'{val}{unit}' for val in attr_values]
+
+            if attr_display:
+                # Формат: "параметр значение1, значение2"
+                parts.append(f'{attr_name} {", ".join(attr_display)}')
+
+        # Фильтр по брендам (без названия параметра)
+        if 'brand' in self.f:
+            brand_ids = self.f['brand']
+            brands = Brand.objects.filter(id__in=brand_ids).values_list('name', flat=True)
+            if brands:
+                parts.extend(brands)
+
+        if parts:
+            return f' ({", ".join(parts)})'
+
+        return ''
 
     def get_extra_data(self):
         """
