@@ -112,7 +112,7 @@ class SubCategoryAdmin(ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, So
     fieldsets = (
         ('Подкатегория', {
             'classes': ('suit-tab', 'suit-tab-default',),
-            'fields': ('id', 'category', 'name', 'slug', 'name_single', 'photo',),
+            'fields': ('id', 'category', 'name', 'slug', 'name_single', 'photo', 'card_photo',),
         }),
         ('Описание', {
             'classes': ('suit-tab', 'suit-tab-description',),

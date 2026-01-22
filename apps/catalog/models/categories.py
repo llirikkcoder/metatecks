@@ -179,6 +179,12 @@ class SubCategory(SearchResultModelMixin, DatesBaseModel, MetatagModel):
     )
     slug = models.SlugField('Адрес в url', max_length=255)
     photo = ThumbnailerImageField('Обложка', null=True, blank=True, upload_to='sub_categories/photos/')
+    card_photo = ThumbnailerImageField(
+        'Изображение для карточки анонса',
+        null=True, blank=True,
+        upload_to='sub_categories/card_photos/',
+        help_text='Необязательно. Если не загружено, будет использоваться обрезанная версия основного изображения'
+    )
 
     purpose = models.TextField('Назначение', blank=True)
     description = HTMLField('Описание', blank=True)
@@ -288,11 +294,16 @@ class SubCategory(SearchResultModelMixin, DatesBaseModel, MetatagModel):
 
     @property
     def list_photo_url(self):
-        return (
-            get_thumb_url(self.photo, 'sub_category_list_photo')
-            if self.photo
-            else get_thumb_url(self.category.cover, 'sub_category_list_photo')
-        )
+        """
+        Изображение для карточки анонса подкатегории.
+        Приоритет: card_photo -> обрезанное photo -> обрезанное category.cover
+        """
+        if self.card_photo:
+            return get_thumb_url(self.card_photo, 'sub_category_list_photo')
+        elif self.photo:
+            return get_thumb_url(self.photo, 'sub_category_list_photo')
+        else:
+            return get_thumb_url(self.category.cover, 'sub_category_list_photo')
 
     def get_photo(self):
         return self.photo or self.category.cover
@@ -319,6 +330,15 @@ class SubCategory(SearchResultModelMixin, DatesBaseModel, MetatagModel):
             get_thumb_url(self.photo, 'sub_category_photo')
             if self.photo
             else get_thumb_url(self.category.cover, 'sub_category_photo')
+        )
+
+    @property
+    def header_photo_url(self):
+        """Изображение для шапки страницы подкатегории без обрезки"""
+        return (
+            get_thumb_url(self.photo, 'sub_category_header_photo')
+            if self.photo
+            else get_thumb_url(self.category.cover, 'sub_category_header_photo')
         )
 
     # seo и тексты на странице

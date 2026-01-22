@@ -442,6 +442,12 @@ THUMBNAIL_ALIASES = {
             'size': (1350, 900),
             'quality': 90,
         },
+        'sub_category_header_photo': {
+            # Для шапки страницы подкатегории - без кропа, сохраняем оригинальные пропорции
+            'upscale': False,
+            'size': (1600, 900),
+            'quality': 90,
+        },
         'product_list_photo': {
             'upscale': True,
             'crop': 'smart',
