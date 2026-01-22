@@ -13,6 +13,24 @@ from apps.utils.admin_mixins import (
 from apps.utils.common import get_admin_url
 
 
+def make_visible(modeladmin, request, queryset):
+    """Массовое включение отображения товаров"""
+    updated = queryset.update(is_shown=True)
+    modeladmin.message_user(request, f'Включено отображение для {updated} товара(ов)')
+
+
+make_visible.short_description = 'Включить отображение'
+
+
+def make_hidden(modeladmin, request, queryset):
+    """Массовое отключение отображения товаров"""
+    updated = queryset.update(is_shown=False)
+    modeladmin.message_user(request, f'Отключено отображение для {updated} товара(ов)')
+
+
+make_hidden.short_description = 'Отключить отображение'
+
+
 class ProductPhotoInline(ImageThumbnailsAdminMixin, admin.TabularInline):
     model = ProductPhoto
     fields = ('photo', 'is_shown', 'show_on_subcategory', 'order',)
@@ -46,6 +64,7 @@ class ProductModelAdmin(
     )
     list_filter = ('category', 'sub_category', 'is_shown', 'is_popular', 'is_synced_with_1c',)
     list_per_page = 100
+    actions = [make_visible, make_hidden, 'delete_selected']
     suit_list_filter_horizontal = (
         'category', 'sub_category', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
@@ -205,6 +224,7 @@ class ProductAdmin(
         'category', 'sub_category', 'model', 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
     list_per_page = 100
+    actions = [make_visible, make_hidden, 'delete_selected']
     suit_list_filter_horizontal = (
         'category', 'sub_category', 'model', 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
