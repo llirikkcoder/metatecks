@@ -14,10 +14,27 @@ from .attributes import Attribute
 
 
 def get_shown_products(category_or_subcategory):
+    """
+    Возвращает отфильтрованные товары с сортировкой:
+    1. Сначала товары в наличии (по городу, затем общее поле is_in_stock)
+    2. Затем по порядку (order)
+    """
     obj = category_or_subcategory
     request = get_current_request()
     city_id = getattr(request, 'city_id', None)
-    return obj.products.filter(is_shown=True).order_by(f'-is_in_stock_dict__c{city_id}')
+
+    # Сортировка:
+    # 1) По наличию в конкретном городе (если есть city_id)
+    # 2) По общему полю is_in_stock (fallback)
+    # 3) По порядку
+    if city_id:
+        return obj.products.filter(is_shown=True).order_by(
+            f'-is_in_stock_dict__c{city_id}',
+            '-is_in_stock',
+            'order'
+        )
+    else:
+        return obj.products.filter(is_shown=True).order_by('-is_in_stock', 'order')
 
 
 class Category(SearchResultModelMixin, DatesBaseModel, MetatagModel):

@@ -289,7 +289,7 @@ class Product(DatesBaseModel, MetatagModel):
     order = models.PositiveSmallIntegerField('Порядок', default=1)
 
     class Meta:
-        ordering = ['order']
+        ordering = ['-is_in_stock', 'order']
         verbose_name = 'товар'
         verbose_name_plural = '4) Товары'
 
