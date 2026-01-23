@@ -27,9 +27,13 @@ def get_shown_products(category_or_subcategory):
     # 1) По наличию в конкретном городе (если есть city_id)
     # 2) По общему полю is_in_stock (fallback)
     # 3) По порядку
+    # ВАЖНО: Используем RawSQL чтобы NULL значения в is_in_stock_dict трактовались как False
     if city_id:
-        return obj.products.filter(is_shown=True).order_by(
-            f'-is_in_stock_dict__c{city_id}',
+        from django.db.models.expressions import RawSQL
+        return obj.products.filter(is_shown=True).extra(
+            select={'city_stock_sort': f"COALESCE((is_in_stock_dict->>'c{city_id}')::boolean, false)"}
+        ).order_by(
+            '-city_stock_sort',
             '-is_in_stock',
             'order'
         )
