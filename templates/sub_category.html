@@ -178,20 +178,7 @@
               <div id="scrollbar-box__container2" class="scrollbar-box__container2 ">
                 <div class="scrollbar-box__inner" id="brand-filter">
                   {% for o in brand_options %}
-                    {% if o.models %}
-                      <details class="brand-details">
-                        <summary data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option js-filter-brand-with-models btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}">{{ o.name }}</summary>
-                        <div class="brand-dropdown models-dropdown">
-                          <div class="brand-dropdown__list">
-                            {% for model in o.models %}
-                              <button type="button" class="brand-dropdown__item" data-brand="{{ o.name }}" data-model="{{ model }}">{{ model }}</button>
-                            {% endfor %}
-                          </div>
-                        </div>
-                      </details>
-                    {% else %}
-                      <a href="#" data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}">{{ o.name }}</a>
-                    {% endif %}
+                    <a href="#" data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}"{% if o.models %} data-models="{{ o.models|to_json }}"{% endif %}>{{ o.name }}</a>
                   {% endfor %}
                 </div>
               </div>
@@ -218,6 +205,15 @@
       {% include 'include/products_container.html' %}
     </div>
   </section>
+
+  <!-- ЕДИНЫЙ дропдаун (динамически наполняется) -->
+  <div class="brand-dropdown" id="brandDropdown" hidden>
+    <div class="brand-dropdown__header">
+      <span class="brand-dropdown__title" id="brandDropdownTitle"></span>
+      <button type="button" class="brand-dropdown__close" id="brandDropdownClose" aria-label="Закрыть">×</button>
+    </div>
+    <div class="brand-dropdown__list" id="brandDropdownList" role="listbox" aria-label="Список моделей"></div>
+  </div>
 
   <!-- Секция с фотографиями оборудования -->
   {% if photos %}
@@ -279,21 +275,8 @@
 {% endblock %}
 
 {% block scripts %}
+  <script type="text/javascript" src="{% static 'js/model_filter.js' %}"></script>
   <script type="text/javascript">
-    // Предотвращаем фильтрацию для брендов с dropdown моделей
-    document.addEventListener('click', function(e) {
-      var target = e.target;
-      // Ищем ближайший элемент с классом js-filter-brand-with-models
-      var brandWithModels = target.closest('.js-filter-brand-with-models');
-      if (brandWithModels) {
-        // Предотвращаем всплытие события к jQuery обработчику
-        e.stopPropagation();
-        e.preventDefault();
-        // Даем details/summary работать как обычно (открывать dropdown)
-        return true;
-      }
-    }, true); // capture phase - срабатывает до jQuery
-
     {% include 'js/filter.js' %}
   </script>
 {% endblock %}
