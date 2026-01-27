@@ -178,7 +178,7 @@
               <div id="scrollbar-box__container2" class="scrollbar-box__container2 ">
                 <div class="scrollbar-box__inner" id="brand-filter">
                   {% for o in brand_options %}
-                    <a href="#" data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}"{% if o.models %} data-models="{{ o.models|to_json }}"{% endif %}>{{ o.name }}</a>
+                    <a href="#" data-attr="{{ BRAND_ATTR_SLUG }}" data-value="{{ o.value }}" class="js-filter-option btn-small btn--l-grey{% if o.is_chosen %} btn--filtr--select{% endif %}" title="{{ o.name }}"{% if o.models %} data-models='{{ o.models|to_json }}'{% endif %}>{{ o.name }}</a>
                   {% endfor %}
                 </div>
               </div>
