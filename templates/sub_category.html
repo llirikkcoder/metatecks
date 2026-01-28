@@ -21,9 +21,7 @@
 {% endblock %}
 
 {% block head_styles %}
-  <style>
-    {% include 'css/filter.css' %}
-  </style>
+  <link rel="stylesheet" href="{% static 'css/filter.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -275,8 +273,14 @@
 {% endblock %}
 
 {% block scripts %}
-  <script type="text/javascript" src="{% static 'js/model_filter.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/model_filter.js' %}?v=5"></script>
   <script type="text/javascript">
-    {% include 'js/filter.js' %}
+    var _filterConfig = {
+      attrName: '{{ attr.slug|default_if_none:"" }}',
+      absolutePath: '{{ absolute_path }}',
+      brandAttrName: '{{ BRAND_ATTR_SLUG }}',
+      brandSlugs: JSON.parse('{{ brand_slugs|to_json|default:"[]"|escapejs }}')
+    };
   </script>
+  <script type="text/javascript" src="{% static 'js/filter.js' %}?v=2"></script>
 {% endblock %}

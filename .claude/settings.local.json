@@ -63,7 +63,11 @@
       "Task(*)",
       "MCP(*)",
       "Bash(agent-browser:*)",
-      "Bash(docker logs:*)"
+      "Bash(docker logs:*)",
+      "Bash(ssh -o StrictHostKeyChecking=no root@5.188.138.16 'free -h')",
+      "Bash(ssh:*)",
+      "Bash(bd create:*)",
+      "Skill(beads:beads)"
     ],
     "deny": [
       "Bash(git push:*)",

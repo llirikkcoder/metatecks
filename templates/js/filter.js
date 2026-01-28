@@ -5,7 +5,7 @@ const attrName = '{{ attr.slug|default_if_none:"" }}',
       brandAttrName = '{{ BRAND_ATTR_SLUG }}',
       brandSlugs = {{ brand_slugs|safe }};
 
-var _filter = {'brand': []},
+var _filter = {'brand': [], 'models': []},
     _offset = 0;
 if (attrName) { _filter[attrName] = []; }
 
@@ -27,6 +27,7 @@ function removeFromFilter(attr, value, _sort = true) {
 
 function setFilterEmpty() {
   _filter['brand'] = [];
+  _filter['models'] = [];
   if (attrName) { _filter[attrName] = []; }
 }
 
@@ -57,6 +58,7 @@ function getFilterParams() {
   var p = {};
   if (_filter['brand'].length > 1) { p['brand'] = _filter['brand'].join('_'); }
   if (attrName && _filter[attrName].length) { p[attrName] = _filter[attrName].join('_'); }
+  if (_filter['models'] && _filter['models'].length) { p['mm'] = _filter['models'].join('__'); }
   if (_offset) { p['offset'] = _offset; }
   return jQuery.param(p);
 }

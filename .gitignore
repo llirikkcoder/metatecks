@@ -50,4 +50,32 @@ Thumbs.db
 production_dump*.json
 metateks_dump*
 db_from_vps.sqlite3
-nul 
+nul
+
+# Playwright testing (temporary)
+node_modules/
+package.json
+package-lock.json
+playwright.config.ts
+playwright-report/
+test-results/
+test-results.txt
+tests/
+specs/
+*.spec.ts
+seed.spec.ts
+debug-*.spec.ts
+
+# Temporary test files
+page-source.html
+inspect-output.txt
+TEST_RESULTS.md
+
+# Claude Code temporary agents
+.claude/agents/
+
+# MCP configuration (local)
+.mcp.json
+
+# Temporary documentation images
+docs/pics/

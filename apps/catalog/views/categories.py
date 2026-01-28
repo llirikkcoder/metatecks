@@ -1,3 +1,5 @@
+import re
+
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -204,6 +206,9 @@ class SubCategoryView(DetailView):
         self.brand = None
         GET = self.request.GET
 
+        # Собираем Q-объекты для комбинированной фильтрации через OR
+        brand_filters = []
+
         # фильтр по бренду
         brand_ids = []
         if self.with_brand:
@@ -211,15 +216,53 @@ class SubCategoryView(DetailView):
             brand_ids = [self.brand.id]
         if 'brand' in GET:
             brand_ids.extend(GET.get('brand', '').split('_'))
+
+        # фильтр по модели техники (machine model)
+        mm_param = GET.get('mm', '')
+        mm_brand_ids = set()  # ID брендов, у которых выбраны конкретные модели
+
+        if mm_param:
+            mm_queries = []
+            for pair in mm_param.split('__'):
+                parts = pair.split('|', 1)
+                if len(parts) == 2:
+                    brand_name, model_name = parts[0].strip(), parts[1].strip()
+                    if brand_name and model_name:
+                        search_text = f'({brand_name} {model_name})'
+                        mm_queries.append(Q(name__icontains=search_text))
+                        # Определяем ID бренда по имени
+                        try:
+                            brand_obj = Brand.objects.get(name__iexact=brand_name)
+                            mm_brand_ids.add(brand_obj.id)
+                        except Brand.DoesNotExist:
+                            pass
+            if mm_queries:
+                combined = mm_queries[0]
+                for q in mm_queries[1:]:
+                    combined |= q
+                brand_filters.append(combined)
+                self.f['mm'] = mm_param
+
+        # Фильтр по брендам БЕЗ конкретных моделей
         if brand_ids:
             try:
-                brand_ids = [int(x) for x in brand_ids]
-                qs = qs.filter(brand_id__in=brand_ids)
+                brand_ids = [int(x) for x in brand_ids if x]
+                # Исключаем бренды, у которых выбраны конкретные модели через dropdown
+                filtered_brand_ids = [bid for bid in brand_ids if bid not in mm_brand_ids]
+                if filtered_brand_ids:
+                    brand_filters.append(Q(brand_id__in=filtered_brand_ids))
                 self.f['brand'] = brand_ids
                 if not self.with_brand and len(brand_ids) == 1:
                     self.brand = Brand.objects.get(id=brand_ids[0])
             except BaseException:
                 pass
+
+        # Применяем комбинированные фильтры через OR
+        if brand_filters:
+            combined_filter = brand_filters[0]
+            for f in brand_filters[1:]:
+                combined_filter |= f
+            qs = qs.filter(combined_filter)
 
         # фильтр по атрибуту
         if self.attr:
@@ -363,6 +406,17 @@ class SubCategoryView(DetailView):
                 # Формат: "параметр значение1, значение2"
                 parts.append(f'{attr_name} {", ".join(attr_display)}')
 
+        # Фильтр по моделям техники
+        if 'mm' in self.f:
+            mm_param = self.f['mm']
+            mm_display = []
+            for pair in mm_param.split('__'):
+                p = pair.split('|', 1)
+                if len(p) == 2:
+                    mm_display.append(f'{p[0]} {p[1]}')
+            if mm_display:
+                parts.append(', '.join(mm_display))
+
         # Фильтр по брендам (без названия параметра)
         if 'brand' in self.f:
             brand_ids = self.f['brand']
@@ -396,23 +450,27 @@ class SubCategoryView(DetailView):
         brands = Brand.objects.filter(id__in=all_products.values_list('brand_id', flat=True))
         brand_options = []
         for b in brands:
-            # Получаем модели для бренда из текущей подкатегории (через products)
-            # Используем RelatedManager для правильной работы связи
             brand_products = all_products.filter(brand=b)
-            brand_model_ids = brand_products.values_list('model_id', flat=True).distinct()
-            brand_models = list(
-                all_models
-                .filter(id__in=brand_model_ids)
-                .exclude(vendor_code__isnull=True)
-                .exclude(vendor_code='')
-                .values_list('vendor_code', flat=True)
-                .order_by('vendor_code')
-            )
+
+            # Парсим модели техники из названия товара: "... для погрузчика (Brand Model)"
+            machine_models = set()
+            brand_lower = b.name.strip().lower()
+            for p in brand_products.only('name'):
+                m = re.search(r'\((.+)\)\s*$', p.name)
+                if not m:
+                    continue
+                text = m.group(1).strip()
+                # Убираем название бренда — остаётся модель техники
+                if text.lower().startswith(brand_lower):
+                    model = text[len(b.name.strip()):].strip()
+                    if model and not model.startswith('('):
+                        machine_models.add(model)
+
             brand_options.append({
                 'value': b.id,
                 'name': b.name,
                 'is_chosen': self._get_is_chosen('brand', b.id),
-                'models': brand_models,  # Список моделей из 1С
+                'models': sorted(machine_models) if len(machine_models) > 1 else [],
             })
         BRAND_ATTR_SLUG = Brand.get_attr_slug()
 

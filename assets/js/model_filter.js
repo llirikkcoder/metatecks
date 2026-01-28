@@ -16,12 +16,30 @@ document.addEventListener('DOMContentLoaded', () => {
 		return;
 	}
 
+	// Переносим dropdown в body, чтобы position:absolute работал от документа
+	document.body.appendChild(dropdown);
+
 	// Хранилище выбранных (ключ: "Бренд|Модель")
 	const selected = new Map();
+
+	// Синхронизация выбранных моделей с фильтром filter.js и запуск AJAX
+	function syncModelsToFilter() {
+		const pairs = [];
+		for (const [key, val] of selected) {
+			pairs.push(`${val.brand}|${val.model}`);
+		}
+		// _filter и loadProducts определены в filter.js (загружается после model_filter.js)
+		if (typeof _filter !== 'undefined') {
+			_filter['models'] = pairs;
+		}
+		if (typeof setOffset === 'function') { setOffset(0); }
+		if (typeof loadProducts === 'function') { loadProducts(); }
+	}
 
 	// Открыть дропдаун у конкретной кнопки бренда
 	function openDropdownForBrand(brandBtn) {
 		const brand = (brandBtn.getAttribute('title') || brandBtn.textContent).trim();
+		const brandId = brandBtn.dataset.value; // ID бренда из data-value
 
 		// Модели берём ТОЛЬКО из data-models у кнопки
 		let models = [];
@@ -50,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				item.textContent = model;
 				item.dataset.brand = brand;
 				item.dataset.model = model;
+				item.dataset.brandId = brandId;
 				item.setAttribute('role', 'option');
 				const key = `${brand}|${model}`;
 				if (selected.has(key)) item.setAttribute('aria-selected', 'true');
@@ -57,19 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		}
 
-		// Позиционирование: ниже кнопки, если не влезает — выше
+		// Позиционирование (fixed — координаты viewport, работает всегда)
 		const rect = brandBtn.getBoundingClientRect();
-		const scrollY = window.scrollY || document.documentElement.scrollTop;
-		const scrollX = window.scrollX || document.documentElement.scrollLeft;
-		dropdown.style.left = Math.max(8, rect.left + scrollX) + 'px';
+		dropdown.style.position = 'fixed';
+		dropdown.style.left = Math.max(8, rect.left) + 'px';
 
 		// временно покажем, чтобы узнать высоту
 		dropdown.hidden = false;
 		const ddH = dropdown.offsetHeight || 340;
-		const belowTop = rect.bottom + scrollY + 8;
-		const aboveTop = rect.top + scrollY - ddH - 8;
-		const viewportBottom = window.innerHeight + scrollY;
-		const willOverflow = belowTop + ddH > viewportBottom;
+		const belowTop = rect.bottom + 4;
+		const aboveTop = rect.top - ddH - 4;
+		const willOverflow = (belowTop + ddH) > window.innerHeight;
 		dropdown.style.top = (willOverflow && aboveTop > 0 ? aboveTop : belowTop) + 'px';
 
 		// Подсветка активной кнопки
@@ -84,10 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// Добавить чип (выбранную модель)
-	function addChip(brand, model) {
+	function addChip(brand, model, brandId) {
 		const key = `${brand}|${model}`;
 		if (selected.has(key)) return;
-		selected.set(key, { brand, model });
+		selected.set(key, { brand, model, brandId });
 
 		const chip = document.createElement('div');
 		chip.className = 'chip';
@@ -95,26 +112,56 @@ document.addEventListener('DOMContentLoaded', () => {
 		chip.innerHTML = `<span>${brand} ${model}</span>
           <button type="button" class="chip__remove" aria-label="Убрать ${brand} ${model}">×</button>`;
 		selectedWrap.appendChild(chip);
+
+		// Включаем бренд в фильтр (если ещё не выбран)
+		if (brandId && typeof _filter !== 'undefined') {
+			const bid = parseInt(brandId);
+			if (_filter['brand'].indexOf(bid) === -1) {
+				_filter['brand'].push(bid);
+				_filter['brand'].sort();
+			}
+			// Визуально отмечаем кнопку бренда
+			const btn = brandFilter.querySelector('.js-filter-option[data-value="' + bid + '"]');
+			if (btn) btn.classList.add('btn--filtr--select');
+		}
+
+		syncModelsToFilter();
 	}
 
 	// Удалить чип
 	function removeChipByKey(key) {
+		const removed = selected.get(key);
 		selected.delete(key);
-		// простая выборка без экранирования, т.к. ключ формируем сами
 		const chip = selectedWrap.querySelector('.chip[data-key="' + key + '"]');
 		if (chip) {
 			chip.remove();
 		}
+
+		// Если это был последний чип бренда — убираем бренд из фильтра
+		if (removed && removed.brandId && typeof _filter !== 'undefined') {
+			let hasOther = false;
+			for (const [, v] of selected) {
+				if (v.brandId === removed.brandId) { hasOther = true; break; }
+			}
+			if (!hasOther) {
+				const bid = parseInt(removed.brandId);
+				_filter['brand'] = _filter['brand'].filter(function(id) { return id !== bid; });
+				const btn = brandFilter.querySelector('.js-filter-option[data-value="' + bid + '"]');
+				if (btn) btn.classList.remove('btn--filtr--select');
+			}
+		}
+
+		syncModelsToFilter();
 	}
 
-	// Клик по бренду - открыть dropdown (capture phase на document для перехвата раньше jQuery)
+	// Клик по бренду - открыть dropdown (capture phase, но НЕ блокируем jQuery-фильтрацию)
 	document.addEventListener('click', (e) => {
 		const btn = e.target.closest('.js-filter-option');
 		// Проверяем что клик был на кнопке бренда внутри brandFilter и есть data-models
 		if (btn && btn.dataset.models && brandFilter.contains(btn)) {
 			openDropdownForBrand(btn);
-			e.stopImmediatePropagation(); // Останавливаем ВСЕ остальные обработчики
-			e.preventDefault();
+			// НЕ вызываем stopImmediatePropagation — пусть jQuery-обработчик
+			// в filter.js тоже сработает и выполнит фильтрацию по бренду
 		}
 	}, true); // true = capture phase (срабатывает до bubbling)
 
@@ -128,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	ddList.addEventListener('click', (e) => {
 		const item = e.target.closest('.brand-dropdown__item');
 		if (item && item.dataset.brand && item.dataset.model && !item.getAttribute('aria-disabled')) {
-			addChip(item.dataset.brand, item.dataset.model);
+			addChip(item.dataset.brand, item.dataset.model, item.dataset.brandId);
 			closeDropdown();
 		}
 	});
@@ -150,6 +197,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		resetBtn.addEventListener('click', () => {
 			selected.clear();
 			selectedWrap.innerHTML = '';
+			// Очищаем models в _filter (loadProducts вызовет filter.js через jQuery-обработчик)
+			if (typeof _filter !== 'undefined') {
+				_filter['models'] = [];
+			}
 		});
 	}
 
@@ -166,4 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			closeDropdown();
 		}
 	});
+
+	// Закрыть dropdown при скролле (fixed-позиция не двигается со страницей)
+	window.addEventListener('scroll', () => {
+		if (!dropdown.hidden) closeDropdown();
+	}, { passive: true });
 });
