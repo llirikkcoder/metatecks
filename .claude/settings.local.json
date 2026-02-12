@@ -67,7 +67,12 @@
       "Bash(ssh -o StrictHostKeyChecking=no root@5.188.138.16 'free -h')",
       "Bash(ssh:*)",
       "Bash(bd create:*)",
-      "Skill(beads:beads)"
+      "Skill(beads:beads)",
+      "Bash(Get-Process)",
+      "Bash(Where-Object {$_ProcessName -like \"*docker*\"})",
+      "Bash(Select-Object ProcessName, CPU, WorkingSet)",
+      "Bash(Format-Table)",
+      "Bash(netstat:*)"
     ],
     "deny": [
       "Bash(git push:*)",

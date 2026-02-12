@@ -52,7 +52,7 @@ services:
       - ./media:/app/media
       - ./logs:/app/logs
     ports:
-      - "127.0.0.1:8001:8000"  # localhost-only для VPS deployment
+      - "127.0.0.1:50000:8000"  # localhost-only для VPS deployment
     env_file:
       - .env.docker
     depends_on:

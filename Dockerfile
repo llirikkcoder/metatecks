@@ -49,9 +49,9 @@ COPY . .
 # Создание директорий для media, static, logs
 RUN mkdir -p /app/media /app/static /app/logs
 
-# Создание непривилегированного пользователя
-RUN useradd -m -u 1000 metateks && \
-    chown -R metateks:metateks /app
+# Создание непривилегированного пользователя (ОТКЛЮЧЕНО ДЛЯ СКОРОСТИ)
+# RUN useradd -m -u 1000 metateks && \
+#     chown -R metateks:metateks /app
 
 # НЕ переключаемся на пользователя здесь - делаем это в entrypoint
 # USER metateks
@@ -63,7 +63,7 @@ RUN useradd -m -u 1000 metateks && \
 EXPOSE 8000
 
 # Entrypoint скрипт
-COPY --chown=metateks:metateks docker-entrypoint.sh /docker-entrypoint.sh
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
