@@ -72,7 +72,10 @@
       "Bash(Where-Object {$_ProcessName -like \"*docker*\"})",
       "Bash(Select-Object ProcessName, CPU, WorkingSet)",
       "Bash(Format-Table)",
-      "Bash(netstat:*)"
+      "Bash(netstat:*)",
+      "Bash(bd sync:*)",
+      "Bash(wsl --list:*)",
+      "Bash(wsl:*)"
     ],
     "deny": [
       "Bash(git push:*)",
@@ -80,5 +83,9 @@
       "Bash(rmdir:*)",
       "Bash(shred:*)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "playwright-test"
+  ],
+  "enableAllProjectMcpServers": true
 }
