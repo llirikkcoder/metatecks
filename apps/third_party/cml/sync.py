@@ -30,13 +30,11 @@ def sync_properties():
         )
         if _created:
             attr.save()  # чтобы заполнить slug
+            max_order = Attribute.objects.order_by('-order').values_list('order', flat=True).first() or 0
+            attr.order = max_order + 1
+            attr.save(update_fields=['order'])
         p.attribute_obj = attr
         p.save()
-
-    # for i, a in enumerate(Attribute.objects.all().order_by('-is_synced_with_1c', 'name')):
-    for i, a in enumerate(Attribute.objects.all().order_by('-is_synced_with_1c', 'order')):
-        a.order = i+1
-        a.save()
 
     l.info('  sync_properties() done')
 
