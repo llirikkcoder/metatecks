@@ -45,6 +45,7 @@ jobs:
             # Перезапустить контейнеры
             echo "🔄 Restarting containers..."
             docker-compose up -d
+            docker-compose restart nginx
 
             # Выполнить миграции (если нужно)
             echo "🗄️ Running migrations..."
