@@ -27,6 +27,8 @@
   <meta property="og:url" content="{% block og_url %}{{ request.path }}{% endblock %}">
   <meta property="og:site_name" content="Сайт компании «Метатэкс»">
 
+  <link rel="canonical" href="{% block canonical %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock %}">
+
   <!--Подключаем фавиконки -->
   <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
   <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
