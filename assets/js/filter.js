@@ -129,6 +129,12 @@ function loadProducts(pagination = false) {
       // -- в ином случае - обновляем контейнер с товарами
       else {
         $container.html(res['html']);
+        if (res['seo']) {
+          document.title = res['seo']['dynamic_title'];
+          $('meta[name="description"]').attr('content', res['seo']['dynamic_description']);
+          $('meta[property="og:title"]').attr('content', res['seo']['dynamic_title']);
+          $('h1').first().html(res['seo']['dynamic_h1']);
+        }
         if ($('.slider-products').length) { initProductsSlider(); }
       }
       resetDisabled();

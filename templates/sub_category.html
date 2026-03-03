@@ -1,12 +1,12 @@
 {% extends '_base.html' %}
 {% load base_tags catalog_tags static catalog_extras %}
 
-{% block title %}{{ subcat.get_meta_title }}{% endblock %}
-{% block meta_description %}{{ subcat.get_meta_desc }}{% endblock %}
+{% block title %}{{ dynamic_title|default:subcat.get_meta_title }}{% endblock %}
+{% block meta_description %}{{ dynamic_description|default:subcat.get_meta_desc }}{% endblock %}
 {% block meta_keywords %}{{ subcat.get_meta_keyw }}{% endblock %}
 
-{% block og_title %}{{ subcat.get_meta_title }}{% endblock %}
-{% block og_description %}{{ subcat.get_meta_desc }}{% endblock %}
+{% block og_title %}{{ dynamic_title|default:subcat.get_meta_title }}{% endblock %}
+{% block og_description %}{{ dynamic_description|default:subcat.get_meta_desc }}{% endblock %}
 
 {% block early_head_scripts %}
   <script src="{% static 'js/Hyphenopoly/Hyphenopoly_Loader.js' %}"></script>
@@ -46,7 +46,7 @@
       </a>
     </div>
     <div class="content-header__title-wr">
-      <h1>{{ subcat.get_h1|safe }}</h1>
+      <h1>{{ dynamic_h1|default:subcat.get_h1|safe }}</h1>
     </div>
   </div>
   <!-- Секция с фотографией модели -->

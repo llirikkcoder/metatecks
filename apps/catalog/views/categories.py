@@ -102,6 +102,17 @@ class SubCategoryView(DetailView):
             except ValueError:
                 pass
 
+    def get_dynamic_seo(self):
+        subcat = self.object
+        filter_text = self.get_filter_display_text()
+        base_title = subcat.get_meta_title()
+        base_h1 = subcat.get_h1()
+        return {
+            'dynamic_title': f"{base_title}{filter_text}" if filter_text else base_title,
+            'dynamic_h1': f"{base_h1}{filter_text}" if filter_text else base_h1,
+            'dynamic_description': subcat.get_meta_desc(),
+        }
+
     def _get_ajax_response(self, response):
         _paginator = self.paginator
         res = {
@@ -109,6 +120,7 @@ class SubCategoryView(DetailView):
             'offset': self.offset,
             'has_more': _paginator.get('has_more', False),
             'new_offset': _paginator.get('new_offset', None),
+            'seo': self.get_dynamic_seo(),
         }
         return JsonResponse(res)
 
@@ -343,6 +355,7 @@ class SubCategoryView(DetailView):
 
         # Формируем текст выбранных фильтров для заголовка
         filter_display_text = self.get_filter_display_text()
+        seo = self.get_dynamic_seo()
 
         return {
             'with_filter': self.with_filter,
@@ -358,6 +371,9 @@ class SubCategoryView(DetailView):
             'popular_products': popular_products,
             'with_popular_products': with_popular,
             'filter_display_text': filter_display_text,
+            'dynamic_title': seo['dynamic_title'],
+            'dynamic_h1': seo['dynamic_h1'],
+            'dynamic_description': seo['dynamic_description'],
         }
 
     def _get_is_chosen(self, attr_name, value):

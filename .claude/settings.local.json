@@ -68,7 +68,8 @@
       "Bash(ssh:*)",
       "Bash(bd create:*)",
       "Skill(beads:beads)",
-      "Bash(npx playwright:*)"
+      "Bash(npx playwright:*)",
+      "Bash(~/.bashrc:*)"
     ],
     "deny": [
       "Bash(git push:*)",
