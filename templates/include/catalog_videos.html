@@ -1,10 +1,11 @@
-{% load base_tags %}
-
+{% load base_tags catalog_extras %}
+{% with valid_videos=videos|with_video %}
+{% if valid_videos %}
 <section id="video" class="wrap-pad-normal wrap--column  wrap-pad--mob--none">
   <h2>Видео оборудования</h2>
   <div class="media-catalog__video-gal grid-container grid--gap--same grid--column--2to1">
-    {% for video in videos %}
-      <div class="media-catalog__video-items{% if forloop.last and videos|length|is_odd %} grid--column--2sp{% endif %}">
+    {% for video in valid_videos %}
+      <div class="media-catalog__video-items{% if forloop.last and valid_videos|length|is_odd %} grid--column--2sp{% endif %}">
         <div class="media-catalog__video-items-plwr">
           {{ video.video|safe }}
         </div>
@@ -23,3 +24,5 @@
     </div>
   {% endcomment %}
 </section>
+{% endif %}
+{% endwith %}

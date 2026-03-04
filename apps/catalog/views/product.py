@@ -55,8 +55,8 @@ class ProductView(DetailView):
         category = product.category
 
         # - фото и видео
-        photos = model.photos.filter(is_shown=True)
-        videos = model.videos.filter(is_shown=True)
+        photos = model.photos.filter(is_shown=True).exclude(photo='')
+        videos = model.videos.filter(is_shown=True).exclude(video='')
 
         # - в корзине или нет
         cart = self.request.session.get('cart', {})

@@ -1,7 +1,10 @@
+{% load catalog_extras %}
+{% with valid_photos=photos|with_photo %}
+{% if valid_photos %}
 <section id="photo" class="wrap-pad-normal wrap--column  wrap-pad--mob--none">
   <h2>Фотографии оборудования</h2>
   <div class="media-catalog__photo-gal grid-container grid--gap--same grid--column--2to1">
-    {% for photo in photos %}
+    {% for photo in valid_photos %}
       <a href="{{ photo.photo_big_url }}" title="Фото {{ forloop.counter }}" target="_blank"
         data-fancybox="gallery">
         <img src="{{ photo.photo_thumb_url }}" alt="Фото {{ forloop.counter }}">
@@ -17,3 +20,5 @@
     </div>
   {% endcomment %}
 </section>
+{% endif %}
+{% endwith %}
