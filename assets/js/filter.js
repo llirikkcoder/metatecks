@@ -133,6 +133,7 @@ function loadProducts(pagination = false) {
           document.title = res['seo']['dynamic_title'];
           $('meta[name="description"]').attr('content', res['seo']['dynamic_description']);
           $('meta[property="og:title"]').attr('content', res['seo']['dynamic_title']);
+          $('meta[property="og:description"]').attr('content', res['seo']['dynamic_description']);
           $('h1').first().html(res['seo']['dynamic_h1']);
         }
         if ($('.slider-products').length) { initProductsSlider(); }
