@@ -156,6 +156,20 @@ class SEOTemplatePlaceholders:
         context.setdefault('vendor_code', '')
         context.setdefault('bar_code', '')
 
+        # Геолокация
+        try:
+            from apps.utils.common import get_current_city
+            city = get_current_city()
+            context['city'] = city.get_name()
+            context['city_loct'] = city.get_name_loct()
+            context['region'] = city.get_region_name()
+            context['region_loct'] = city.get_region_name_loct()
+        except Exception:
+            context.setdefault('city', '')
+            context.setdefault('city_loct', '')
+            context.setdefault('region', '')
+            context.setdefault('region_loct', '')
+
         return context
 
     @classmethod

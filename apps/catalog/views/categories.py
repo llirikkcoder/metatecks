@@ -110,7 +110,7 @@ class SubCategoryView(DetailView):
         return {
             'dynamic_title': f"{base_title}{filter_text}" if filter_text else base_title,
             'dynamic_h1': f"{base_h1}{filter_text}" if filter_text else base_h1,
-            'dynamic_description': subcat.get_meta_desc(),
+            'dynamic_description': f"{subcat.get_meta_desc()}{filter_text}" if filter_text else subcat.get_meta_desc(),
         }
 
     def _get_ajax_response(self, response):

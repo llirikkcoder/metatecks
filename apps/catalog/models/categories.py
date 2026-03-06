@@ -356,7 +356,14 @@ class SubCategory(SearchResultModelMixin, DatesBaseModel, MetatagModel):
     META_DESCRIPTION = '{}. Выбирайте в фильтре свой бренд и нужное вам оборудование Метатэкс'
 
     def get_meta_desc(self):
-        return self.meta_description or self.META_DESCRIPTION.format(self.get_title())
+        if self.meta_description:
+            return self.meta_description
+        template = self.get_template_field('meta_desc_template')
+        if template:
+            from apps.utils.seo import seo_replace
+            from apps.utils.seo_templates import apply_seo_template
+            return seo_replace(apply_seo_template(self, template))
+        return self.META_DESCRIPTION.format(self.get_title())
 
     @property
     def has_description(self):
