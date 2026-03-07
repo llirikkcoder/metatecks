@@ -3,7 +3,8 @@
 
 // Получаем из кук CSRF-токен и добавляем его к запросу
 
-var csrftoken = Cookies.get('csrftoken');
+var csrfHiddenInput = document.querySelector('[name=csrfmiddlewaretoken]');
+var csrftoken = csrfHiddenInput ? csrfHiddenInput.value : Cookies.get('csrftoken');
 
 function csrfSafeMethod(method) {
   // these HTTP methods do not require CSRF protection
@@ -11,7 +12,8 @@ function csrfSafeMethod(method) {
 }
 
 function updateCsrfToken(){
-  csrftoken = Cookies.get('csrftoken');
+  var _input = document.querySelector('[name=csrfmiddlewaretoken]');
+  csrftoken = _input ? _input.value : Cookies.get('csrftoken');
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
