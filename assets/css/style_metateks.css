@@ -5722,6 +5722,12 @@ thead tr:nth-child(even) {
 }
 .filtr-block__tabl .btn-small {
   margin: 0 5px 7px 0;
+  height: auto;
+  min-height: calc(40px + 5 * ((100vw - 320px) / (1512 - 320)));
+  padding-top: calc(8px + 2 * ((100vw - 320px) / (1512 - 320)));
+  padding-bottom: calc(8px + 2 * ((100vw - 320px) / (1512 - 320)));
+  white-space: normal;
+  text-align: center;
 }
 .scrollbar-box__inner {
   width: 100%;
