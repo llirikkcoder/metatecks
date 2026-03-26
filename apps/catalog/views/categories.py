@@ -166,8 +166,7 @@ class SubCategoryView(DetailView):
                 try:
                     v = int(value[1:])
                     if v in option_ids:
-                        q = f'Q(model__attrs__{attr_slug}={v})'
-                        lookups.append(eval(q))
+                        lookups.append(Q(**{f'model__attrs__{attr_slug}': v}))
                         values.append(v)
                 except ValueError:
                     pass
@@ -181,9 +180,7 @@ class SubCategoryView(DetailView):
                     v = int(value[1:])
                     if v in option_ids:
                         _option = options[v]
-                        _filter = _option.get_filter_str(attr_slug, attr_type)
-                        q = f'Q(model__attrs__{_filter})'
-                        lookups.append(eval(q))
+                        lookups.append(_option.get_filter_q(attr_slug, attr_type))
                         values.append(v)
                 except ValueError:
                     pass
@@ -199,8 +196,7 @@ class SubCategoryView(DetailView):
                         if attr_type == 'float'
                         else value
                     )
-                    q = f'Q(model__attrs__{attr_slug}={v})'
-                    lookups.append(eval(q))
+                    lookups.append(Q(**{f'model__attrs__{attr_slug}': v}))
                     values.append(v)
                 except ValueError:
                     pass

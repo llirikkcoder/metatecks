@@ -275,3 +275,14 @@ class AttributeFilterOption(DatesBaseModel):
         filter_type_str = '' if filter_type == 'eq' else f'__{filter_type}'
         value = self.get_value(attr_type)
         return f'{attr_slug}{filter_type_str}={value}'
+
+    def get_filter_q(self, attr_slug, attr_type):
+        from django.db.models import Q
+        filter_type_str = '' if self.filter_type == 'eq' else f'__{self.filter_type}'
+        if attr_type == 'int':
+            value = self.value_int or 0
+        elif attr_type in ('float', 'number'):
+            value = self.value_float or 0.0
+        else:
+            value = self.value_string or '-'
+        return Q(**{f'model__attrs__{attr_slug}{filter_type_str}': value})
