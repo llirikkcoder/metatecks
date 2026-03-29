@@ -99,6 +99,7 @@ logs/
 # OS
 Thumbs.db
 .DS_Store
+nul
 
 # Node modules (если используются)
 node_modules/

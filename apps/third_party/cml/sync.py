@@ -5,6 +5,7 @@ import shutil
 import filetype
 from pytils.translit import slugify
 
+from apps.addresses.models import get_in_stock_ids, get_warehouse_to_city
 from apps.catalog.models import Attribute, Brand, ProductModel, Product, ProductStockBalance
 from .models import (
     ImportedGroup, ImportedProperty, ImportedBrand,
@@ -212,17 +213,34 @@ def sync_stock_balance():
 def sync_products_in_stock():
     l.info('  sync_products_in_stock() start')
 
+    _ids = get_in_stock_ids()
+    warehouse_to_city = get_warehouse_to_city()
+
     _products = Product.objects.prefetch_related('stock_balance')
 
     products1 = _products.filter(stock_balance__isnull=True)
-    products1.update(number_in_stock=0)
+    products1.update(number_in_stock=0, number_in_stock_dict={_id: 0 for _id in _ids})
 
     products2 = _products.filter(stock_balance__isnull=False)
     count = products2.count()
     l.info('    Products for update count: %d', count)
 
     for i, obj in enumerate(products2):
-        obj.number_in_stock = obj.get_in_stock()
+        number_in_stock_dict = {_id: 0 for _id in _ids}
+
+        for balance in obj.stock_balance.all():
+            if balance.number:
+                _wh_key = f'wh{balance.warehouse_id}'
+                _city_id = warehouse_to_city.get(balance.warehouse_id)
+                _city_key = f'c{_city_id}'
+                number_in_stock_dict[_wh_key] = balance.number
+                if _city_key in number_in_stock_dict:
+                    number_in_stock_dict[_city_key] = max(
+                        number_in_stock_dict[_city_key], balance.number
+                    )
+
+        obj.number_in_stock = max(number_in_stock_dict.values(), default=0)
+        obj.number_in_stock_dict = number_in_stock_dict
         obj.save()
 
         if i == 0:

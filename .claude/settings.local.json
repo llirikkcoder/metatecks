@@ -69,7 +69,9 @@
       "Bash(bd create:*)",
       "Skill(beads:beads)",
       "Bash(npx playwright:*)",
-      "Bash(~/.bashrc:*)"
+      "Bash(~/.bashrc:*)",
+      "Bash(powershell -Command \"Get-Process -Id \\(Get-NetTCPConnection -LocalPort 8001 -ErrorAction SilentlyContinue\\).OwningProcess -ErrorAction SilentlyContinue | Select-Object Id,ProcessName,Path\")",
+      "Bash(powershell -Command \"netsh int ipv4 show excludedportrange protocol=tcp\")"
     ],
     "deny": [
       "Bash(git push:*)",
