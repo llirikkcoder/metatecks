@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-{% load base_tags catalog_tags easy_thumbnails_tags static %}
+{% load base_tags catalog_tags catalog_extras easy_thumbnails_tags static %}
 
 {% block title %}{{ product.get_meta_title }}{% endblock %}
 {% block meta_description %}{{ product.get_meta_desc }}{% endblock %}
@@ -154,25 +154,25 @@
               <div class="product-info-section">
                 {# <h2>Описание</h2> #}
                 <h2>Текстовое описание</h2>
-                {{ model.description|safe }}
+                {{ model.description|fix_html }}
               </div>
             {% endif %}
             {% if purpose %}
               <div class="product-info-section">
                 <h3>Назначение</h3>
-                {{ purpose|safe }}
+                {{ purpose|fix_html }}
               </div>
             {% endif %}
             {% if design_features %}
               <div class="product-info-section">
                 <h3>Особенности конструкции</h3>
-                {{ design_features|safe }}
+                {{ design_features|fix_html }}
               </div>
             {% endif %}
             {% if basic_options %}
               <div class="product-info-section">
                 <h3>Опции в базовой комплектации</h3>
-                {{ basic_options|safe }}
+                {{ basic_options|fix_html }}
               </div>
             {% endif %}
           </div>
