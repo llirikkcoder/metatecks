@@ -317,3 +317,26 @@ aside a.item-info-empty { text-decoration: none; }
 
 /* --- Карточка профиля: выравнивание кнопки правки --- */
 .card--profile .btn-border { justify-content: flex-end; }
+
+/* =========================================================
+   МТ-11: Адаптивный контейнер для видео ВК/Rutube
+   (плеер имеет фиксированные width/height в пикселях,
+    без обёртки он выползает за вёрстку на узких экранах)
+   ========================================================= */
+
+/* Видео на главной странице и на странице /about/video/ */
+.media-home__video-items-plwr {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+.media-home__video-items-plwr iframe,
+.media-home__video-items-plwr div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}

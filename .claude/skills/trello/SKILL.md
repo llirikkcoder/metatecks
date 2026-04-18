@@ -93,6 +93,13 @@ curl -L -H "Authorization: OAuth oauth_consumer_key=\"${KEY}\", oauth_token=\"${
 
 ### Карточки доски
 
+**METATECKS (доска по умолчанию для этого проекта):**
+- Board ID: `695d1f69ca84d46e84771872`
+- Показывать ТОЛЬКО карточки из списков:
+  - **TODO** — `695d1f7fd5e4deac4f45c90e`
+  - **IN WORK** — `695d1f9179b4e3624ffd9326`
+- Остальные списки (BACKLOG, TEST, DONE) — игнорировать.
+
 Сначала получи ID доски (или возьми из URL `trello.com/b/<BOARD_ID>`):
 
 ```bash
@@ -146,6 +153,26 @@ curl -s "https://api.trello.com/1/members/me/boards?key=${KEY}&token=${TOKEN}&fi
   "checklists": [{"name": "...", "checkItems": [{"name": "...", "state": "complete"}]}]
 }
 ```
+
+## Синхронизация с Beads
+
+После получения карточек из TODO и IN WORK — проверь, есть ли они в Beads.
+
+### Алгоритм
+
+1. Прочитай `.beads/issues.jsonl` и собери заголовки всех незакрытых тикетов (status != "closed" и status != "completed").
+2. Для каждой карточки из Trello (TODO + IN WORK) проверь, есть ли в Beads тикет с похожим названием (сравнивай по подстроке или номеру МТ-XX).
+3. Если карточки **нет в Beads** — создай тикет: добавь новую строку в `.beads/issues.jsonl`:
+
+```json
+{"id":"_metatecks-<SHORT_ID>","title":"<name>","description":"Trello: <shortUrl>","status":"open","priority":2,"issue_type":"task","created_at":"<ISO_NOW>","created_by":"Trello sync","updated_at":"<ISO_NOW>"}
+```
+
+- `<SHORT_ID>` — короткий ID карточки Trello (из shortUrl: `trello.com/c/<SHORT_ID>`)
+- `priority`: если есть лейбл bug — 1, иначе 2
+- `issue_type`: если лейбл bug → "bug", иначе "feature"
+
+4. Сообщи пользователю: какие карточки уже были в Beads, какие добавлены.
 
 ## Важные правила
 
