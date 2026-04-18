@@ -59,3 +59,261 @@ input.error, textarea.error { border: 1px solid #dc4335 !important; color: #8a1f
 .product-info-section:first-child { margin-top: 0; }
 .product-info-section { margin-top: 50px; }
 .product-info-section h3 { margin-bottom: 20px; }
+
+/* =========================================================
+   МТ-10: Недостающие стили (перенесено из vinodesign-референса)
+   ========================================================= */
+
+/* --- Сетка ЛК: отступ заголовка --- */
+.grid-acount-home__item .h4 { margin-bottom: 7px; }
+
+/* --- Кнопка "поменять" --- */
+.btn-change {
+  display: flex;
+  padding: 0 calc(15px + 10 * ((100vw - 320px) / (1512 - 320)));
+  height: calc(40px + 5 * ((100vw - 320px) / (1512 - 320)));
+  justify-content: center;
+  align-items: center;
+  color: #EF7D00 !important;
+  border-radius: 0.7em;
+  text-decoration: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: calc(16px + 2 * ((100vw - 320px) / (1730 - 320)));
+  line-height: 1.1;
+  position: relative;
+  z-index: 3;
+  border: 1px solid #EF7D00;
+  transition: all 0.2s ease;
+}
+.btn-change:hover {
+  color: #FFA800 !important;
+  border: 1px solid #FFA800;
+  transition: all 0.2s ease;
+}
+.btn-change span { position: relative; z-index: 5; }
+a.btn-change:hover { text-decoration: none; }
+.block-buttons-double { display: flex; }
+.block-buttons-double .btn-change {
+  margin-right: calc(10px + 10 * ((100vw - 320px) / (1512 - 320)));
+}
+
+/* --- Форма: grid row gap --- */
+form .grid-container { grid-row-gap: 0; }
+
+/* --- Сетка 3→2→1 колонки (адрес доставки) --- */
+@media (max-width: 575px) {
+  .grid--column--3to2to1 { grid-template-columns: 1fr; }
+}
+@media (min-width: 576px) {
+  .grid--column--3to2to1 { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 768px) {
+  .grid--column--3to2to1 { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media (min-width: 992px) {
+  .grid--column--3to2to1 { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 1200px) {
+  .grid--column--3to2to1 { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* --- Футер модалок логина/регистрации/добавления в корзину --- */
+#login.modal footer,
+#registration.modal footer,
+#addbasket.modal footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: calc(18px + 32 * ((100vw - 320px) / (1512 - 320)));
+}
+#login.modal footer button,
+#registration.modal footer button,
+#addbasket.modal footer button {
+  margin: 0 0 0 calc(5px + 5 * ((100vw - 320px) / (1512 - 320)));
+}
+.modal-footer__left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 0 calc(5px + 5 * ((100vw - 320px) / (1512 - 320))) 0 0;
+}
+
+/* --- Выбор склада в модальном окне --- */
+.storage-city {
+  margin-bottom: calc(10px + 5 * ((100vw - 320px) / (1512 - 320)));
+  padding: 5px;
+  border-radius: 0.5em;
+}
+.storage-city dt { margin-bottom: 7px; }
+.storage-city > dd:not(:last-of-type) { margin-bottom: 7px; }
+.storage-city.has-checked {
+  background: #f0f0f0;
+  transition: background 0.2s;
+}
+
+/* --- Блок с иконками аккаунта в шапке --- */
+/* Сбрасываем унаследованный font-size с .account-nav span из style_metateks */
+.account-nav {
+  display: flex;
+  height: calc(40px + 5 * ((100vw - 320px) / (1512 - 320)));
+}
+.account-nav .account-nav__ico {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.account-nav .account-nav__ico span {
+  font-size: calc(24px + 6 * ((100vw - 320px) / (1730 - 320)));
+}
+.account-nav a.link-white {
+  margin-top: calc(10px + 5 * ((100vw - 320px) / (1512 - 320)));
+  display: block;
+}
+.ico-authorized {
+  background-color: #3E3B39;
+  height: 1.1em;
+  width: 1.1em;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  vertical-align: middle;
+}
+.account-nav-lk:hover .ico-authorized { background-color: #D75B01; }
+a:hover .ico-authorized { background-color: #D75B01; }
+.ico-name {
+  color: #fff;
+  font-family: "Inter Tight", sans-serif;
+  font-weight: 400;
+  font-size: calc(16px + 2 * ((100vw - 320px) / (1730 - 320))) !important;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.basket-info {
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #D75B01;
+  color: #fff;
+  position: absolute;
+  top: -0.3em;
+  right: 0;
+}
+.account-nav .account-nav__ico .basket-info span {
+  font-size: calc(11px + 3 * ((100vw - 320px) / (1730 - 320)));
+  line-height: 1.35;
+}
+
+/* --- Информационные блоки ЛК (пустые состояния) --- */
+.item-info-empty {
+  display: flex;
+  align-items: center;
+}
+.ico-info {
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #3E3B39;
+  border-radius: 50%;
+  margin-right: calc(5px + 5 * ((100vw - 320px) / (1512 - 320)));
+}
+.grid-acount-home__item:hover .item-info-empty i { color: #D75B01; }
+.grid-acount-home__item:hover .ico-info {
+  color: #D75B01;
+  border: 1px solid #D75B01;
+}
+aside a.item-info-empty i {
+  color: #fff9ea;
+  text-decoration: underline;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: 0.04em;
+  text-underline-offset: 2px;
+  transition: all 0.2s ease 0s;
+}
+aside a:visited.item-info-empty i { color: #fff9ea; }
+aside a:hover.item-info-empty i {
+  color: #ffefc7;
+  text-underline-offset: 4px;
+}
+aside a .ico-info { color: #fff9ea; border: 1px solid #fff9ea; }
+aside a:visited .ico-info { color: #fff9ea; border: 1px solid #fff9ea; }
+aside a:hover .ico-info { color: #ffefc7; border: 1px solid #ffefc7; }
+aside a.item-info-empty { text-decoration: none; }
+.block-cart .item-info-empty {
+  padding: calc(15px + 15 * ((100vw - 320px) / (1512 - 320)));
+  margin-bottom: calc(10px + 5 * ((100vw - 320px) / (1512 - 320)));
+}
+.block-cart .item-info-empty i { color: #fff; }
+.block-cart .ico-info { color: #fff; border: 1px solid #fff; }
+.block-cart .item-info-empty i a {
+  color: #fff9ea;
+  text-decoration: underline;
+  text-decoration-thickness: 0.04em;
+  text-underline-offset: 2px;
+  transition: all 0.2s ease 0s;
+}
+.block-cart .item-info-empty i a:visited { color: #fff9ea; }
+.block-cart .item-info-empty i a:hover {
+  color: #ffefc7;
+  text-underline-offset: 4px;
+}
+
+/* --- Блок адреса доставки / данных ЛК --- */
+.block--data--wr {
+  display: flex;
+  flex-direction: row;
+}
+.block-data__address {
+  width: 50%;
+  padding-right: calc(13px + 12 * ((100vw - 320px) / (1512 - 320)));
+}
+.block-data__name {
+  width: 50%;
+  padding-left: calc(13px + 12 * ((100vw - 320px) / (1512 - 320)));
+  border-left: 1px solid #B2AFAA;
+}
+.block-data__address .h4,
+.block-data__name .h4 {
+  margin-bottom: calc(10px + 5 * ((100vw - 320px) / (1512 - 320)));
+  display: block;
+}
+.block-data__name-block dl:not(:last-of-type) {
+  margin-bottom: calc(15px + 10 * ((100vw - 320px) / (1512 - 320)));
+}
+@media (max-width: 992px) {
+  .block--data--wr { flex-direction: column; }
+  .block-data__address,
+  .block-data__name { width: 100%; }
+  .block-data__address {
+    padding-right: 0;
+    padding-bottom: calc(20px + 10 * ((100vw - 320px) / (1512 - 320)));
+  }
+  .block-data__name {
+    padding-left: 0;
+    padding-top: calc(20px + 10 * ((100vw - 320px) / (1512 - 320)));
+    border-left: none;
+    border-top: 1px solid #B2AFAA;
+  }
+}
+
+/* --- Блок данных в модалке --- */
+.modal .block-data__content {
+  padding: calc(10px + 5 * ((100vw - 320px) / (1512 - 320))) calc(5px + 5 * ((100vw - 320px) / (1512 - 320)));
+  border: 2px solid #5B8C5C;
+  flex-direction: row;
+  align-items: center;
+}
+.modal .block-data__body { padding: 0; }
+.modal .light--bgrnd { margin-left: calc(10px + 10 * ((100vw - 320px) / (1512 - 320))); }
+.modal .button-switch { margin-right: calc(10px + 10 * ((100vw - 320px) / (1512 - 320))); }
+.modal dd + dt { margin-top: calc(10px + 5 * ((100vw - 320px) / (1512 - 320))); }
+
+/* --- Карточка профиля: выравнивание кнопки правки --- */
+.card--profile .btn-border { justify-content: flex-end; }
