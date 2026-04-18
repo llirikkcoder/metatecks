@@ -4,6 +4,7 @@ from apps.banners.models import Banner
 from apps.catalog.models import Brand, Category, SubCategory, Product
 from apps.content.models import Homepage, News, Article
 from apps.media_content.models import MediaPhoto, MediaVideo
+from apps.promotions.models import Promotion
 
 
 class HomeView(TemplateView):
@@ -16,6 +17,10 @@ class HomeView(TemplateView):
 
         banners = Banner.objects.published().filter(banner_place='homepage')
         banners_count = banners.count()
+
+        # МТ-14: Акции — только действующие; если нет — баннер скрыт
+        promotions = Promotion.objects.active()
+        promotions_count = promotions.count()
 
         sub_categories = SubCategory.objects.select_related('category').prefetch_related('models')\
                                             .filter(is_popular=True).order_by('?')[:7]
@@ -46,6 +51,8 @@ class HomeView(TemplateView):
             'sub_categories': sub_categories,
             'banners': banners,
             'banners_count': banners_count,
+            'promotions': promotions,
+            'promotions_count': promotions_count,
             'news_post': news_post,
             'articles': articles,
             'photos': photos,

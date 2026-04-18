@@ -1,9 +1,11 @@
+from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from adminsortable2.admin import SortableAdminMixin
 
 from apps.catalog.models import ExtraProduct, Category, SubCategory
+from apps.catalog.models.attributes import Attribute
 from apps.utils.admin_mixins import ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin
 from apps.utils.common import bool_to_icon
 
@@ -91,8 +93,42 @@ class CategoryAdmin(ImageThumbnailsAdminMixin, SortableAdminMixin, admin.ModelAd
         return mark_safe(html)
 
 
+class SubCategoryAdminForm(forms.ModelForm):
+    """
+    МТ-12: Ограничение списка характеристик в фильтре.
+    Показываем только те характеристики, которые реально используются
+    в моделях данной подкатегории.
+    """
+
+    class Meta:
+        model = SubCategory
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        obj = kwargs.get('instance')
+        if obj and obj.pk:
+            # Собираем все ключи attrs из моделей этой подкатегории
+            # Ключи хранятся как 'a{id}', поэтому вытаскиваем id числом
+            attr_ids = set()
+            for model in obj.models.all():
+                for key in model.attrs.keys():
+                    # ключ вида 'a163' -> id=163
+                    if key.startswith('a') and key[1:].isdigit():
+                        attr_ids.add(int(key[1:]))
+
+            if attr_ids:
+                qs = Attribute.objects.filter(id__in=attr_ids, is_synced_with_1c=True)
+            else:
+                qs = Attribute.objects.filter(is_synced_with_1c=True)
+
+            self.fields['attribute_in_filter'].queryset = qs
+        # Для новых объектов оставляем стандартный limit_choices_to
+
+
 @admin.register(SubCategory)
 class SubCategoryAdmin(ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, SortableAdminMixin, admin.ModelAdmin):
+    form = SubCategoryAdminForm
     list_display = ('category', 'name', 'slug', 'photo', 'is_shown', 'is_popular', 'is_synced_with_1c', 'attribute_in_filter',)
     list_display_links = ('category', 'name',)
     list_editable = ('slug', 'attribute_in_filter',)

@@ -1,16 +1,39 @@
 import copy
 
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django.utils.safestring import mark_safe
 
 from adminsortable2.admin import SortableAdminMixin
 
 from apps.catalog.admin_forms import ProductModelForm, ProductForm
 from apps.catalog.models import ProductModel, Product, ProductPhoto, ProductVideo, ProductStockBalance, ProductProperty
+from apps.catalog.models.categories import Category, SubCategory
 from apps.utils.admin_mixins import (
     ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, ShortTextFieldAdminMixin, DontDoNothingMixin
 )
 from apps.utils.common import get_admin_url
+
+
+class SubCategoryRelatedFilter(SimpleListFilter):
+    """
+    МТ-13: При выборе категории показываем только подкатегории этой категории.
+    """
+    title = 'Подкатегория'
+    parameter_name = 'sub_category'
+
+    def lookups(self, request, model_admin):
+        # Если выбрана категория — показываем только её подкатегории
+        category_id = request.GET.get('category')
+        qs = SubCategory.objects.select_related('category')
+        if category_id:
+            qs = qs.filter(category_id=category_id)
+        return [(sc.pk, str(sc)) for sc in qs.order_by('category__order', 'order')]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(sub_category_id=self.value())
+        return queryset
 
 
 def make_visible(modeladmin, request, queryset):
@@ -62,11 +85,11 @@ class ProductModelAdmin(
     list_display = (
         'name', 'category', 'sub_category', 'photo', 'price', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
-    list_filter = ('category', 'sub_category', 'is_shown', 'is_popular', 'is_synced_with_1c',)
+    list_filter = ('category', SubCategoryRelatedFilter, 'is_shown', 'is_popular', 'is_synced_with_1c',)
     list_per_page = 100
     actions = [make_visible, make_hidden, 'delete_selected']
     suit_list_filter_horizontal = (
-        'category', 'sub_category', 'is_shown', 'is_popular', 'is_synced_with_1c',
+        'category', SubCategoryRelatedFilter, 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
     suit_form_tabs = (
         ('default', 'Модель'),
@@ -221,12 +244,12 @@ class ProductAdmin(
         'name', 'category', 'sub_category', 'model', 'brand', 'brand_name', 'photo', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
     list_filter = (
-        'category', 'sub_category', 'model', 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
+        'category', SubCategoryRelatedFilter, 'model', 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
     list_per_page = 100
     actions = [make_visible, make_hidden, 'delete_selected']
     suit_list_filter_horizontal = (
-        'category', 'sub_category', 'model', 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
+        'category', SubCategoryRelatedFilter, 'model', 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
     suit_form_tabs = (
         ('default', 'Товар'),

@@ -98,6 +98,49 @@
     {% endif %}
   </section>
 
+  <!-- МТ-14: Акции на главной — только действующие акции из базы -->
+  {% if promotions_count %}
+    <section id="promotions-home" class="wrap-pad-normal wrap--column wrap-pad--mob--none">
+      <h2><a href="{% url 'promotions' %}" title="Все акции">Акции</a></h2>
+      <div class="stocks-list">
+        {% for p in promotions %}
+          <div id="promo{{ p.id }}" class="stocks-block">
+            <div class="stocks-block__head stocks-block__head--{{ p.banner_design }}">
+              <img class="show--desc" src="{{ p.banner_url }}" title="{{ p.name }}" alt="{{ p.name }}" />
+              <img class="show--mob" src="{{ p.banner_695_url }}" title="{{ p.name }}" alt="{{ p.name }}" />
+              <div class="stocks-block__head-in">
+                <div class="stocks-block__head-info">
+                  {% if p.old_price %}<span class="stocks-block__old-price h2">{{ p.old_price|format_number }}&nbsp;₽</span><br />{% endif %}
+                  {% if p.new_price %}<span class="stocks-block__new-price h1">{{ p.new_price|format_number }}&nbsp;₽</span>{% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="stocks-block__descr wrap--row-to-column">
+              <div class="stocks-block__descr-left">
+                <p class="h4 font--light font--uppercase">Акция действует {{ p.dates_str|safe }}.&nbsp;</p>
+                {% if p.description %}<p>{{ p.description }}</p>{% endif %}
+              </div>
+              <div class="stocks-block__descr-right">
+                {% if p.model %}
+                  <a href="{{ p.model.get_absolute_url }}#filter" class="btn-midl btn--green" title="Товары по акции">
+                    <span class="btn__ico met-ico-circle-right"></span> Товары по акции
+                  </a>
+                {% elif p.product %}
+                  <a href="{{ p.product.get_absolute_url }}" class="btn-midl btn--green" title="Товар по акции">
+                    <span class="btn__ico met-ico-circle-right"></span> Товар по акции
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <a href="{% url 'promotions' %}" class="btn-more h4" title="Все акции">
+        <span class="met-ico-button-right"></span> <span class="font--light font--uppercase">все акции</span>
+      </a>
+    </section>
+  {% endif %}
+
   <!-- Популярные модели оборудования в этом сезоне -->
   {% if sub_categories %}
     <section id="pop-in-season" class="wrap-pad-normal wrap--column  wrap-pad--mob--none">
