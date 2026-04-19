@@ -1,32 +1,33 @@
 @echo off
 chcp 65001 >nul
-REM Metateks Docker dev environment
+REM Metateks Podman dev environment
 
 echo ========================================
-echo   Metateks - Docker Dev Environment
+echo   Metateks - Podman Dev Environment
 echo ========================================
 echo.
 
-REM Check docker is available
-where docker >nul 2>&1
+REM Check podman-compose is available
+where podman-compose >nul 2>&1
 if errorlevel 1 (
-    echo [ERROR] docker not found. Install Docker Desktop: https://www.docker.com/products/docker-desktop/
+    echo [ERROR] podman-compose not found. Run: pip install podman-compose
     pause
     exit /b 1
 )
 
 echo ==^> Starting containers...
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+podman-compose -p metateks -f docker-compose.yml -f docker-compose.dev.yml up -d
 if errorlevel 1 (
     echo.
-    echo [ERROR] Failed to start containers. Check Docker Desktop is running.
+    echo [ERROR] Failed to start containers. Check Podman machine is running:
+    echo   podman machine start
     pause
     exit /b 1
 )
 
 echo.
 echo ==^> Container status:
-docker compose -f docker-compose.yml -f docker-compose.dev.yml ps
+podman-compose -p metateks -f docker-compose.yml -f docker-compose.dev.yml ps
 
 echo.
 echo ========================================
@@ -40,4 +41,4 @@ echo ========================================
 echo.
 echo ==^> Following web logs (Ctrl+C to stop watching, containers keep running)
 echo.
-docker compose -f docker-compose.yml -f docker-compose.dev.yml logs -f web
+podman-compose -p metateks -f docker-compose.yml -f docker-compose.dev.yml logs -f web

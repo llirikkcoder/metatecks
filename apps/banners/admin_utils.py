@@ -30,8 +30,7 @@ class IsPublishedNowFilter(SimpleListFilter):
             return queryset.not_published()
 
 
-# class BaseBannerAdmin(DjangoObjectActions, admin.ModelAdmin):
-class BaseBannerAdmin(admin.ModelAdmin):
+class BaseBannerAdmin(DjangoObjectActions, admin.ModelAdmin):
     """
     Утилиты для публикации/распубликации
     """

@@ -79,5 +79,9 @@
       "Bash(rmdir:*)",
       "Bash(shred:*)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "playwright-test"
+  ],
+  "enableAllProjectMcpServers": true
 }

@@ -108,18 +108,21 @@ class SubCategoryAdminForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         obj = kwargs.get('instance')
         if obj and obj.pk:
-            # Собираем все ключи attrs из моделей этой подкатегории
-            # Ключи хранятся как 'a{id}', поэтому вытаскиваем id числом
-            attr_ids = set()
-            for model in obj.models.all():
-                for key in model.attrs.keys():
-                    # ключ вида 'a163' -> id=163
-                    if key.startswith('a') and key[1:].isdigit():
-                        attr_ids.add(int(key[1:]))
+            # Приоритет 1: характеристики, уже привязанные к подкатегории через M2M
+            qs = obj.attributes.filter(is_synced_with_1c=True)
 
-            if attr_ids:
-                qs = Attribute.objects.filter(id__in=attr_ids, is_synced_with_1c=True)
-            else:
+            # Приоритет 2: характеристики из attrs моделей этой подкатегории
+            if not qs.exists():
+                attr_ids = set()
+                for model in obj.models.all():
+                    for key in model.attrs.keys():
+                        if key.startswith('a') and key[1:].isdigit():
+                            attr_ids.add(int(key[1:]))
+                if attr_ids:
+                    qs = Attribute.objects.filter(id__in=attr_ids, is_synced_with_1c=True)
+
+            # Приоритет 3: все синхронизированные с 1С (стандартный limit_choices_to)
+            if not qs.exists():
                 qs = Attribute.objects.filter(is_synced_with_1c=True)
 
             self.fields['attribute_in_filter'].queryset = qs

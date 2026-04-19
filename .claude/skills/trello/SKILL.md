@@ -19,6 +19,7 @@ user_invocable: true
 - **"покажи карточки с доски"** или **"список задач"** → [Карточки доски](#карточки-доски)
 - **"найди тикет про X"** → [Поиск](#поиск)
 - **"покажи мои доски"** → [Список досок](#мои-доски)
+- **"оставь комментарий"** или **"напиши в карточку"** → [Добавить комментарий](#добавить-комментарий)
 
 ## Credentials
 
@@ -153,6 +154,27 @@ curl -s "https://api.trello.com/1/members/me/boards?key=${KEY}&token=${TOKEN}&fi
   "checklists": [{"name": "...", "checkItems": [{"name": "...", "state": "complete"}]}]
 }
 ```
+
+### Добавить комментарий
+
+POST-запросы делай через Python (`.venv/Scripts/python.exe`), так как WebFetch поддерживает только GET:
+
+```python
+import urllib.request, urllib.parse, json
+KEY = '...'
+TOKEN = '...'
+card_id = '<SHORT_ID>'  # из shortUrl: trello.com/c/<SHORT_ID>
+text = 'Текст комментария'
+data = urllib.parse.urlencode({'key': KEY, 'token': TOKEN, 'text': text}).encode()
+req = urllib.request.Request(
+    f'https://api.trello.com/1/cards/{card_id}/actions/comments',
+    data=data, method='POST'
+)
+with urllib.request.urlopen(req) as r:
+    print(json.loads(r.read()).get('id'))
+```
+
+Python доступен по пути: `C:/_KIPOL/_WORK/_metatecks/.venv/Scripts/python.exe`
 
 ## Синхронизация с Beads
 

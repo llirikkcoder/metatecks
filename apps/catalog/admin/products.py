@@ -23,7 +23,6 @@ class SubCategoryRelatedFilter(SimpleListFilter):
     parameter_name = 'sub_category'
 
     def lookups(self, request, model_admin):
-        # Если выбрана категория — показываем только её подкатегории
         category_id = request.GET.get('category')
         qs = SubCategory.objects.select_related('category')
         if category_id:
@@ -33,6 +32,29 @@ class SubCategoryRelatedFilter(SimpleListFilter):
     def queryset(self, request, queryset):
         if self.value():
             return queryset.filter(sub_category_id=self.value())
+        return queryset
+
+
+class ModelRelatedFilter(SimpleListFilter):
+    """
+    МТ-13: При выборе подкатегории показываем только модели этой подкатегории.
+    """
+    title = 'Модель'
+    parameter_name = 'model'
+
+    def lookups(self, request, model_admin):
+        from apps.catalog.models import ProductModel
+        sub_category_id = request.GET.get('sub_category')
+        qs = ProductModel.objects.select_related('sub_category')
+        if sub_category_id:
+            qs = qs.filter(sub_category_id=sub_category_id)
+        elif request.GET.get('category'):
+            qs = qs.filter(category_id=request.GET.get('category'))
+        return [(m.pk, m.name) for m in qs.order_by('name')]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(model_id=self.value())
         return queryset
 
 
@@ -89,7 +111,7 @@ class ProductModelAdmin(
     list_per_page = 100
     actions = [make_visible, make_hidden, 'delete_selected']
     suit_list_filter_horizontal = (
-        'category', SubCategoryRelatedFilter, 'is_shown', 'is_popular', 'is_synced_with_1c',
+        'category', 'sub_category', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
     suit_form_tabs = (
         ('default', 'Модель'),
@@ -244,12 +266,12 @@ class ProductAdmin(
         'name', 'category', 'sub_category', 'model', 'brand', 'brand_name', 'photo', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
     list_filter = (
-        'category', SubCategoryRelatedFilter, 'model', 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
+        'category', SubCategoryRelatedFilter, ModelRelatedFilter, 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
     list_per_page = 100
     actions = [make_visible, make_hidden, 'delete_selected']
     suit_list_filter_horizontal = (
-        'category', SubCategoryRelatedFilter, 'model', 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
+        'category', 'sub_category', 'model', 'brand', 'brand_name', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
     suit_form_tabs = (
         ('default', 'Товар'),

@@ -1,7 +1,7 @@
 
 // Слайдер рекламного баннера
 
-var swiper = new Swiper(".slider-advertising", {
+var swiperAdvertising = new Swiper(".slider-advertising", {
 
 	// Количество слайдов для показа
 	slidesPerView: 1,
@@ -105,21 +105,21 @@ var swiper = new Swiper(".slider-advertising", {
 	//  === Навигация 
 	// Буллеты, текущее положение, прогрессбар
 	pagination: {
-		el: '.swiper-pagination',
+		el: '.slider-advertising .swiper-pagination',
 		clickable: true,
 	},
 
 	// Стрелки
 	navigation: {
-		nextEl: '.swiper-button-next',
-		prevEl: '.swiper-button-prev',
+		nextEl: '.slider-advertising .swiper-button-next',
+		prevEl: '.slider-advertising .swiper-button-prev',
 	},
 });
 
 
 // Слайдер карточек товара
 
-var swiper = new Swiper(".slider-products", {
+var swiperProducts = new Swiper(".slider-products", {
 
 	// Количество слайдов для показа
 	slidesPerView: 4,
@@ -211,14 +211,14 @@ var swiper = new Swiper(".slider-products", {
 	//  === Навигация 
 	// Буллеты, текущее положение, прогрессбар
 	pagination: {
-		el: '.swiper-pagination',
+		el: '.slider-products .swiper-pagination',
 		clickable: true,
 	},
 
 	// Стрелки
 	navigation: {
-		nextEl: '.swiper-button-next',
-		prevEl: '.swiper-button-prev',
+		nextEl: '.slider-products .swiper-button-next',
+		prevEl: '.slider-products .swiper-button-prev',
 	},
 });
 

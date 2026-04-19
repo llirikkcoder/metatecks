@@ -88,3 +88,5 @@ docs/pics/
 *.db
 .beads-credential-key
 .claude/skills/trello/config.json
+
+.playwright-cli
