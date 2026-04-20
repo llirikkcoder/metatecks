@@ -23,7 +23,7 @@ class SubCategoryRelatedFilter(SimpleListFilter):
     parameter_name = 'sub_category'
 
     def lookups(self, request, model_admin):
-        category_id = request.GET.get('category')
+        category_id = request.GET.get('category__id__exact') or request.GET.get('category')
         qs = SubCategory.objects.select_related('category')
         if category_id:
             qs = qs.filter(category_id=category_id)
@@ -45,11 +45,12 @@ class ModelRelatedFilter(SimpleListFilter):
     def lookups(self, request, model_admin):
         from apps.catalog.models import ProductModel
         sub_category_id = request.GET.get('sub_category')
+        category_id = request.GET.get('category__id__exact') or request.GET.get('category')
         qs = ProductModel.objects.select_related('sub_category')
         if sub_category_id:
             qs = qs.filter(sub_category_id=sub_category_id)
-        elif request.GET.get('category'):
-            qs = qs.filter(category_id=request.GET.get('category'))
+        elif category_id:
+            qs = qs.filter(category_id=category_id)
         return [(m.pk, m.name) for m in qs.order_by('name')]
 
     def queryset(self, request, queryset):
