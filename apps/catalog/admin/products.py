@@ -105,6 +105,9 @@ class ProductVideoInline(ShortTextFieldAdminMixin, admin.TabularInline):
 class ProductModelAdmin(
     ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, SortableAdminMixin, ShortTextFieldAdminMixin, admin.ModelAdmin
 ):
+    class Media:
+        js = ('js/admin/filter_autosubmit.js',)
+
     list_display = (
         'name', 'category', 'sub_category', 'photo', 'price', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
@@ -263,6 +266,9 @@ class ProductStockBalanceInline(admin.TabularInline):
 class ProductAdmin(
     ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, SortableAdminMixin, ShortTextFieldAdminMixin, admin.ModelAdmin
 ):
+    class Media:
+        js = ('js/admin/filter_autosubmit.js',)
+
     list_display = (
         'name', 'category', 'sub_category', 'model', 'brand', 'brand_name', 'photo', 'is_shown', 'is_popular', 'is_synced_with_1c',
     )
