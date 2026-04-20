@@ -270,17 +270,17 @@ function initProductsSlider() {
     // Автовысота
     autoHeight: false,
 
-    //  === Навигация 
+    //  === Навигация
     // Буллеты, текущее положение, прогрессбар
     pagination: {
-      el: '.swiper-pagination',
+      el: '.slider-products .swiper-pagination',
       clickable: true,
     },
 
     // Стрелки
     navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
+      nextEl: '.slider-products .swiper-button-next',
+      prevEl: '.slider-products .swiper-button-prev',
     },
   });
 }

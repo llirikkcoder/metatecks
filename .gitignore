@@ -82,6 +82,7 @@ TEST_RESULTS.md
 docs/pics/
 
 .beads
+!.beads/issues.jsonl
 
 # Beads / Dolt files (added by bd init)
 .dolt/

@@ -36,7 +36,6 @@ var swiperAdvertising = new Swiper(".slider-advertising", {
 
 	// Бесконечный слайдер
 	loop: true,
-	loopFillGroupWithBlank: true,
 
 	//  === Эффекты переключения слайдов.
 	// Cмена прозрачности*/
@@ -184,7 +183,6 @@ var swiperProducts = new Swiper(".slider-products", {
 
 	// Бесконечный слайдер
 	loop: true,
-	loopFillGroupWithBlank: true,
 
 
 	// Управление клавиатурой
@@ -208,7 +206,7 @@ var swiperProducts = new Swiper(".slider-products", {
 
 
 
-	//  === Навигация 
+	//  === Навигация
 	// Буллеты, текущее положение, прогрессбар
 	pagination: {
 		el: '.slider-products .swiper-pagination',
@@ -331,17 +329,17 @@ var swiper = new Swiper(".slider-brands", {
 
 
 
-	//  === Навигация 
+	//  === Навигация
 	// Буллеты, текущее положение, прогрессбар
 	pagination: {
-		el: '.swiper-pagination',
+		el: '.slider-brands .swiper-pagination',
 		clickable: true,
 	},
 
 	// Стрелки
 	navigation: {
-		nextEl: '.swiper-button-next',
-		prevEl: '.swiper-button-prev',
+		nextEl: '.slider-brands .swiper-button-next',
+		prevEl: '.slider-brands .swiper-button-prev',
 	},
 });
 
