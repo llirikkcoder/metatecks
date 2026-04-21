@@ -49,7 +49,7 @@ def get_current_user(request=None):
 def get_current_city(request=None):
     from apps.addresses.models import City
     request = get_current_request()
-    return request.city or City.get_default()
+    return getattr(request, 'city', None) or City.get_default()
 
 
 def get_site_url():
@@ -100,7 +100,7 @@ def absolute(url=None, append_media_url=False, append_subdomain=True):
         _subdomain = ''
         if append_subdomain is True:
             request = get_current_request()
-            if request.city and request.city.subdomain:
+            if getattr(request, 'city', None) and request.city.subdomain:
                 _subdomain = f'{request.city.subdomain}.'
         url = (
             '{}://{}{}{}{}'.format(DEFAULT_SCHEME, _subdomain, DEFAULT_SITENAME, media_url, url)
