@@ -1,5 +1,8 @@
+from functools import partial
+
 from django import forms
 from django.contrib import admin
+from django.forms.models import modelform_factory
 from django.utils.safestring import mark_safe
 
 from adminsortable2.admin import SortableAdminMixin
@@ -126,6 +129,17 @@ class SubCategoryAdmin(ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, So
     list_editable = ('slug', 'attribute_in_filter',)
     list_filter = ('category', 'is_shown', 'is_popular', 'is_synced_with_1c',)
     list_per_page = 100
+
+    def get_changelist_form(self, request, **kwargs):
+        # Django по умолчанию не использует self.form для list_editable —
+        # принудительно подставляем SubCategoryAdminForm, чтобы queryset
+        # поля attribute_in_filter фильтровался per-row.
+        return modelform_factory(
+            self.model,
+            form=SubCategoryAdminForm,
+            formfield_callback=partial(self.formfield_for_dbfield, request=request),
+            **kwargs,
+        )
     suit_list_filter_horizontal = ('category', 'is_shown', 'is_popular', 'is_synced_with_1c',)
     suit_form_tabs = (
         ('default', 'Подкатегория'),
