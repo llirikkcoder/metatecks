@@ -108,23 +108,12 @@ class SubCategoryAdminForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         obj = kwargs.get('instance')
         if obj and obj.pk:
-            # Приоритет 1: характеристики, уже привязанные к подкатегории через M2M
-            qs = obj.attributes.filter(is_synced_with_1c=True)
-
-            # Приоритет 2: характеристики из attrs моделей этой подкатегории
-            if not qs.exists():
-                attr_ids = set()
-                for model in obj.models.all():
-                    for key in model.attrs.keys():
-                        if key.startswith('a') and key[1:].isdigit():
-                            attr_ids.add(int(key[1:]))
-                if attr_ids:
-                    qs = Attribute.objects.filter(id__in=attr_ids, is_synced_with_1c=True)
-
-            # Приоритет 3: все синхронизированные с 1С (стандартный limit_choices_to)
-            if not qs.exists():
-                qs = Attribute.objects.filter(is_synced_with_1c=True)
-
+            attr_ids = set()
+            for model in obj.models.all():
+                for key in model.attrs.keys():
+                    if key.startswith('a') and key[1:].isdigit():
+                        attr_ids.add(int(key[1:]))
+            qs = Attribute.objects.filter(id__in=attr_ids, is_synced_with_1c=True)
             self.fields['attribute_in_filter'].queryset = qs
         # Для новых объектов оставляем стандартный limit_choices_to
 
@@ -134,7 +123,7 @@ class SubCategoryAdmin(ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, So
     form = SubCategoryAdminForm
     list_display = ('category', 'name', 'slug', 'photo', 'is_shown', 'is_popular', 'is_synced_with_1c', 'attribute_in_filter',)
     list_display_links = ('category', 'name',)
-    list_editable = ('slug',)
+    list_editable = ('slug', 'attribute_in_filter',)
     list_filter = ('category', 'is_shown', 'is_popular', 'is_synced_with_1c',)
     list_per_page = 100
     suit_list_filter_horizontal = ('category', 'is_shown', 'is_popular', 'is_synced_with_1c',)

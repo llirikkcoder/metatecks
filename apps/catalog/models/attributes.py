@@ -75,7 +75,7 @@ class Attribute(DatesBaseModel):
         verbose_name_plural = 'характеристики товаров'
 
     def __str__(self):
-        return mark_safe(f'{self.get_name_admin()} (id&nbsp;{self.id})')
+        return f'{self.get_name_admin()} (id {self.id})'
 
     def save(self, *args, **kwargs):
         if self.id:
