@@ -134,7 +134,7 @@ class SubCategoryAdmin(ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, So
     form = SubCategoryAdminForm
     list_display = ('category', 'name', 'slug', 'photo', 'is_shown', 'is_popular', 'is_synced_with_1c', 'attribute_in_filter',)
     list_display_links = ('category', 'name',)
-    list_editable = ('slug', 'attribute_in_filter',)
+    list_editable = ('slug',)
     list_filter = ('category', 'is_shown', 'is_popular', 'is_synced_with_1c',)
     list_per_page = 100
     suit_list_filter_horizontal = ('category', 'is_shown', 'is_popular', 'is_synced_with_1c',)

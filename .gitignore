@@ -81,8 +81,13 @@ TEST_RESULTS.md
 # Temporary documentation images
 docs/pics/
 
-.beads
+.beads/*
 !.beads/issues.jsonl
+!.beads/README.md
+!.beads/config.yaml
+
+# Windows Zone.Identifier metadata files
+*:Zone.Identifier
 
 # Beads / Dolt files (added by bd init)
 .dolt/
