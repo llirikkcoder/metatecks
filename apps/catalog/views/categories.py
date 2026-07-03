@@ -189,13 +189,16 @@ class SubCategoryView(DetailView):
         else:
             for value in attr_values:
                 try:
-                    v = (
-                        int(value)
-                        if attr_type == 'int'
-                        else float(value.replace(',', '.'))
-                        if attr_type == 'float'
-                        else value
-                    )
+                    if attr_type == 'int':
+                        v = int(value)
+                    elif attr_type == 'float':
+                        v = float(value.replace(',', '.'))
+                    elif attr_type == 'number':
+                        # приведение как в apps/third_party/cml/sync.py при синхронизации с 1С
+                        _value = value.replace(' ', '').replace(',', '.')
+                        v = float(_value) if '.' in _value else int(_value)
+                    else:
+                        v = value
                     lookups.append(Q(**{f'model__attrs__{attr_slug}': v}))
                     values.append(v)
                 except ValueError:
