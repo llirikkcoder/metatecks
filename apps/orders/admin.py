@@ -12,10 +12,11 @@ from apps.utils.admin_mixins import (
     DontAddOrDeleteMixin, InlineDontDoNothingMixin, SelectPrefetchRelatedMixin,
 )
 from apps.utils.common import get_error_message
+from apps.third_party.bitrix24.tasks import sync_order_with_bitrix24
 from .models import (
-    DeliveryCompany, Order, OrderItem, 
+    DeliveryCompany, Order, OrderItem,
     OrderDeliveryAddressData, OrderContactsData,
-    OrderPaymentCardData, OrderPaymentCashlessData,
+    OrderPaymentCardData, OrderPaymentCashlessData, Payment,
 )
 
 
@@ -87,6 +88,23 @@ class OrderPaymentCardDataInline(InlineDontDoNothingMixin, admin.StackedInline):
     verbose_name_plural = 'данные карты'
 
 
+class PaymentInline(InlineDontDoNothingMixin, admin.StackedInline):
+    model = Payment
+    fields = (
+        'status', 'amount', 'alfa_order_id', 'form_url',
+        'error_code', 'error_message', 'paid_at',
+    )
+    readonly_fields = fields
+    suit_classes = 'suit-tab suit-tab-payment'
+    extra = 0
+    can_delete = False
+    verbose_name = 'онлайн-платёж'
+    verbose_name_plural = 'онлайн-платежи'
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
 class OrderPaymentCashlessDataInline(InlineDontDoNothingMixin, admin.StackedInline):
     model = OrderPaymentCashlessData
     fields = (
@@ -118,8 +136,16 @@ class OrderAdmin(DjangoObjectActions, SelectPrefetchRelatedMixin, admin.ModelAdm
             obj.save()
             messages.warning(request, f'Заказ № {obj.number} отменен.')
 
+    def resync_with_bitrix24(self, request, obj=None):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        if obj:
+            sync_order_with_bitrix24.delay(obj.id, event='manual_resync')
+            messages.success(request, f'Заказ № {obj.number} поставлен в очередь на синхронизацию с Битрикс24.')
+
     make_paid.label = '✅ Заказ оплачен'
     make_canceled.label = '❌ Отменить заказ'
+    resync_with_bitrix24.label = '🔄 Синхронизировать с Битрикс24'
 
     def get_change_actions(self, request, object_id, form_url):
         actions = super().get_change_actions(request, object_id, form_url)
@@ -133,7 +159,7 @@ class OrderAdmin(DjangoObjectActions, SelectPrefetchRelatedMixin, admin.ModelAdm
             actions.remove('make_canceled')
         return actions
 
-    change_actions = ('make_paid', 'make_canceled',)
+    change_actions = ('make_paid', 'make_canceled', 'resync_with_bitrix24',)
 
 
     list_display = (
@@ -209,7 +235,7 @@ class OrderAdmin(DjangoObjectActions, SelectPrefetchRelatedMixin, admin.ModelAdm
         }),
         ('Синхронизация', {
             'classes': ('suit-tab', 'suit-tab-sync',),
-            'fields': ('is_synced_with_b24',),
+            'fields': ('is_synced_with_b24', 'bitrix24_deal_id',),
         }),
     )
     not_readonly_fields = ('status', 'comment',)
@@ -217,6 +243,7 @@ class OrderAdmin(DjangoObjectActions, SelectPrefetchRelatedMixin, admin.ModelAdm
         OrderItemInline,
         OrderDeliveryAddressDataInline,
         OrderContactsDataInline,
+        PaymentInline,
         OrderPaymentCardDataInline,
         OrderPaymentCashlessDataInline,
     ]

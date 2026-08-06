@@ -1,0 +1,10 @@
+{% extends 'emails/base_email.html' %}
+
+{% block title %}Не удалось оплатить заказ № {{ order.number }}{% endblock %}
+
+{% block content %}
+  <h2 style="margin-top:0;">Оплата не прошла</h2>
+  <p>Здравствуйте{% if contacts_name %}, {{ contacts_name }}{% endif %}!</p>
+  <p>К сожалению, оплата заказа <strong>№ {{ order.number }}</strong> на сумму <strong>{{ order.total_cost }} ₽</strong> не была завершена.</p>
+  <p>Вы можете попробовать оплатить заказ ещё раз в личном кабинете, либо связаться с нами: +7 800 222-54-32.</p>
+{% endblock %}

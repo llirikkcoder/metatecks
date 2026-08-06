@@ -16,9 +16,11 @@ from apps.orders.constants import (
 from apps.orders.models import (
     DeliveryCompany, Order, OrderItem,
     OrderDeliveryAddressData, OrderContactsData, UserDeliveryAddress,
-    OrderPaymentCardData, UserPaymentCard,
     OrderPaymentCashlessData, UserPaymentCashlessData,
 )
+from apps.third_party.alfabank.exceptions import AlfaBankError
+from apps.third_party.alfabank.services import register_payment
+from apps.third_party.bitrix24.tasks import sync_order_with_bitrix24
 from apps.utils.common import get_error_message
 from ..samples import ORDER_DATA_SAMPLE
 from .forms import AddressForm, ContactsForm, PaymentCardForm, PaymentCashlessForm
@@ -260,23 +262,20 @@ class OrderCheckoutView(View):
         _payment = order_data.get('payment', {})
         _upayment = get_user_payment(user)
         payment_method = _payment.get('method') or _upayment.get('method')
-        card_data = _payment.get('card_data') or _upayment.get('card_data') or {}
         non_cash_data = _payment.get('non_cash_data') or _upayment.get('non_cash_data') or {}
         # 1) метод оплаты
         order.payment_method = payment_method
         if not user.payment_method:
             user.payment_method = payment_method
         # 2) детальные данные по оплате
-        if payment_method == PaymentMethods.ONLINE:
-            OrderPaymentCardData.objects.create(order=order, **card_data)
-            UserPaymentCard.objects.get_or_create(user=user, **card_data)
-        elif payment_method == PaymentMethods.NON_CASH:
+        # ONLINE: номер карты никогда не попадает на наш сервер — оплата на hosted-странице банка
+        if payment_method == PaymentMethods.NON_CASH:
             OrderPaymentCashlessData.objects.create(order=order, **non_cash_data)
             if not getattr(user, 'payment_cashless_data', None):
                 UserPaymentCashlessData.objects.create(user=user, **non_cash_data)
 
         # -- сохраняем заказ и человека
-        order.status = OrderStatuses.CREATED
+        order.status = OrderStatuses.AWAITING_PAYMENT if payment_method == PaymentMethods.ONLINE else OrderStatuses.CREATED
         order.save()
         user.save()
 
@@ -285,6 +284,20 @@ class OrderCheckoutView(View):
         request.session['order_data'] = {}
         update_cart_count(request)
 
+        sync_order_with_bitrix24.delay(order.id, event='created')
+
+        # -- регистрация онлайн-оплаты в банке
+        if payment_method == PaymentMethods.ONLINE:
+            try:
+                payment = register_payment(order)
+            except AlfaBankError:
+                return JsonResponse({
+                    'result': 'error',
+                    'error': 'Не удалось создать онлайн-оплату, попробуйте другой способ оплаты',
+                }, status=400)
+            redirect_url = payment.form_url
+        else:
+            redirect_url = order.get_created_url()
+
         # отдаем ответ
-        redirect_url = order.get_created_url()
         return JsonResponse({'result': 'ok', 'order_id': order.id, 'redirect_url': redirect_url})

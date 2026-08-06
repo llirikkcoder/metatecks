@@ -101,6 +101,8 @@ INSTALLED_APPS = [
     'apps.feedback.app.FeedbackConfig',
     'apps.promotions.app.PromotionsConfig',
     'apps.third_party.cml.app.CMLConfig',
+    'apps.third_party.alfabank.app.AlfaBankConfig',
+    'apps.third_party.bitrix24.app.Bitrix24Config',
     'apps.search',
 ]
 
@@ -225,6 +227,11 @@ SILENCED_SYSTEM_CHECKS = [
 # email settings
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'Метатэкс <noreply@metateks.ru>')
+EMAIL_HOST = os.getenv('EMAIL_HOST', '')
+EMAIL_PORT = env_int('EMAIL_PORT', 587)
+EMAIL_USE_TLS = env_bool('EMAIL_USE_TLS', True)
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 
 
 # # django-extensions
@@ -299,6 +306,9 @@ LOGGING = {
 # custom_loggers
 LOGGING_KEYS = [
     'cml.sync', 'cml.tasks', 'cml.utils',
+    'alfabank.client', 'alfabank.services', 'alfabank.views',
+    'bitrix24.client', 'bitrix24.services', 'bitrix24.tasks',
+    'orders.tasks', 'orders.emails',
 ]
 for k in LOGGING_KEYS:
     k2 = k.replace('.', '_')

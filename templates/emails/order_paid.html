@@ -1,0 +1,10 @@
+{% extends 'emails/base_email.html' %}
+
+{% block title %}Заказ № {{ order.number }} оплачен{% endblock %}
+
+{% block content %}
+  <h2 style="margin-top:0;">Оплата прошла успешно</h2>
+  <p>Здравствуйте{% if contacts_name %}, {{ contacts_name }}{% endif %}!</p>
+  <p>Ваш заказ <strong>№ {{ order.number }}</strong> на сумму <strong>{{ order.total_cost }} ₽</strong> успешно оплачен.</p>
+  <p>Мы приступаем к сборке заказа. Следить за статусом можно в личном кабинете на сайте.</p>
+{% endblock %}

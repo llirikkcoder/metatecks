@@ -251,7 +251,6 @@ def get_order_data(request):
 
     if (
         not payment_method
-        or (payment_method == PaymentMethods.ONLINE and not card_payment_data)
         or (payment_method == PaymentMethods.NON_CASH and not _check_non_cash(non_cash_payment_data))
     ):
         is_data_filled = False

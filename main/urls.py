@@ -29,6 +29,7 @@ urlpatterns = [
 
     # api
     path('api/', include(('apps.api.urls', 'api'))),
+    path('api/webhooks/payment/', include('apps.third_party.alfabank.urls')),
 
     # разделы
     path('catalog/', include(('apps.catalog.urls.catalog', 'catalog'))),

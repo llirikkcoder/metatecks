@@ -1,0 +1,5 @@
+Заказ № {{ order.number }} оплачен.
+
+Сумма: {{ order.total_cost }} ₽
+Клиент: {{ contacts_name }}, {{ contacts_phone }}
+Ссылка в админке: {{ admin_url }}

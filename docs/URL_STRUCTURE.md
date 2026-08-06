@@ -542,10 +542,12 @@ User: (создается в админке с правами add_exchange)
 - `?type=catalog` - обмен каталогом товаров
 - `?type=sale` - обмен заказами
 
-### Webhooks (требуют реализации)
+### Webhooks
 ```
-POST /api/webhooks/payment/     ❌ Уведомления от платежной системы
-POST /api/webhooks/delivery/    ❌ Уведомления от служб доставки
+POST /api/webhooks/payment/webhook/   ✅ Колбэк Альфа-Банка (если настроен в личном кабинете мерчанта)
+GET  /api/webhooks/payment/return/    ✅ returnUrl — пользователь вернулся после оплаты
+GET  /api/webhooks/payment/fail/      ✅ failUrl — оплата отклонена/отменена пользователем
+POST /api/webhooks/delivery/          ❌ Уведомления от служб доставки
 ```
 
 ---

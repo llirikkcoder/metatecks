@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 
 from apps.addresses.models import Warehouse
 from apps.catalog.models import Product, ExtraProduct
-from .constants import DeliveryMethods, PaymentMethods, OrderStatuses
+from .constants import DeliveryMethods, PaymentMethods, OrderStatuses, PaymentStatuses
 from .utils import get_order_number
 
 
@@ -41,7 +41,7 @@ class Order(models.Model):
     )
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
     updated_at = models.DateTimeField('Дата обновления', auto_now=True)
-    status = models.CharField('Статус заказа', choices=OrderStatuses.choices, blank=True, null=True, max_length=15)
+    status = models.CharField('Статус заказа', choices=OrderStatuses.choices, blank=True, null=True, max_length=20)
     comment = models.TextField('Комментарий', blank=True, null=True)
 
     total_quantity = models.PositiveSmallIntegerField('Кол-во товаров', default=0)
@@ -73,6 +73,7 @@ class Order(models.Model):
     canceled_at = models.DateTimeField('Дата отмены', blank=True, null=True)
 
     is_synced_with_b24 = models.BooleanField('Синхронизован с Битрикс24', default=False)
+    bitrix24_deal_id = models.CharField('ID сделки в Битрикс24', max_length=31, blank=True, null=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -109,6 +110,10 @@ class Order(models.Model):
         url = reverse('account:orders')
         return f'{url}?p=canceled#order{self.id}'
 
+    def get_awaiting_payment_url(self):
+        url = reverse('account:orders')
+        return f'{url}?p=awaiting_payment#order{self.id}'
+
     @property
     def first_product(self):
         item = self.items.filter(product_id__isnull=False).first()
@@ -142,6 +147,10 @@ class Order(models.Model):
     @property
     def is_inactive(self):
         return self.status in [OrderStatuses.COMPLETED, OrderStatuses.CANCELED]
+
+    @property
+    def active_payment(self):
+        return self.payments.order_by('-created_at').first()
 
 
 class OrderItem(models.Model):
@@ -423,3 +432,58 @@ class UserPaymentCashlessData(PaymentCashlessData):
     class Meta:
         verbose_name = 'пользователь: данные безналичной оплаты'
         verbose_name_plural = 'пользователь: данные безналичной оплаты'
+
+
+# -- онлайн-оплата (Альфа-Банк) --
+
+class Payment(models.Model):
+    order = models.ForeignKey(Order, models.CASCADE, verbose_name='Заказ', related_name='payments')
+    status = models.CharField(
+        'Статус платежа', choices=PaymentStatuses.choices, default=PaymentStatuses.REGISTERED, max_length=15,
+    )
+
+    amount = models.DecimalField('Сумма (₽)', max_digits=9, decimal_places=2)
+
+    alfa_order_id = models.CharField('ID заказа в банке', max_length=63, blank=True, null=True, db_index=True)
+    form_url = models.URLField('Ссылка на оплату', max_length=1023, blank=True, null=True)
+
+    error_code = models.CharField('Код ошибки', max_length=15, blank=True, null=True)
+    error_message = models.TextField('Сообщение об ошибке', blank=True, null=True)
+
+    raw_register_response = models.JSONField('Ответ банка (register)', blank=True, null=True)
+    raw_status_response = models.JSONField('Ответ банка (status)', blank=True, null=True)
+
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+    updated_at = models.DateTimeField('Дата обновления', auto_now=True)
+    paid_at = models.DateTimeField('Дата подтверждения оплаты', blank=True, null=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'платёж'
+        verbose_name_plural = 'платежи'
+
+    def __str__(self):
+        return f'Платёж по заказу № {self.order.number} ({self.get_status_display()})'
+
+    def mark_paid(self, raw_response=None):
+        self.status = PaymentStatuses.PAID
+        self.paid_at = timezone.now()
+        if raw_response is not None:
+            self.raw_status_response = raw_response
+        self.save()
+
+        order = self.order
+        order.is_paid = True
+        order.status = OrderStatuses.CREATED
+        order.save()
+
+    def mark_declined(self, error_code=None, error_message=None, raw_response=None):
+        self.status = PaymentStatuses.DECLINED
+        if error_code is not None:
+            self.error_code = error_code
+        if error_message is not None:
+            self.error_message = error_message
+        if raw_response is not None:
+            self.raw_status_response = raw_response
+        self.save()
+        # Order.status остаётся AWAITING_PAYMENT — пользователь может обратиться в поддержку
