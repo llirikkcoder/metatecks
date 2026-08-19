@@ -30,12 +30,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     make \
     wget \
     curl \
+    ca-certificates \
     git \
     vim \
     # Дополнительные инструменты для отладки
     iputils-ping \
     net-tools \
     && rm -rf /var/lib/apt/lists/*
+
+# Корневой сертификат «Минцифры» (Russian Trusted Root CA) — им подписаны
+# платёжный шлюз Альфа-Банка (alfa.rbsuat.com, payment.alfabank.ru) и другие
+# госресурсы РФ. В стандартном наборе CA его нет, без него requests падает
+# с SSLError: certificate verify failed на любом обращении к шлюзу.
+COPY conf/certs/russian_trusted_root_ca.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+
+# requests проверяет сертификаты по своему набору certifi, а не по системному
+# хранилищу, поэтому одного update-ca-certificates мало — явно указываем бандл
+ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt \
+    SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 # Копирование requirements
 COPY requirements-conda.txt requirements-pip.txt ./
