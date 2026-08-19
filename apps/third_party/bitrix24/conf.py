@@ -23,6 +23,10 @@ class Bitrix24AppConf(AppConf):
     # заказ оплачен онлайн
     STAGE_PAID = os.getenv('BITRIX24_STAGE_PAID', 'PREPARATION')
 
+    # Источник сделки и контакта (crm.status.list?filter[ENTITY_ID]=SOURCE).
+    # STORE = «Интернет-магазин». Пустое значение = не передавать источник.
+    SOURCE_ID = os.getenv('BITRIX24_SOURCE_ID', 'STORE')
+
     # маппинг полей сделки -> уточняется пользователем после получения вебхука
     # (кастомные UF_CRM_* поля зависят от конкретного портала)
     DEAL_FIELD_MAP = {}
