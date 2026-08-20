@@ -49,7 +49,18 @@ $(document).ajaxSuccess(function updateHeaderCartCount(event, xhr, options, data
 })
 
 
-// Выводим ошибку в алерте
+// Выводим ошибку в модальном окне (#error-message из modals/error_message.html).
+// Если модалки на странице нет — откатываемся на нативный alert.
+
+function showErrorModal(message, title) {
+  var $modal = $('#error-message');
+
+  if (!$modal.length) { alert(message); return; }
+
+  $modal.find('#js-error-message-title').text(title || 'Не удалось выполнить действие');
+  $modal.find('#js-error-message').html(message);
+  $modal.modal();
+}
 
 $(document).ajaxError(function myErrorHandler(event, res) {
   var status = res.status,
@@ -63,15 +74,16 @@ $(document).ajaxError(function myErrorHandler(event, res) {
     if (response != undefined) {
       var error = response['error'],
           alert_message = response['alert_message'];
-      if (alert_message) { alert(alert_message); }
-      else if (error) { alert(`При отправке запроса произошла ошибка: ${error}`); }
+      // текст из ответа сервера уже написан для покупателя — показываем как есть
+      if (alert_message) { showErrorModal(alert_message); }
+      else if (error) { showErrorModal(error); }
     }
     else {
-      alert(`При отправке запроса произошла ошибка: ${status} ${statusText}`);
+      showErrorModal(`При отправке запроса произошла ошибка: ${status} ${statusText}`);
     };
   }
   else {
-    if (status == 0) { alert('Произошла ошибка: 500 Internal Server Error'); }
-    else { alert(`Произошла ошибка: ${status} ${statusText}`); }
+    if (status == 0) { showErrorModal('Сервис временно недоступен, попробуйте повторить попытку позже'); }
+    else { showErrorModal(`Произошла ошибка: ${status} ${statusText}`); }
   }
 });

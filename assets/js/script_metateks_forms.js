@@ -24,7 +24,7 @@ function addErrors($form, errors, without_errors, without_names) {
       errorsPrepend = $form.hasClass('js-field-errors-prepend');
 
   if (!errors.length) {
-    alert('При отправке запроса произошла ошибка');
+    showErrorModal('При отправке запроса произошла ошибка');
     return;
   }
 
@@ -91,7 +91,7 @@ $(document).ready(function(){
               errors = response['errors'];
           if (errors) { 
             if ($form) { addErrors($form, errors); }
-            else { alert(`При отправке формы произошла ошибка: ${errors}`); }
+            else { showErrorModal(`При отправке формы произошла ошибка: ${errors}`); }
           };
         }
       },

@@ -32,7 +32,7 @@ $('.js-auth-form').on('submit', function(e) {
             errors = response['errors'];
         if (errors) { 
           if ($form) { addErrors($form, errors); }
-          else { alert(`При отправке формы произошла ошибка: ${errors}`); }
+          else { showErrorModal(`При отправке формы произошла ошибка: ${errors}`); }
         };
       }
     },
