@@ -123,6 +123,11 @@
             {% endif %}
           </div>
           <div class="block-order__right__bottom">
+            {% if o.can_be_paid %}
+              <div class="block-btn-right">
+                <button class="btn-midl btn--green js-pay-button" data-obj-id="{{ o.id }}" data-obj-number="{{ o.number }}" aria-label="Оплатить заказ"><span>оплатить заказ</span></button>
+              </div>
+            {% endif %}
             {% if o.can_be_canceled %}
               <div class="block-btn-right">
                 <button class="btn-border-full dark--bgrnd js-cancel-button" data-obj-id="{{ o.id }}" data-obj-number="{{ o.number }}" aria-label="Удалить"><span>отменить заказ</span> <span class="met-ico-close-b"></span></button>

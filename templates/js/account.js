@@ -185,6 +185,35 @@ $('.js-cancel-button').on('click', function(e){
 });
 
 
+// Оплата заказа, ожидающего оплаты
+
+$('.js-pay-button').on('click', function(){
+  var $button = $(this),
+      value = $button.data('obj-id'),
+      $container = $button.parents('.js-order-container'),
+      url = accountUrls.pay['order'];
+
+  $container.addClass('_disabled');
+
+  $.ajax({
+    url: url,
+    type: 'POST',
+    data: JSON.stringify({'value': value}),
+    dataType: 'json',
+    contentType: 'application/json',
+    success: function(res){
+      // сюда прилетает ссылка на платёжную страницу банка
+      var redirectUrl = res['redirect_url'];
+      if (redirectUrl) { window.location = redirectUrl; }
+      else { window.location.reload(); }
+    },
+    complete: function(){
+      $container.removeClass('_disabled');
+    }
+  });
+});
+
+
 // Удаление/добавление в избранное
 
 $('.js-favorite-checkbox').on('click', function(){

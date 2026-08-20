@@ -21,8 +21,13 @@ def register_payment(order):
     return_url = absolute(f"{reverse('alfabank:payment-return')}?order_id={order.id}")
     fail_url = absolute(f"{reverse('alfabank:payment-fail')}?order_id={order.id}")
 
+    # банк не принимает повторно тот же orderNumber, поэтому со второй попытки
+    # оплаты добавляем к нему номер попытки
+    attempt = order.payments.count() + 1
+    order_number = str(order.id) if attempt == 1 else f'{order.id}-{attempt}'
+
     alfa_order_id, form_url, raw = client.register_order(
-        order_number=str(order.id),
+        order_number=order_number,
         amount_rub=order.total_cost,
         return_url=return_url,
         fail_url=fail_url,

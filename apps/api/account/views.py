@@ -1,14 +1,22 @@
 import json
+import logging
+from datetime import timedelta
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
+from django.utils import timezone
 from django.views.generic import View
 from django.urls import reverse
 
-from apps.orders.constants import PAYMENT_METHODS, OrderStatuses
+from apps.orders.constants import PAYMENT_METHODS, OrderStatuses, PaymentStatuses
 from apps.orders.models import Order, UserDeliveryAddress, UserPaymentCard, UserPaymentCashlessData
+from apps.third_party.alfabank.exceptions import AlfaBankError
+from apps.third_party.alfabank.services import register_payment, sync_payment_status
 from apps.utils.common import get_error_message
 from .forms import UpdateUserForm, UpdateAddressForm, CashlessDataForm, UpdateCashlessDataForm
+
+
+l = logging.getLogger('api.account')
 
 
 # --- аккаунт: базовые вьюхи ---
@@ -138,6 +146,60 @@ class CancelOrderView(AccountAPIBaseView):
 
         data = {'result': 'ok', 'redirect_url': order.get_canceled_url()}
         return JsonResponse(data)
+
+
+# --- аккаунт: повторная оплата заказа ---
+
+class PayOrderView(AccountAPIBaseView):
+    """
+    Оплата заказа, зависшего в статусе «Ожидает оплаты»: покупатель закрыл
+    вкладку, не заплатил вовремя или оплата не прошла. Возвращает ссылку на
+    платёжную страницу банка.
+    """
+
+    # ссылка на оплату живёт на стороне банка ограниченное время (по умолчанию
+    # 20 минут), поэтому свежую переиспользуем, а протухшую регистрируем заново
+    REUSE_WINDOW = timedelta(minutes=15)
+
+    def get_object(self, data=None):
+        return Order.objects.get(id=data['value'], user=self.request.user)
+
+    def action(self, request, data):
+        order = self.get_object(data)
+        payment = order.active_payment
+
+        # покупатель мог оплатить, а колбэк банка до нас не дошёл — сверяемся
+        if payment and payment.status in (PaymentStatuses.REGISTERED, PaymentStatuses.PENDING):
+            try:
+                sync_payment_status(payment)
+                order.refresh_from_db()
+            except AlfaBankError as exc:
+                l.warning('[account] статус платежа по заказу #%d не сверен: %s', order.id, exc.message)
+
+        if order.is_paid:
+            return JsonResponse({'result': 'ok', 'redirect_url': order.get_created_url()})
+
+        if not order.can_be_paid:
+            raise Exception('Этот заказ уже нельзя оплатить онлайн')
+
+        payment = order.active_payment
+        is_reusable = (
+            payment is not None
+            and payment.status == PaymentStatuses.REGISTERED
+            and payment.form_url
+            and timezone.now() - payment.created_at < self.REUSE_WINDOW
+        )
+
+        if is_reusable:
+            form_url = payment.form_url
+        else:
+            try:
+                form_url = register_payment(order).form_url
+            except AlfaBankError as exc:
+                l.error('[account] повторная оплата заказа #%d не создана: %s', order.id, exc.message)
+                raise Exception('Не удалось создать оплату, попробуйте позже или обратитесь в поддержку')
+
+        return JsonResponse({'result': 'ok', 'redirect_url': form_url})
 
 
 # --- аккаунт: добавление данных для безналичной оплаты ---

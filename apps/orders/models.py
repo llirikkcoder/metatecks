@@ -145,6 +145,16 @@ class Order(models.Model):
         return self.is_status_created and not self.is_canceled
 
     @property
+    def can_be_paid(self):
+        """Заказ ждёт онлайн-оплаты — покупатель может оплатить его из кабинета."""
+        return (
+            self.payment_method == PaymentMethods.ONLINE
+            and self.status == OrderStatuses.AWAITING_PAYMENT
+            and not self.is_paid
+            and not self.is_canceled
+        )
+
+    @property
     def is_inactive(self):
         return self.status in [OrderStatuses.COMPLETED, OrderStatuses.CANCELED]
 
