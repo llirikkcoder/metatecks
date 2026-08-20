@@ -169,7 +169,20 @@ class Order(models.Model):
 
     @property
     def active_payment(self):
-        return self.payments.order_by('-created_at').first()
+        # Payment.Meta.ordering = ['-created_at'], поэтому берём первый из
+        # готового списка — это переживает prefetch_related без лишних запросов
+        payments = list(self.payments.all())
+        return payments[0] if payments else None
+
+    @property
+    def payment_status_str(self):
+        """Статус оплаты для карточки заказа в личном кабинете."""
+        if self.is_paid:
+            return 'Оплачен'
+        payment = self.active_payment
+        if payment:
+            return payment.get_status_display()
+        return 'Не оплачен'
 
 
 class OrderItem(models.Model):

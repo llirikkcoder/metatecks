@@ -77,6 +77,27 @@
               <span class="indicator_status small-text"><span class="dl-ico met-ico-{% if o.is_canceled %}close{% else %}checkbox{% endif %}"></span>{{ o.get_status_display }}</span>
             </div>
 
+            <!-- Данные об оплате -->
+            {% with payment=o.active_payment %}
+              <dl class="order-payment small-text">
+                <dt>Способ оплаты</dt>
+                <dd>{{ o.get_payment_method_display }}</dd>
+
+                <dt>Статус оплаты</dt>
+                <dd>{{ o.payment_status_str }}</dd>
+
+                {% if o.paid_at %}
+                  <dt>Дата оплаты</dt>
+                  <dd>{{ o.paid_at|date:'d.m.Y H:i' }}</dd>
+                {% endif %}
+
+                {% if payment.alfa_order_id %}
+                  <dt>ID платежа</dt>
+                  <dd class="font--light">{{ payment.alfa_order_id }}</dd>
+                {% endif %}
+              </dl>
+            {% endwith %}
+
             <!-- Блок с отображением шкалы статуса заказа  -->
             {% if not o.is_canceled %}
               <div class="block-status-scale">

@@ -148,7 +148,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.is_admin
 
     def get_orders(self):
-        return self.orders.filter(status__gt='')
+        return self.orders.filter(status__gt='').prefetch_related('payments')
 
     @property
     def payment_method_full_str(self):
