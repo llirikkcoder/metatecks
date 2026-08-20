@@ -9,7 +9,7 @@ from django.views.generic import View
 from django.urls import reverse
 
 from apps.orders.constants import PAYMENT_METHODS, OrderStatuses, PaymentStatuses
-from apps.orders.models import Order, UserDeliveryAddress, UserPaymentCard, UserPaymentCashlessData
+from apps.orders.models import Order, UserDeliveryAddress, UserPaymentCashlessData
 from apps.third_party.alfabank.exceptions import AlfaBankError
 from apps.third_party.alfabank.services import register_payment, sync_payment_status
 from apps.utils.common import get_error_message
@@ -235,18 +235,10 @@ class ChooseAddressView(AccountAPIChooseView):
     model = UserDeliveryAddress
 
 
-class ChoosePaymentCardView(AccountAPIChooseView):
-    model = UserPaymentCard
-
-
 # --- аккаунт: удаление объектов ---
 
 class RemoveAddressView(AccountAPIRemoveView):
     model = UserDeliveryAddress
-
-
-class RemovePaymentCardView(AccountAPIRemoveView):
-    model = UserPaymentCard
 
 
 # --- аккаунт: обновление данных ---

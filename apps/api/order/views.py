@@ -23,7 +23,7 @@ from apps.third_party.alfabank.services import register_payment
 from apps.third_party.bitrix24.tasks import sync_order_with_bitrix24
 from apps.utils.common import get_error_message
 from ..samples import ORDER_DATA_SAMPLE
-from .forms import AddressForm, ContactsForm, PaymentCardForm, PaymentCashlessForm
+from .forms import AddressForm, ContactsForm, PaymentCashlessForm
 
 
 # --- обновление данных о заdказе: базовые вьюхи ---
@@ -136,15 +136,6 @@ class SetPaymentMethodView(SetOrderDataAPIBaseView):
         payment_data['method'] = method
         order_data['payment'] = payment_data
         request.session['order_data'] = order_data
-
-
-class SetPaymentCardDataView(SetOrderDataAPIFormView):
-    """
-    Оплата онлайн: данные карты
-    """
-    form_class = PaymentCardForm
-    dict_key = 'payment'
-    data_key = 'card_data'
 
 
 class SetPaymentCashlessDataView(SetOrderDataAPIFormView):

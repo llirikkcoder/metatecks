@@ -16,7 +16,7 @@ from apps.third_party.bitrix24.tasks import sync_order_with_bitrix24
 from .models import (
     DeliveryCompany, Order, OrderItem,
     OrderDeliveryAddressData, OrderContactsData,
-    OrderPaymentCardData, OrderPaymentCashlessData, Payment,
+    OrderPaymentCashlessData, Payment,
 )
 
 
@@ -76,16 +76,6 @@ class OrderContactsDataInline(InlineDontDoNothingMixin, admin.StackedInline):
     extra = 0
     verbose_name = 'контактные данные'
     verbose_name_plural = 'контактные данные'
-
-
-class OrderPaymentCardDataInline(InlineDontDoNothingMixin, admin.StackedInline):
-    model = OrderPaymentCardData
-    fields = ('show_card_number', 'card_name', 'card_expire',)
-    readonly_fields = ('show_card_number',)
-    suit_classes = 'suit-tab suit-tab-payment'
-    extra = 0
-    verbose_name = 'данные карты'
-    verbose_name_plural = 'данные карты'
 
 
 class PaymentInline(InlineDontDoNothingMixin, admin.StackedInline):
@@ -244,7 +234,6 @@ class OrderAdmin(DjangoObjectActions, SelectPrefetchRelatedMixin, admin.ModelAdm
         OrderDeliveryAddressDataInline,
         OrderContactsDataInline,
         PaymentInline,
-        OrderPaymentCardDataInline,
         OrderPaymentCashlessDataInline,
     ]
     search_fields = ('user__first_name', 'user__last_name', 'user__email', 'user__phone',)

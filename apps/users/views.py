@@ -20,13 +20,11 @@ class AccountHomeView(BaseAccountView):
     template_name = 'account/account_home.html'
 
     def get_data(self, user, **kwargs):
-        card = user.payment_cards.first()
         orders = user.get_orders()
         orders_count = orders.count()
         order = orders.first()
         favorites = user.get_favorites()
         return {
-            'card': card,
             'orders_count': orders_count,
             'order': order,
             'favorites': favorites,
@@ -83,11 +81,9 @@ class AccountProfileView(BaseAccountView):
         orders = user.get_orders()
 
         payment_methods = set(orders.values_list('payment_method', flat=True))
-        cards = user.payment_cards.all()
         cashless_data = getattr(user, 'payment_cashless_data', None)
 
         return {
             'payment_methods': payment_methods,
-            'cards': cards,
             'cashless_data': cashless_data,
         }

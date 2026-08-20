@@ -2,8 +2,8 @@ from django.urls import path
 
 from .views import (
     SetPaymentMethodView, CancelOrderView, PayOrderView, AddCashlessDataView,
-    ChooseAddressView, ChoosePaymentCardView,
-    RemoveAddressView, RemovePaymentCardView,
+    ChooseAddressView,
+    RemoveAddressView,
     UpdateUserView, UpdateAddressView, UpdateCashlesDataView,
     ChangeAvatarView,
 )
@@ -16,10 +16,8 @@ urlpatterns = [
     path('add_cashless_data/', AddCashlessDataView.as_view(), name='add-cashless-data'),
 
     path('choose_address/', ChooseAddressView.as_view(), name='choose-address'),
-    path('choose_payment_card/', ChoosePaymentCardView.as_view(), name='choose-payment-card'),
 
     path('remove_address/', RemoveAddressView.as_view(), name='remove-address'),
-    path('remove_payment_card/', RemovePaymentCardView.as_view(), name='remove-payment-card'),
 
     path('update_user/', UpdateUserView.as_view(), name='update-user'),
     path('update_address/', UpdateAddressView.as_view(), name='update-address'),

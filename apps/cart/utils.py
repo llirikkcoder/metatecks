@@ -1,5 +1,4 @@
 import copy
-import re
 
 from apps.catalog.models import Product, ExtraProduct
 from apps.orders.constants import DeliveryMethods, PaymentMethods
@@ -123,10 +122,6 @@ def get_cart_data(request):
     }
 
 
-def _hide_card_data(data_str):
-    return re.sub(r'\d', '*', str(data_str))
-
-
 def get_user_delivery(user):
     delivery = {}
     if user.is_authenticated:
@@ -159,9 +154,6 @@ def get_user_payment(user):
         payment = {
             'method': user.payment_method,
         }
-        _card_obj = user.payment_cards.first()
-        if _card_obj:
-            payment['card_data'] = _card_obj.get_data()
         _cashless_obj = getattr(user, 'payment_cashless_data', None)
         if _cashless_obj:
             payment['non_cash_data'] = _cashless_obj.get_data()
@@ -223,21 +215,10 @@ def get_order_data(request):
     _upayment = get_user_payment(user)
     payment_method = _payment.get('method') or _upayment.get('method')
 
-    card_payment_data = _payment.get('card_data') or _upayment.get('card_data') or {}
-    for k, v in card_payment_data.items():
-        card_payment_data[k] = (
-            f'{_hide_card_data(v[:-4])}{v[-4:]}'
-            if k == 'card_number'
-            else v
-            if k == 'card_expire'
-            else _hide_card_data(v)
-        )
-
     non_cash_payment_data = _payment.get('non_cash_data') or _upayment.get('non_cash_data') or {}
 
+    # карта вводится на стороне банка, показывать в корзине нечего
     cart_payment_str = PaymentMethods.get_label(PaymentMethods.ONLINE)
-    if 'card_number' in card_payment_data:
-        cart_payment_str = f'{cart_payment_str}, карта **{card_payment_data["card_number"][-4:]} {card_payment_data["card_expire"]}'
     non_cash_payment_str = PaymentMethods.get_label(PaymentMethods.NON_CASH)
     if 'organization' in non_cash_payment_data:
         non_cash_payment_str = f'{non_cash_payment_str}, {non_cash_payment_data["organization"]}'
@@ -263,7 +244,6 @@ def get_order_data(request):
         'delivery_data': delivery_data,
         'contacts_data': contacts_data,
         'payment_method': payment_method,
-        'card_data': card_payment_data,
         'cashless_data': non_cash_payment_data,
 
         'delivery_str': delivery_str,

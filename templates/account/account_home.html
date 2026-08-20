@@ -61,22 +61,6 @@
           {% if user.payment_method %}
             <div class="h4">{{ user.payment_method_full_str|safe }}</div>
 
-            {% if user.payment_method == 'online' and card %}
-              <div class="block-сard card--home">
-                <div class="block-сard__wrap">
-                  <div class="block-сard__in">
-                    <div class="line">{{ card.card_number_line }}</div>
-                    <div class="block-сard__bottom">
-                      <div class="block-сard__select"></div>
-                      {% if card.card_type %}
-                        <div class="logo-card">{{ card.card_logo_html|safe }}</div>
-                      {% endif %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {% endif %}
-
             <div class="item-info-empty">
               <i>Редактировать</i>
             </div>

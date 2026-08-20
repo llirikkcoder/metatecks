@@ -1,8 +1,7 @@
 from django import forms
 
 from apps.orders.models import (
-    OrderDeliveryAddressData, OrderContactsData,
-    OrderPaymentCardData, OrderPaymentCashlessData
+    OrderDeliveryAddressData, OrderContactsData, OrderPaymentCashlessData
 )
 
 
@@ -17,13 +16,6 @@ class ContactsForm(forms.ModelForm):
 
     class Meta:
         model = OrderContactsData
-        exclude = ['order']
-
-
-class PaymentCardForm(forms.ModelForm):
-
-    class Meta:
-        model = OrderPaymentCardData
         exclude = ['order']
 
 

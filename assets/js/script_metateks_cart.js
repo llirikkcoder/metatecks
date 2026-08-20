@@ -445,37 +445,15 @@ document.addEventListener('DOMContentLoaded', () => {
         onlinePayRadio = document.getElementById('online'),
         nonCashRadio = document.getElementById('non_cash');
   const $paymentForms = $('form.js-payment-form'),
-        $cardFormInputs = $('#paymentCardForm input'),
-        $cardFormSubmit = $('#paymentCardForm button[type="submit"]'),
-        cardNumberInput = document.querySelector('#paymentCardForm input[name="card_number"]'),
-        cardExpireInput = document.querySelector('#paymentCardForm input[name="card_expire"]'),
         $nonCashFormInputs = $('#paymentNoncashForm input'),
         organizationInput = document.querySelector('#paymentNoncashForm input[name="organization"]');
   const paymentInfo = document.getElementById('paymentInfo');
-  let currentCardNumber, currentOrganizationName;
+  let currentOrganizationName;
 
+  // карту покупатель вводит на странице банка, у нас в тексте только реквизиты юрлица
   function updatePaymentMethodText(paymentMethod) {
-    var newStr = '';
-    if (paymentMethod == 'online') {
-      var number = cardNumberInput.value.slice(-4),
-          expire = cardExpireInput.value;
-      newStr = `Оплата онлайн, карта **${number} ${expire}`;
-    }
-    else if (paymentMethod == 'non_cash') {
-      var organization = organizationInput.value;
-      newStr = `Безналичная оплата, ${organization}`;
-    }
-    paymentMethodTexts[paymentMethod] = newStr;
-  }
-
-  function resetCardInputs(){
-    $cardFormInputs.attr('disabled', false);
-    $cardFormInputs.val('');
-    $('input[name="card_number"]').mask('0000 0000 0000 0000', {clearIfNotMatch: true});
-    $('input[name="card_expire"]').mask('00/00', {clearIfNotMatch: true});
-    $('input[name="card_cvv"]').mask('000', {clearIfNotMatch: true});
-    $cardFormSubmit.removeClass('js-disabled');
-    $cardFormSubmit.find('.js-button-label').html('Сохранить');
+    if (paymentMethod != 'non_cash') { return; }
+    paymentMethodTexts[paymentMethod] = `Безналичная оплата, ${organizationInput.value}`;
   }
 
   // Обновление информации о способе оплаты в правом блоке
@@ -483,8 +461,6 @@ document.addEventListener('DOMContentLoaded', () => {
     var selectedOption = document.querySelector('input[name="payment"]:checked'),
         paymentMethod = selectedOption.value
         paymentText = paymentMethodTexts[paymentMethod];
-    // if (paymentMethod == 'online' && currentCardNumber) { paymentText = `${paymentText}, карта сохранена`; }
-    // else if (paymentMethod == 'non_cash' && currentOrganizationName) { paymentText = `${paymentText}, ${currentOrganizationName}`; }
     paymentInfo.innerHTML = `<span>${paymentText}</span> <a href="#payment" class="data_edit-btn dark--bgrnd"><span class="met-ico-edit"></span></a>`;
   };
 
@@ -524,21 +500,13 @@ document.addEventListener('DOMContentLoaded', () => {
       changePaymentMethod();
     }
   };
-  $cardFormInputs.on('focus', function(e) { setPayActive(onlinePayRadio); });
   $nonCashFormInputs.on('focus', function(e) { setPayActive(nonCashRadio); });
 
   // Отправка форм оплаты
   $paymentForms.on('submit', function(e) {
     e.preventDefault();
     var $form = $(this),
-        isCardForm = $form.attr('id') == 'paymentCardForm',
-        paymentMethod = isCardForm ? 'online' : 'non_cash';
-
-    if (isCardForm && $cardFormSubmit.hasClass('js-disabled')) {
-      resetCardInputs();
-      $($cardFormInputs[0]).focus();
-      return;
-    }
+        paymentMethod = 'non_cash';
 
     var url = $form.attr('action'),
         data, form_data;
@@ -555,8 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dataType: 'json',
       contentType: 'application/json',
       success: function(res){
-        if (isCardForm) { filledData.cardData = true; }
-        else { filledData.cashlessData = true; }
+        filledData.cashlessData = true;
         // обновляем текст в правой колонке
         updatePaymentMethodText(paymentMethod);
         updatePaymentInfo();
@@ -634,9 +601,7 @@ function checkLackingData() {
   }
   if (!filledData.contactsData) { blocks.push('Контактные данные'); }
   if (!filledData.paymentMethod) { blocks.push('Метод оплаты'); }
-  else if (someData.paymentMethod == 'online' && !filledData.cardData) {
-    blocks.push('Данные карты для онлайн-оплаты');
-  }
+  // онлайн-оплата ничего не требует от покупателя на нашей стороне — карта вводится у банка
   else if (someData.paymentMethod == 'non_cash' && !filledData.cashlessData) {
     blocks.push('Данные для безналичной оплаты');
   }

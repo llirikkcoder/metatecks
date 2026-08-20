@@ -35,7 +35,6 @@ ORDER_DATA_SAMPLE = {
     },
     'payment': {
         'method': 'non_cash',
-        'card_data': {},
         'non_cash_data': {
             'organization': 'ООО «‎Организация»',
             'inn': '2451 5235 1938 3278',

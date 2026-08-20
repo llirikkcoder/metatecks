@@ -330,33 +330,11 @@
               </div>
             </div>
             <div class="block-data__info">
-              <form id="paymentCardForm" class="form--whaite js-payment-form" method="post" action="{% url 'api:order:set-payment-card-data' %}">
-                <div class="error-messages" style="display: none;"></div>
-                <div class="field-row">
-                  <label class="field-label" for="card_number">Номер карты <sup><font color="#FF5C00"> *</font></sup></label>
-                  <input class="field-input" type="text" id="card_number" name="card_number"
-                    placeholder="0000 0000 0000 0000" value="{{ card_data|get_item_str:'card_number' }}"{% if card_data %} disabled{% endif %} required>
-                </div>
-                <div class="field-row">
-                  <label class="field-label" for="card_name">Имя на карте <sup><font color="#FF5C00"> *</font></sup></label>
-                  <input class="field-input" type="text" id="card_name" name="card_name"
-                    placeholder="IVAN PETROV" value="{{ card_data|get_item_str:'card_name' }}"{% if card_data %} disabled{% endif %} required>
-                </div>
-                <div class="field-row">
-                  <label class="field-label" for="card_expire">Срок действия <sup><font color="#FF5C00"> *</font></sup></label>
-                  <input class="field-input" type="text" id="card_expire" name="card_expire"
-                    placeholder="MM/YY" value="{{ card_data|get_item_str:'card_expire' }}"{% if card_data %} disabled{% endif %} required>
-                </div>
-                <div class="field-row">
-                  <label class="field-label" for="card_cvv">CVV <sup><font color="#FF5C00"> *</font></sup></label>
-                  <input class="field-input" type="password" id="card_cvv" name="card_cvv" placeholder="***" value="{{ card_data|get_item_str:'card_cvv' }}"{% if card_data %} disabled{% endif %} required>
-                </div>
-                <button type="submit" class="save-button btn-save{% if card_data %} js-disabled{% endif %}">
-                  <span class="btn__ico met-ico-accept"></span>
-                  <span class="js-button-label">{% if card_data %}Добавить другую карту{% else %}Сохранить{% endif %}</span>
-                </button>
-                {# <div id="errorMessagePay" class="error-message" style=" display: none;"></div> #}
-              </form>
+              <p class="small-text">
+                Данные карты вводятся на защищённой платёжной странице Альфа-Банка и на наш сайт
+                не передаются. После нажатия «Оформить» вы перейдёте на страницу банка, а затем
+                вернётесь в личный кабинет со статусом заказа.
+              </p>
             </div>
           </label>
         </div>
@@ -541,13 +519,6 @@
 {% endblock %}
 
 {% block scripts %}
-  {% if not card_data %}
-    <script type="text/javascript">
-      $('input[name="card_number"]').mask('0000 0000 0000 0000', {clearIfNotMatch: true});
-      $('input[name="card_expire"]').mask('00/00', {clearIfNotMatch: true});
-      $('input[name="card_cvv"]').mask('000', {clearIfNotMatch: true});
-    </script>
-  {% endif %}
   <script type="text/javascript">
     var urls = {
       "product": "{% url 'api:cart:update-item' %}",
@@ -559,7 +530,6 @@
         "deliveryData": "{% url 'api:order:set-delivery-data' %}",
         "contactsData": "{% url 'api:order:set-contacts-data' %}",
         "paymentMethod": "{% url 'api:order:set-payment-method' %}",
-        "paymentCardData": "{% url 'api:order:set-payment-card-data' %}",
         "paymentCashlessData": "{% url 'api:order:set-payment-cashless-data' %}",
       },
       "checkout": "{% url 'api:order:checkout' %}",
@@ -575,7 +545,6 @@
       "deliveryData": {{ delivery_data|to_bool_js }},
       "contactsData": {{ contacts_data|to_bool_js }},
       "paymentMethod": {{ payment_method|to_bool_js }},
-      "cardData": {{ card_data|to_bool_js }},
       "cashlessData": {{ cashless_data|to_bool_js }},
     };
     var paymentMethodTexts = {

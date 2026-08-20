@@ -115,44 +115,11 @@
           </div>
           <div class="block-btn-right"></div>
         </div>
-        <div class="block-data__body grid-container grid--column--4to1">
-          {% for card in cards %}
-            {% with forloop.counter as i %}
-              <!-- Карта -->
-              <div class="block-сard card--profile js-block-container" data-obj-type="paymentCard">
-                <input class="js-account-radio" data-obj-type="paymentCard" type="radio" name="card" id="card{{i}}" value="{{ card.id }}" hidden{% if forloop.first %} checked{% endif %}>
-                <label for="card{{i}}" class="block-сard__wrap">
-                  <div class="block-сard__in">
-                    <div class="line">{{ card.card_number_line }}</div>
-                    <div class="block-сard__bottom">
-                      <div class="block-сard__selector">
-                        <div class="button-selector"></div>
-                        <span class="select-info small-text">основной способ оплаты</span>
-                        <span class="deselect-info small-text">сделать основной</span>
-                      </div>
-                      {% if card.card_type %}
-                        <div class="logo-card">{{ card.card_logo_html|safe }}</div>
-                      {% endif %}
-                    </div>
-                  </div>
-                </label>
-                <button class="btn-border dark--bgrnd js-account-remove" data-obj-type="paymentCard" data-obj-id="{{ card.id }}" aria-label="Удалить" title="Удалить данные карты"><span class="met-ico-close-b"></span></button>
-                {# <button class="data_editcard-btn"><span class="met-ico-edit"></span></button> #}
-                {# <button class="data_editcard-btn js-account-remove" data-obj-type="paymentCard" data-obj-id="{{ card.id }}" title="Удалить данные карты"><span class="met-ico-close-b"></span></button> #}
-              </div>
-            {% endwith %}
-          {% endfor %}
-          <!-- Карта - добавить  -->
-          <div class="block-сard card--add">
-            <div class="block-сard__wrap">
-              <div class="block-сard__in">
-                <div class="line"><span>добавить карту</span></div>
-                <div class="block-сard__bottom">
-                  <span class="btn-border"><span class="h4">+</span></span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="block-data__body">
+          <p class="small-text">
+            Данные карты вводятся на защищённой платёжной странице Альфа-Банка и на сайте
+            не сохраняются.
+          </p>
         </div>
       </label>
     </div>
