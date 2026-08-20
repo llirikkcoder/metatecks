@@ -2,6 +2,10 @@ import logging
 import re
 
 from django.conf import settings
+from django.urls import NoReverseMatch, reverse
+
+from apps.orders.constants import PaymentMethods
+from apps.utils.common import absolute
 
 from .client import Bitrix24Client
 from .exceptions import Bitrix24Error
@@ -98,14 +102,38 @@ def _resolve_contact_id(client, order):
         return None
 
 
+def _admin_url(order):
+    """Ссылка на заказ в админке сайта — менеджеру открыть карточку одним кликом."""
+    try:
+        return absolute(reverse('admin:orders_order_change', args=(order.id,)))
+    except NoReverseMatch:
+        return None
+
+
 def _build_comments(order):
     """
-    Номер заказа с сайта — в комментарий сделки: название сделки на портале
+    Данные заказа — в комментарий сделки: название сделки на портале
     перезаписывает автонумерация, а комментарий остаётся как есть.
     """
     lines = [f'Заказ с сайта № {order.number}']
+
+    payment = getattr(order, 'active_payment', None)
+    if order.is_paid:
+        lines.append('Статус оплаты: оплачен')
+        if order.paid_at:
+            lines.append(f'Дата оплаты: {order.paid_at.strftime("%d.%m.%Y %H:%M")}')
+        if payment and payment.alfa_order_id:
+            lines.append(f'ID платежа в банке: {payment.alfa_order_id}')
+    elif order.payment_method == PaymentMethods.ONLINE:
+        lines.append('Статус оплаты: не оплачен')
+
+    admin_url = _admin_url(order)
+    if admin_url:
+        lines.append(f'Заказ в админке: {admin_url}')
+
     if order.comment:
         lines += ['', f'Комментарий покупателя: {order.comment}']
+
     return '\n'.join(lines)
 
 

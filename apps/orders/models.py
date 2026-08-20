@@ -144,19 +144,28 @@ class Order(models.Model):
     def can_be_canceled(self):
         return self.is_status_created and not self.is_canceled
 
+    # статусы, из которых покупатель может повторить онлайн-оплату
+    PAYABLE_STATUSES = (
+        OrderStatuses.AWAITING_PAYMENT,
+        OrderStatuses.PAYMENT_FAILED,
+        OrderStatuses.PAYMENT_CANCELED,
+    )
+
     @property
     def can_be_paid(self):
         """Заказ ждёт онлайн-оплаты — покупатель может оплатить его из кабинета."""
         return (
             self.payment_method == PaymentMethods.ONLINE
-            and self.status == OrderStatuses.AWAITING_PAYMENT
+            and self.status in self.PAYABLE_STATUSES
             and not self.is_paid
             and not self.is_canceled
         )
 
     @property
     def is_inactive(self):
-        return self.status in [OrderStatuses.COMPLETED, OrderStatuses.CANCELED]
+        return self.status in [
+            OrderStatuses.COMPLETED, OrderStatuses.CANCELED, OrderStatuses.REFUNDED,
+        ]
 
     @property
     def active_payment(self):
@@ -487,8 +496,16 @@ class Payment(models.Model):
         order.status = OrderStatuses.CREATED
         order.save()
 
-    def mark_declined(self, error_code=None, error_message=None, raw_response=None):
-        self.status = PaymentStatuses.DECLINED
+    # неуспешный исход платежа -> статус заказа
+    ORDER_STATUS_BY_PAYMENT = {
+        PaymentStatuses.DECLINED: OrderStatuses.PAYMENT_FAILED,
+        PaymentStatuses.CANCELED: OrderStatuses.PAYMENT_CANCELED,
+        PaymentStatuses.REFUNDED: OrderStatuses.REFUNDED,
+    }
+
+    def mark_declined(self, status=PaymentStatuses.DECLINED, error_code=None, error_message=None,
+                      raw_response=None):
+        self.status = status
         if error_code is not None:
             self.error_code = error_code
         if error_message is not None:
@@ -496,4 +513,12 @@ class Payment(models.Model):
         if raw_response is not None:
             self.raw_status_response = raw_response
         self.save()
-        # Order.status остаётся AWAITING_PAYMENT — пользователь может обратиться в поддержку
+
+        # заказ показывает покупателю, что именно пошло не так; из статусов
+        # «Ошибка оплаты» и «Оплата отменена» оплату можно повторить из кабинета
+        order = self.order
+        order.status = self.ORDER_STATUS_BY_PAYMENT.get(status, OrderStatuses.PAYMENT_FAILED)
+        order.save()
+
+    def mark_refunded(self, raw_response=None):
+        self.mark_declined(status=PaymentStatuses.REFUNDED, raw_response=raw_response)

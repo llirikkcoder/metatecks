@@ -40,6 +40,9 @@ class OrderStatuses(GetLabelMixin, models.TextChoices):
     DELIVERING = 'delivering', 'Доставляется'
     COMPLETED = 'completed', 'Выполнен'
     CANCELED = 'canceled', 'Отменен'
+    PAYMENT_FAILED = 'payment_failed', 'Ошибка оплаты'
+    PAYMENT_CANCELED = 'payment_canceled', 'Оплата отменена'
+    REFUNDED = 'refunded', 'Возврат'
 
 ORDER_STATUSES = dict(OrderStatuses.choices).keys()
 

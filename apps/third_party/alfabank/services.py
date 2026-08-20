@@ -67,8 +67,14 @@ def sync_payment_status(payment):
             payment.save()
     elif new_status in (PaymentStatuses.DECLINED, PaymentStatuses.CANCELED):
         if not was_final:
-            payment.mark_declined(raw_response=raw)
+            payment.mark_declined(status=new_status, raw_response=raw)
             notify_payment_failed.delay(payment.order_id)
+        else:
+            payment.save()
+    elif new_status == PaymentStatuses.REFUNDED:
+        # возврат делают в личном кабинете банка, до нас он доезжает статусом
+        if payment.status != PaymentStatuses.REFUNDED:
+            payment.mark_refunded(raw_response=raw)
         else:
             payment.save()
     elif new_status is not None:
