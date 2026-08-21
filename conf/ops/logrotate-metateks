@@ -1,0 +1,30 @@
+# Ротация логов проекта, которые не покрывает стоковый конфиг nginx.
+# Ставится в /etc/logrotate.d/metateks (см. scripts/vps_disk_hygiene.sh).
+#
+# /var/log/nginx/*.log ротирует пакетный конфиг /etc/logrotate.d/nginx —
+# здесь только то, что проходит мимо него: логи nginx из контейнера и логи Django.
+#
+# copytruncate обязателен: nginx держит файл открытым и после переименования
+# продолжает писать в старый inode, место не освобождается до перезапуска.
+
+/var/log/metateks/nginx/*.log {
+    daily
+    rotate 7
+    maxsize 100M
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+}
+
+/var/log/metateks/*.log {
+    daily
+    rotate 7
+    maxsize 100M
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+}

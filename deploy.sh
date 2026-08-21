@@ -50,6 +50,11 @@ docker-compose build
 echo -e "${YELLOW}🔄 Restarting containers...${NC}"
 docker-compose up -d
 
+# 6.1 Убрать образы и кеш сборки от прошлых деплоев
+echo -e "${YELLOW}🧹 Cleaning up old Docker images...${NC}"
+docker image prune -af || true
+docker builder prune -af || true
+
 # Ждем немного пока контейнеры запустятся
 sleep 5
 

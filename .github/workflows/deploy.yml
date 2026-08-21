@@ -47,6 +47,12 @@ jobs:
             docker-compose up -d
             docker-compose restart nginx
 
+            # Убрать образы и кеш сборки, оставшиеся от прошлых деплоев:
+            # без этого каждый деплой оставляет мёртвый образ на ~1.2 ГБ
+            echo "🧹 Cleaning up old Docker images..."
+            docker image prune -af
+            docker builder prune -af
+
             # Выполнить миграции (если нужно)
             echo "🗄️ Running migrations..."
             docker-compose exec -T web python manage.py migrate --noinput
