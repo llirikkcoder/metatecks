@@ -6,6 +6,11 @@
 #
 # copytruncate обязателен: nginx держит файл открытым и после переименования
 # продолжает писать в старый inode, место не освобождается до перезапуска.
+#
+# delaycompress здесь намеренно НЕ используется: он нужен, когда процесс ещё
+# пишет в переименованный файл, а с copytruncate запись сразу идёт в обнулённый
+# оригинал. С ним ротированный лог сутки лежал бы несжатым — на 508 МБ это
+# полгигабайта диска впустую.
 
 /var/log/metateks/nginx/*.log {
     daily
@@ -14,7 +19,6 @@
     missingok
     notifempty
     compress
-    delaycompress
     copytruncate
 }
 
@@ -25,6 +29,5 @@
     missingok
     notifempty
     compress
-    delaycompress
     copytruncate
 }
