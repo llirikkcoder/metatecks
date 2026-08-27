@@ -4,7 +4,6 @@
 
 ## Файлы:
 
-- `nginx.conf` - Nginx конфиг с SSL и uwsgi
 - `uwsgi.ini` - uWSGI конфиг
 - `supervisor.conf` - Supervisor конфиг для управления процессами
 - `mirror_nginx.conf` - Зеркальный nginx конфиг

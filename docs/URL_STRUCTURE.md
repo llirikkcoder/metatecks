@@ -9,7 +9,7 @@
 ### Production домены (из .env.docker)
 
 ```
-✓ metateks.vlch.dev              # Основной сайт
+✓ metateks-admin.vinodesign.ru              # Основной сайт
 ✓ metateks-admin.vinodesign.ru   # Админка (альтернативный домен)
 ✓ localhost                      # Локальная разработка
 ✓ 127.0.0.1                      # Локальная разработка
@@ -341,8 +341,8 @@ CSRF_TRUSTED_ORIGINS = [
 
 ### Текущая конфигурация (.env.docker)
 ```bash
-ALLOWED_HOSTS=localhost 127.0.0.1 metateks.vlch.dev metateks-admin.vinodesign.ru
-CSRF_TRUSTED_ORIGINS=http://localhost http://127.0.0.1 https://metateks.vlch.dev https://metateks-admin.vinodesign.ru
+ALLOWED_HOSTS=localhost 127.0.0.1 metateks-admin.vinodesign.ru metateks-admin.vinodesign.ru
+CSRF_TRUSTED_ORIGINS=http://localhost http://127.0.0.1 https://metateks-admin.vinodesign.ru https://metateks-admin.vinodesign.ru
 ```
 
 ### Рекомендуемая production конфигурация

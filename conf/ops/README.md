@@ -51,3 +51,19 @@ bash scripts/vps_disk_hygiene.sh --reclaim  # + освободить место 
 `/usr/app` — 4.4 ГБ остатков развёртывания вне Docker (`back/media` на 1.7 ГБ).
 Ни один активный конфиг на него не ссылается. Трогать автоматикой нельзя:
 сначала нужно сверить, что медиафайлы оттуда есть в `/opt/metatecks/media`.
+
+## nginx-default-drop.conf
+
+Catch-all для host-nginx: обрывает запросы с чужим Host (444) и отклоняет
+TLS-хендшейк с чужим SNI (`ssl_reject_handshake`, nginx >= 1.19.4). Поставлен
+28.08.2026 при отвязке домена metateks.vlch.dev прежнего разработчика — его
+DNS-запись всё ещё указывает на наш IP, удалить её может только владелец зоны.
+
+```bash
+install -m 644 conf/ops/nginx-default-drop.conf /etc/nginx/sites-available/000-default-drop.conf
+ln -sf /etc/nginx/sites-available/000-default-drop.conf /etc/nginx/sites-enabled/
+nginx -t && systemctl reload nginx
+```
+
+Сертификат metateks.vlch.dev и его автопродление удалены с сервера
+(`certbot delete --cert-name metateks.vlch.dev`).

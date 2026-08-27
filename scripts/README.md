@@ -160,7 +160,7 @@ VPS_PATH="/home/mt/metateks-dev"
 ```bash
 # 1. Настройка переменных
 export VPS_USER="kipol"
-export VPS_HOST="metateks.vlch.dev"
+export VPS_HOST="metateks-admin.vinodesign.ru"
 export VPS_PATH="/home/mt/metateks-dev"
 
 # 2. Запуск миграции

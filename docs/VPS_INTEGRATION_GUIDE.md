@@ -196,7 +196,7 @@ rsync -avz --progress \
   2>/dev/null || echo "Нет доступа к SSL (это нормально)"
 
 rsync -avz --progress \
-  ${VPS_USER}@${VPS_HOST}:/etc/letsencrypt/live/metateks.vlch.dev/ \
+  ${VPS_USER}@${VPS_HOST}:/etc/letsencrypt/live/metateks-admin.vinodesign.ru/ \
   ./vps_import/ssl_main/ \
   2>/dev/null || echo "Нет доступа к SSL (это нормально)"
 ```

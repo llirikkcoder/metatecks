@@ -8,7 +8,7 @@
 
 ```
 Production:
-  🌍 metateks.vlch.dev              # Основной сайт
+  🌍 metateks-admin.vinodesign.ru              # Основной сайт
   🔐 metateks-admin.vinodesign.ru   # Админка
 
 Development:
