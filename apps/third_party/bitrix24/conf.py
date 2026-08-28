@@ -27,6 +27,10 @@ class Bitrix24AppConf(AppConf):
     # STORE = «Интернет-магазин». Пустое значение = не передавать источник.
     SOURCE_ID = os.getenv('BITRIX24_SOURCE_ID', 'STORE')
 
+    # Источник лида «Заказ обратного звонка». CALLBACK = «Обратный звонок»,
+    # на портале metateks есть (проверено 28.08.2026 по crm.status.list).
+    SOURCE_CALLBACK_ID = os.getenv('BITRIX24_SOURCE_CALLBACK_ID', 'CALLBACK')
+
     # маппинг полей сделки -> уточняется пользователем после получения вебхука
     # (кастомные UF_CRM_* поля зависят от конкретного портала)
     DEAL_FIELD_MAP = {}

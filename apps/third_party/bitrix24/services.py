@@ -191,3 +191,102 @@ def create_or_update_deal(order):
         order.bitrix24_deal_id = result.get('result')
         order.save(update_fields=['is_synced_with_b24', 'bitrix24_deal_id'])
         l.info('[bitrix24] deal #%s created for order #%d', order.bitrix24_deal_id, order.id)
+
+
+def create_lead_from_callback(callback):
+    """
+    Лид «Обратный звонок» по заявке с сайта. Каждая заявка — отдельный лид
+    (портал в классическом режиме CRM, лиды включены): дедупликацию по
+    телефону менеджер делает средствами Битрикса при конвертации лида.
+    No-op без настроенного вебхука — как и остальные вызовы клиента.
+    """
+    client = Bitrix24Client()
+
+    phone = _normalize_phone(callback.phone) or callback.phone
+    lines = [f'Заявка № {callback.id} от {callback.created_at.strftime("%d.%m.%Y %H:%M")}']
+    if callback.user:
+        lines.append(f'Пользователь сайта: {callback.user.email}')
+    try:
+        lines.append(
+            'Заявка в админке: '
+            + absolute(reverse('admin:feedback_callbackrequest_change', args=(callback.id,)))
+        )
+    except NoReverseMatch:
+        pass
+
+    fields = {
+        'TITLE': f'Обратный звонок с сайта: {callback.name or phone}',
+        'PHONE': [{'VALUE': phone, 'VALUE_TYPE': 'MOBILE'}],
+        'OPENED': 'Y',
+        'COMMENTS': '\n'.join(lines),
+    }
+    if callback.name:
+        fields['NAME'] = callback.name
+    if settings.BITRIX24_SOURCE_CALLBACK_ID:
+        fields['SOURCE_ID'] = settings.BITRIX24_SOURCE_CALLBACK_ID
+
+    result = client.call('crm.lead.add', {'fields': fields})
+    if result is not None:
+        callback.is_synced_with_b24 = True
+        callback.save(update_fields=['is_synced_with_b24'])
+        l.info('[bitrix24] lead #%s created for callback #%d', result.get('result'), callback.id)
+
+
+def _find_contact_id_by_email(client, email):
+    """ID существующего контакта с таким email, иначе None."""
+    if not email:
+        return None
+
+    payload = client.call('crm.duplicate.findbycomm', {
+        'entity_type': 'CONTACT',
+        'type': 'EMAIL',
+        'values': [email],
+    })
+    if not payload:
+        return None
+
+    found = (payload.get('result') or {}).get('CONTACT') or []
+    return found[0] if found else None
+
+
+def create_contact_for_user(user):
+    """
+    Контакт в Битрикс24 по зарегистрировавшемуся пользователю. Если контакт
+    с таким телефоном или email уже существует — новый не создаём, только
+    помечаем пользователя синхронизированным.
+    """
+    client = Bitrix24Client()
+
+    contact_id = _find_contact_id(client, user.phone) if user.phone else None
+    if not contact_id:
+        contact_id = _find_contact_id_by_email(client, user.email)
+    if contact_id:
+        l.info('[bitrix24] existing contact #%s matched for user #%d', contact_id, user.id)
+        _mark_user_synced(user)
+        return contact_id
+
+    fields = {
+        'NAME': user.first_name or user.email,
+        'OPENED': 'Y',
+        'EMAIL': [{'VALUE': user.email, 'VALUE_TYPE': 'HOME'}],
+    }
+    if user.last_name:
+        fields['LAST_NAME'] = user.last_name
+    if user.patronymic_name:
+        fields['SECOND_NAME'] = user.patronymic_name
+    if user.phone:
+        fields['PHONE'] = [{'VALUE': _normalize_phone(user.phone) or user.phone, 'VALUE_TYPE': 'MOBILE'}]
+    if settings.BITRIX24_SOURCE_ID:
+        fields['SOURCE_ID'] = settings.BITRIX24_SOURCE_ID
+
+    payload = client.call('crm.contact.add', {'fields': fields})
+    contact_id = payload.get('result') if payload else None
+    if contact_id:
+        _mark_user_synced(user)
+        l.info('[bitrix24] contact #%s created for user #%d', contact_id, user.id)
+    return contact_id
+
+
+def _mark_user_synced(user):
+    user.is_synced_with_b24 = True
+    user.save(update_fields=['is_synced_with_b24'])

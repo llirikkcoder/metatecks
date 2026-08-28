@@ -101,3 +101,43 @@ $(document).ready(function(){
     });
   });
 })
+
+// ----- Отправка форм на бекенд: форма обратного звонка -----
+
+$(document).ready(function(){
+  $('body').on('submit', '.js-callback-form', function(e) {
+    e.preventDefault();
+
+    var $form = $(this),
+        url = $form.attr('action'),
+        form_data = getFormData($form);
+
+    removeErrors($form);
+    $form.addClass('_disabled');
+
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: JSON.stringify(form_data),
+      dataType: 'json',
+      contentType: 'application/json',
+
+      success: function(res){
+        $form.find('main').html('<p>Спасибо! Заявка принята, мы перезвоним в рабочее время.</p>');
+        $form.find('footer button[type="submit"]').hide();
+      },
+      error: function(res){
+        if (res.status == 400) {
+          var response = res.responseJSON || {},
+              errors = response['errors'];
+          if (errors) { addErrors($form, errors); }
+        } else {
+          showErrorModal('При отправке запроса произошла ошибка');
+        }
+      },
+      complete: function(){
+        $form.removeClass('_disabled');
+      }
+    });
+  });
+})

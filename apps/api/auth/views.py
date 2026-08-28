@@ -6,6 +6,7 @@ from django.views.generic import View, FormView, CreateView
 # from apps.users.email import send_registration_email
 # from apps.users.email import send_registration_email, send_reset_password_email
 from apps.users.favorites_utils import update_favorites_after_login
+from apps.third_party.bitrix24.tasks import sync_user_with_bitrix24
 from apps.users.models import User
 from apps.utils.views_mixins import JsonFormViewMixin
 from .forms import LoginForm, RegistrationForm, ResetPasswordForm
@@ -75,6 +76,8 @@ class RegistrationView(JsonFormViewMixin, CreateView):
         login(self.request, user)
 
         # send_registration_email(user)
+
+        sync_user_with_bitrix24.delay(user.id)
 
         update_favorites_after_login(self.request)
 

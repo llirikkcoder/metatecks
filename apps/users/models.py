@@ -64,6 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # доступы
     is_admin = models.BooleanField('Админ', default=False, help_text='имеет доступ к админ.панели')
+    is_synced_with_b24 = models.BooleanField('Синхронизирован с Битрикс24?', default=False)
     is_superuser = models.BooleanField(
         'Суперпользователь', default=False, help_text='имеет все права в админ.панели без явного их назначения'
     )

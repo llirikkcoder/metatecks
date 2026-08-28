@@ -1,11 +1,12 @@
 <!-- Модальное окно "Обратный звонок" -->
 <div id="callback" class="modal">
 
-  <form id="formcallback" class="form-callback form--whaite" method="post">
+  <form id="formcallback" class="js-callback-form form-callback form--whaite" method="post" action="{% url 'api:feedback:callback' %}">
     <header>
       <h3>Заказать звонок</h3>
     </header>
     <main>
+      <div class="error-messages" style="display: none;"></div>
       <p>Отправьте свой номер телефона, и мы перезвоним.</p>
       <div class="field-row">
         <label class="field-label" for="callbackName">Ваше имя</label>
