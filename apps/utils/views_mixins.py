@@ -1,6 +1,6 @@
 import json
 
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.http.request import QueryDict
 from django.urls import reverse
 
