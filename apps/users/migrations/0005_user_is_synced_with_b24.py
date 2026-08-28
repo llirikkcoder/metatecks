@@ -11,6 +11,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='is_synced_with_b24',
-            field=models.BooleanField(default=False, verbose_name='Синхронизирован с Битрикс24?'),
+            field=models.BooleanField(default=False, verbose_name='Синхронизирован с Битрикс24'),
         ),
     ]

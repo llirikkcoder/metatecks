@@ -77,6 +77,9 @@ services:
       dockerfile: Dockerfile
     container_name: metateks_celery
     command: celery -A main worker --loglevel=info --concurrency=2
+    environment:
+      # миграции гонит только web, иначе два migrate бегут наперегонки
+      - SKIP_MIGRATIONS=1
     volumes:
       # Код в образе - НЕ монтируем!
       # Монтируем только изменяемые данные:

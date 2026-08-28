@@ -47,11 +47,18 @@ def wait_for_db():
 wait_for_db()
 END
 
-echo "==> Running database migrations..."
-python manage.py migrate --noinput
+# web и celery стартуют из одного образа одновременно: без этого флага
+# migrate бежит в двух процессах наперегонки и падает на дубликатах DDL.
+# В docker-compose.yml celery запускается с SKIP_MIGRATIONS=1.
+if [ "${SKIP_MIGRATIONS:-0}" = "1" ]; then
+    echo "==> Skipping migrations/collectstatic (SKIP_MIGRATIONS=1)"
+else
+    echo "==> Running database migrations..."
+    python manage.py migrate --noinput
 
-echo "==> Collecting static files..."
-python manage.py collectstatic --noinput
+    echo "==> Collecting static files..."
+    python manage.py collectstatic --noinput
+fi
 
 # Загрузка fixtures только при первом запуске
 # Флаг хранится в /app/logs для сохранения между пересозданиями контейнера
