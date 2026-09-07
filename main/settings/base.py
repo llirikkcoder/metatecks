@@ -28,8 +28,11 @@ def env_int(key, _default=None):
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-ADMINS = (
-    ('Valentin Glinskiy', 'v@vlch.dev'),
+# Адреса для писем об ошибках и админ-уведомлений, через запятую.
+ADMINS = tuple(
+    (email.split('@')[0], email)
+    for email in (part.strip() for part in os.getenv('DJANGO_ADMINS', '').split(','))
+    if email
 )
 MANAGERS = ADMINS
 
@@ -232,6 +235,9 @@ EMAIL_PORT = env_int('EMAIL_PORT', 587)
 EMAIL_USE_TLS = env_bool('EMAIL_USE_TLS', True)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+# Отправитель писем об ошибках (mail_admins). Яндекс требует совпадения
+# адреса отправителя с авторизованным ящиком.
+SERVER_EMAIL = os.getenv('SERVER_EMAIL', EMAIL_HOST_USER or 'root@localhost')
 
 
 # # django-extensions
