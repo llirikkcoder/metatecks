@@ -238,6 +238,8 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 # Отправитель писем об ошибках (mail_admins). Яндекс требует совпадения
 # адреса отправителя с авторизованным ящиком.
 SERVER_EMAIL = os.getenv('SERVER_EMAIL', EMAIL_HOST_USER or 'root@localhost')
+# Не даём запросу/таске висеть минутами, если SMTP-порт недоступен.
+EMAIL_TIMEOUT = env_int('EMAIL_TIMEOUT', 10)
 
 
 # # django-extensions
