@@ -11,6 +11,7 @@ from apps.content.views import HomeView, PageView
 from apps.promotions.views import PromotionsView
 from apps.utils.urls_converters import DateConverter
 from apps.search.views import SearchPageView
+from apps.third_party.cml.views import front_view as cml_front_view
 
 
 register_converter(DateConverter, 'post_date')
@@ -80,6 +81,10 @@ urlpatterns = [
     path('images-handler/', include('galleryfield.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('cml/', include('apps.third_party.cml.urls')),
+    # Тот же обмен по стандартным адресам CommerceML: типовые настройки 1С
+    # указывают именно их, и nginx под ними держит увеличенные таймауты.
+    path('1c_exchange.php', cml_front_view, name='cml_front_view_root'),
+    path('exchange', cml_front_view, name='cml_exchange_root'),
 
     # страницы
     path('<path:slug>/', PageView.as_view(), name='page'),

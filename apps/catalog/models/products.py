@@ -16,6 +16,13 @@ from .brands import Brand
 from .categories import Category, SubCategory
 
 
+def _clean_attr_value(value):
+    """Из 1С числа приходят дробными: 1500.0 выводилось как «1500,0»."""
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    return value
+
+
 class ProductModel(DatesBaseModel, MetatagModel):
     # основные поля
     name = models.CharField('Название', max_length=255)
@@ -158,7 +165,7 @@ class ProductModel(DatesBaseModel, MetatagModel):
                 lst.append({
                     'name': _name,
                     'unit': attr['unit'],
-                    'value': value,
+                    'value': _clean_attr_value(value),
                 })
         return lst
 
