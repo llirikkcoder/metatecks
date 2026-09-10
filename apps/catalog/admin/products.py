@@ -266,6 +266,11 @@ class ProductStockBalanceInline(admin.TabularInline):
 class ProductAdmin(
     ImageThumbnailsAdminMixin, SelectPrefetchRelatedMixin, SortableAdminMixin, ShortTextFieldAdminMixin, admin.ModelAdmin
 ):
+    # SortableAdminMixin берёт поле сортировки из первого элемента ordering;
+    # без этого он берёт Meta.ordering[0] = '-is_in_stock' и перетаскивание
+    # пишет порядковый номер в булев флаг наличия.
+    ordering = ['order']
+
     class Media:
         js = ('js/admin/filter_autosubmit.js',)
 
