@@ -137,7 +137,7 @@ class ProductModel(DatesBaseModel, MetatagModel):
                 lst.append({
                     'name': attr[attr_name_field],
                     'unit': attr['unit'],
-                    'value': value,
+                    'value': _clean_attr_value(value),
                 })
         return lst
 
@@ -197,7 +197,7 @@ class ProductModel(DatesBaseModel, MetatagModel):
                 lst.append({
                     'name': _name,
                     'unit': attr['unit'],
-                    'value': value,
+                    'value': _clean_attr_value(value),
                 })
         return lst
 
