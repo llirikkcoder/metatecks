@@ -5,20 +5,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DJANGO_ENV = os.getenv('DJANGO_ENV', 'local')
+# Безопасный дефолт: без явного указания окружение считается боевым.
+# Раньше дефолтом был 'local', и забытая переменная включала на проде
+# режим отладки со всеми трассировками наружу (исправлено 14.09.2026).
+DJANGO_ENV = os.getenv('DJANGO_ENV', 'prod')
 
 
 # settings base
 from .base import *  # noqa
 
-try:
-    if DJANGO_ENV in ['local', 'dev']:
-        DEBUG = True
-        ALLOWED_HOSTS = ['*']
-    elif DJANGO_ENV == 'prod':
-        DEBUG = False
-except ImportError:
-    pass
+if DJANGO_ENV in ('local', 'dev'):
+    DEBUG = True
+    ALLOWED_HOSTS = ['*']
+else:
+    # Любое иное значение, включая 'prod' и 'production', — боевой режим.
+    DEBUG = False
 
 
 # settings local
