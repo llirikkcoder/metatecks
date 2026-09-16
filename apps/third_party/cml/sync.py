@@ -56,7 +56,9 @@ def sync_products():
     count = qs.count()
     l.info('    ImportedProduct.for_sync() count: %d', count)
 
-    for i, p in enumerate(qs):
+    # iterator() обязателен: без него queryset целиком оседает в памяти,
+    # а это десятки тысяч товаров с описаниями и JSON-характеристиками.
+    for i, p in enumerate(qs.iterator(chunk_size=500)):
         # == 1) модель ==
         model = None
         _created = False
@@ -181,13 +183,16 @@ def sync_stock_balance():
     products_qs = ImportedProduct.objects.filter(product_obj__isnull=False)
     PRODUCTS = {p.id: p.product_obj_id for p in products_qs}
 
+    # Фильтруем подзапросами, а не списками ключей: в PRODUCTS десятки тысяч
+    # значений, и подстановка их в SQL раздувает запрос.
     qs = ImportedStockBalance.objects.filter(
-        warehouse_id__in=WAREHOUSES.keys(), product_id__in=PRODUCTS.keys(),
+        warehouse_id__in=warehouses_qs.values('id'),
+        product_id__in=products_qs.values('id'),
     )
     count = qs.count()
     l.info('    ImportedStockBalance.for_sync() count: %d', count)
 
-    for i, obj in enumerate(qs):
+    for i, obj in enumerate(qs.iterator(chunk_size=1000)):
         _created = False
         balance = obj.balance_obj
         if not balance:
@@ -225,7 +230,8 @@ def sync_products_in_stock():
     count = products2.count()
     l.info('    Products for update count: %d', count)
 
-    for i, obj in enumerate(products2):
+    # prefetch_related работает с iterator() начиная с Django 4.1, если задан chunk_size.
+    for i, obj in enumerate(products2.iterator(chunk_size=500)):
         number_in_stock_dict = {_id: 0 for _id in _ids}
 
         for balance in obj.stock_balance.all():
