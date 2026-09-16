@@ -67,3 +67,15 @@ nginx -t && systemctl reload nginx
 
 Сертификат metateks.vlch.dev и его автопродление удалены с сервера
 (`certbot delete --cert-name metateks.vlch.dev`).
+
+## nginx-1c-exchange.conf — лимиты для обмена с 1С
+
+Ставится в `/etc/nginx/sites-available/metateks-docker.conf`, перед `location /`.
+Бэкап прежнего конфига при правке 16.09.2026:
+`/etc/nginx/sites-available/metateks-docker.conf.bak-20260916`.
+
+Без этого блока 1С получает **413** на загрузке каталога: полная выгрузка
+весит ~186 МБ при общем лимите 100 МБ, плюс таймаут 60s вместо нужных 600s.
+Запрос при этом не доходит до Django, поэтому в админке «Обмен с 1C» пусто —
+выглядит так, будто 1С вообще не обращалась. Смотреть надо
+`/var/log/nginx/metateks-docker_access.log`.
