@@ -235,9 +235,10 @@ EMAIL_PORT = env_int('EMAIL_PORT', 587)
 EMAIL_USE_TLS = env_bool('EMAIL_USE_TLS', True)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
-# Отправитель писем об ошибках (mail_admins). Яндекс требует совпадения
-# адреса отправителя с авторизованным ящиком.
-SERVER_EMAIL = os.getenv('SERVER_EMAIL', EMAIL_HOST_USER or 'root@localhost')
+# Отправитель писем об ошибках. Берём DEFAULT_FROM_EMAIL, а не логин SMTP:
+# у сервиса Selectel логин — числовой id ресурса, и такой From отвергается
+# как не соответствующий RFC 5322.
+SERVER_EMAIL = os.getenv('SERVER_EMAIL', DEFAULT_FROM_EMAIL)
 # Не даём запросу/таске висеть минутами, если SMTP-порт недоступен.
 EMAIL_TIMEOUT = env_int('EMAIL_TIMEOUT', 10)
 
