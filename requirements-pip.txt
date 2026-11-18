@@ -18,5 +18,5 @@ filetype==1.2.0
 git+https://github.com/etianen/django-watson.git@refs/pull/309/head
 ipinfo==5.1.1
 pytils==0.4.1
-redis==5.2.1
+redis==6.1.0
 regex==2024.11.6

@@ -1,15 +1,6 @@
 #!/bin/bash
 set -e
 
-# Скрипт запускается от root для настройки прав
-# В конце переключаемся на пользователя metateks
-
-echo "==> Fixing permissions for mounted volumes..."
-# Устанавливаем правильного владельца на смонтированные директории
-chown -R metateks:metateks /app/logs
-chown -R metateks:metateks /app/media
-chown -R metateks:metateks /app/static
-
 echo "==> Waiting for database to be ready..."
 python << END
 import sys
@@ -92,5 +83,4 @@ echo "==> Building search index..."
 python manage.py buildwatson || true
 
 echo "==> Starting application..."
-# Переключаемся на пользователя metateks для запуска приложения
-exec gosu metateks "$@"
+exec "$@"
