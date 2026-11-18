@@ -78,9 +78,14 @@ else
     echo "==> Fixtures already loaded, skipping..."
 fi
 
-# Построение поискового индекса Watson
-echo "==> Building search index..."
-python manage.py buildwatson || true
+# Поисковый индекс Watson перестраивается ~2 минуты. Раньше gunicorn ждал его,
+# и каждый перезапуск web давал 502. Теперь индекс строится в фоне, сайт
+# поднимается сразу, а поиск до конца перестройки работает по старому индексу.
+# celery индекс не нужен.
+if [ "${SKIP_MIGRATIONS:-0}" != "1" ]; then
+    echo "==> Building search index in background..."
+    (python manage.py buildwatson > /app/logs/buildwatson.log 2>&1 || true) &
+fi
 
 echo "==> Starting application..."
 exec "$@"

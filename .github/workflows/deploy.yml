@@ -22,53 +22,71 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
+          # Сборка и ожидание обмена с 1С не укладываются в 10 минут по умолчанию
+          command_timeout: 60m
           script: |
+            # Любая ошибка останавливает деплой, а не тихо идёт дальше
+            set -euo pipefail
             echo "🚀 Starting deployment..."
-
-            # Перейти в директорию проекта
             cd /opt/metatecks
 
-            # Проверить текущую ветку
-            echo "📌 Current branch: $(git branch --show-current)"
+            # Правки, внесённые прямо на сервере, git pull не перезапишет.
+            # Раньше деплой молча шёл дальше и собирал старый код.
+            if ! git diff --quiet HEAD; then
+              echo "❌ На сервере незакоммиченные правки, деплой остановлен:"
+              git status --short --untracked-files=no
+              exit 1
+            fi
 
-            # Подтянуть изменения
             echo "⬇️ Pulling latest changes..."
-            git pull origin main
-
-            # Показать последний коммит
+            git fetch origin main
+            git merge --ff-only origin/main
             echo "✅ Latest commit: $(git log -1 --oneline)"
 
-            # Пересобрать Docker образы
+            # Сборка идёт, пока работают старые контейнеры: сайт в это время доступен.
+            # Без --no-cache слой с зависимостями берётся из кеша, если requirements не менялись.
             echo "🔨 Building Docker images..."
-            docker-compose build --no-cache
+            docker compose build
 
-            # Перезапустить контейнеры
+            # Перезапуск celery обрывает обмен с 1С. Ждём, пока воркер освободится, до 40 минут.
+            echo "⏳ Checking celery for running 1C exchange..."
+            for i in $(seq 1 40); do
+              active=$(docker compose exec -T celery celery -A main inspect active -t 5 2>/dev/null || true)
+              if ! grep -q "'name':" <<< "$active"; then
+                break
+              fi
+              if [ "$i" = 40 ]; then
+                echo "❌ Celery занят больше 40 минут, деплой остановлен. Перезапустите job позже."
+                exit 1
+              fi
+              echo "   celery занят (обмен с 1С), жду минуту... ($i/40)"
+              sleep 60
+            done
+
+            # migrate и collectstatic выполняет entrypoint web при старте
             echo "🔄 Restarting containers..."
-            docker-compose up -d
-            docker-compose restart nginx
+            docker compose up -d
 
-            # Убрать образы и кеш сборки, оставшиеся от прошлых деплоев:
-            # без этого каждый деплой оставляет мёртвый образ на ~1.2 ГБ
+            echo "🩺 Waiting for web..."
+            for i in $(seq 1 30); do
+              curl -fs -o /dev/null http://127.0.0.1:8001/health/ && break
+              if [ "$i" = 30 ]; then
+                echo "❌ web не поднялся за 5 минут"
+                docker compose logs --tail=50 web
+                exit 1
+              fi
+              sleep 10
+            done
+            # nginx запоминает IP старого контейнера web
+            docker compose restart nginx
+
+            # Старый образ после пересборки остаётся без тега. Диск на сервере всего 30 ГБ.
+            # Кеш сборки не трогаем, его раз в неделю чистит cron (docker system prune -a).
             echo "🧹 Cleaning up old Docker images..."
-            docker image prune -af
-            docker builder prune -af
+            docker image prune -f
 
-            # Выполнить миграции (если нужно)
-            echo "🗄️ Running migrations..."
-            docker-compose exec -T web python manage.py migrate --noinput
-
-            # Собрать статику (если нужно)
-            echo "📦 Collecting static files..."
-            docker-compose exec -T web python manage.py collectstatic --noinput
-
-            # Проверить статус контейнеров
             echo "📊 Container status:"
-            docker-compose ps
-
-            # Показать логи последних 20 строк
-            echo "📝 Recent logs:"
-            docker-compose logs --tail=20 web
-
+            docker compose ps
             echo "✅ Deployment completed successfully!"
 
       - name: Deployment notification
