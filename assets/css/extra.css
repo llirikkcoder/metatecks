@@ -340,3 +340,39 @@ aside a.item-info-empty { text-decoration: none; }
   width: 100% !important;
   height: 100% !important;
 }
+
+/* Кнопка «Напишите в MAX» в шапке */
+.header-contact a.btn--max {
+  margin-left: 8px;
+  background: linear-gradient(135deg, #3f8cff 0%, #7b3cff 100%);
+}
+.header-contact a.btn--max:hover {
+  color: #fff;
+  opacity: .9;
+}
+.btn__ico--max {
+  width: 1.2em;
+  height: 1.2em;
+  font-size: calc(18px + 4 * ((100vw - 320px) / (1730 - 320)));
+}
+
+/* Длинные слова в H1 (неразрывный дефис «экскаватора‑погрузчика») расширяли страницу на телефонах */
+@media (max-width: 575px) {
+  .content-header h1 {
+    font-size: min(calc(25px + 15 * ((100vw - 320px) / (1512 - 320))), 7vw);
+    overflow-wrap: anywhere;
+  }
+  .filtr-section h2 {
+    overflow-wrap: anywhere;
+  }
+}
+/* колонки 1fr не сужались уже min-content карточки — сетка товаров вылезала за экран */
+.grid-container > * {
+  min-width: 0;
+}
+/* ярлык «Хит» у правой карточки выступает за край экрана; clip, а не hidden — не ломает sticky */
+@media (max-width: 575px) {
+  .wrapper {
+    overflow-x: clip;
+  }
+}

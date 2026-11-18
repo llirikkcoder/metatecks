@@ -277,11 +277,12 @@
   <!-- Отдел продаж -->
   <section id="managers-home" class="managers-home wrap-pad-min wrap--column wrap-pad--mob--none">
     <div class="content-limited">
-      <form id="formmanager" class="form-callback form--whaite" method="post">
+      <form id="formmanager" class="js-callback-form form-callback form--whaite" method="post" action="{% url 'api:feedback:callback' %}">
         <header>
           <h3>Если есть вопросы, отправьте заявку<br/>менеджер свяжется с вами</h3>
         </header>
         <main>
+          <div class="error-messages" style="display: none;"></div>
           <div class="field-row">
             <label class="field-label" for="name">Ваше имя</label>
             <input class="field-input" id="name" autocomplete="on" type="text" name="name" value=""
@@ -296,7 +297,7 @@
               data-msg="Заполните поле Телефон" />
           </div>
           <div class="checkbox-row">
-            <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+            <input class="checkbox required" id="privacy" type="checkbox" name="flag"
               data-msg="Выбор этого пункта обязателен">
             <label for="privacy">
             </label>

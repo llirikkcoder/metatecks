@@ -1,3 +1,4 @@
+from django.db.models import Exists, OuterRef
 from django.views.generic import TemplateView
 
 from apps.banners.models import Banner
@@ -22,8 +23,12 @@ class HomeView(TemplateView):
         promotions = Promotion.objects.active()
         promotions_count = promotions.count()
 
+        # «Хиты»: сначала подкатегории с товарами в наличии, затем по порядку из админки
+        in_stock = Product.objects.filter(sub_category=OuterRef('pk'), is_shown=True, is_in_stock=True)
         sub_categories = SubCategory.objects.select_related('category').prefetch_related('models')\
-                                            .filter(is_popular=True).order_by('?')[:7]
+                                            .filter(is_popular=True, is_shown=True)\
+                                            .annotate(has_in_stock=Exists(in_stock))\
+                                            .order_by('-has_in_stock', 'order')[:7]
         sub_categories = list(sub_categories)
         for s in sub_categories:
             model1 = s.models.filter(photo__gt='').first()

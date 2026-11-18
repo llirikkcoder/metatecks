@@ -325,9 +325,9 @@
           </div>
         {% endif %}
         <div class="media-home__video_youtube">
-          <span class="met-ico-youtube"></span> <i>Подписывайтесь<br />на наш канал в <a
-              href="https://www.youtube.com/@metateks4914" alt="На канал YouTube" target="_blank"
-              rel="nofollow" class="link-white">YouTube</a></i></span>
+          <span class="met-ico-vk"></span> <i>Подписывайтесь<br />на наш канал в <a
+              href="https://vkvideo.ru/@metateks" alt="На канал VK Видео" target="_blank"
+              rel="nofollow" class="link-white">VK Видео</a></i></span>
         </div>
       </section>
     </aside>
@@ -495,11 +495,12 @@
     {% endif %}
 
     <div class="content-limited">
-      <form id="formmanager" class="form-callback form--whaite" method="post">
+      <form id="formmanager" class="js-callback-form form-callback form--whaite" method="post" action="{% url 'api:feedback:callback' %}">
         <header>
           <h3>Закажите обратный звонок<br />наш менеджер свяжется с вами</h3>
         </header>
         <main>
+          <div class="error-messages" style="display: none;"></div>
 
           <div class="field-row">
             <label class="field-label" for="name">Ваше имя</label>
@@ -515,7 +516,7 @@
           </div>
 
           <div class="checkbox-row">
-            <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+            <input class="checkbox required" id="privacy" type="checkbox" name="flag"
               data-msg="Выбор этого пункта обязателен">
             <label for="privacy">
             </label>

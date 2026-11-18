@@ -95,16 +95,40 @@
     </section>
   {% endif %}
 
+  {% if other_products %}
+    <!-- Карусель обычных товаров под «Хитами» -->
+    <section class="filtr-section  wrap-pad-normal wrap--column wrap-pad--mob--none">
+      <h2>Ещё {{ cat.get_name_single }}</h2>
+      <div class="swiper slider-products">
+        <div class="swiper-wrapper">
+          {% for product in other_products %}
+            <div class="swiper-slide">
+              {% with subcat_attrs|get_item:product.sub_category_id as attr_ids %}
+                {% include 'include/product_card.html' with product=product attr_ids=attr_ids attributes=attributes only %}
+              {% endwith %}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination__wrap">
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
 
   <!-- Отдел продаж -->
   <section id="managers-home" class="managers-home wrap-pad-min wrap--column wrap-pad--mob--none">
     <div class="content-limited">
 
-      <form id="formmanager" class="form-callback form--whaite" method="post">
+      <form id="formmanager" class="js-callback-form form-callback form--whaite" method="post" action="{% url 'api:feedback:callback' %}">
         <header>
           <h3>Если есть вопросы, отправьте заявку менеджер свяжется с вами</h3>
         </header>
         <main>
+          <div class="error-messages" style="display: none;"></div>
 
           <div class="field-row">
             <label class="field-label" for="name">Ваше имя</label>
@@ -122,7 +146,7 @@
           </div>
 
           <div class="checkbox-row">
-            <input class="checkbox required" id="privacy" type="checkbox" name="flag" checked="checked"
+            <input class="checkbox required" id="privacy" type="checkbox" name="flag"
               data-msg="Выбор этого пункта обязателен">
             <label for="privacy">
             </label>

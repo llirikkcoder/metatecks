@@ -99,7 +99,7 @@ class AboutAdvantage(models.Model):
         return self.list_title.replace('\r\n', ' ')
 
     def get_icon_url(self):
-        return f'/images/ico/ico-{self.icon}-200.png'
+        return f'/static/images/ico/ico-{self.icon}-200.png'
 
     @property
     def has_video(self):

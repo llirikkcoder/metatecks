@@ -631,6 +631,9 @@ $(document).ready(function(){
         errorMsg = `${errorMsg}<br/>– ${block}`
       })
     }
+    else if (!$('.block-order-btn #privacy').is(':checked')) {
+      errorMsg = 'Подтвердите согласие на обработку персональных данных';
+    }
     if (errorMsg) {
       var $errorModal = $('#cart-errors'),
           $errorsContainer = $errorModal.find('#js-cart-errors');

@@ -7,6 +7,10 @@ from apps.feedback.models import CallbackRequest
 
 class CallbackForm(forms.ModelForm):
     phone = forms.CharField(label='Телефон')
+    flag = forms.BooleanField(
+        label='Согласие на обработку персональных данных',
+        error_messages={'required': 'Подтвердите согласие на обработку персональных данных'},
+    )
 
     class Meta:
         model = CallbackRequest

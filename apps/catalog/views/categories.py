@@ -9,7 +9,6 @@ from django.views.generic import ListView, DetailView
 from apps.catalog.models import (
     Attribute, Brand, Category, SubCategory, ProductModel, Product, ProductPhoto, ProductVideo
 )
-from apps.utils.common import absolute
 
 
 PRODUCTS_PAGINATE_BY = 8
@@ -60,10 +59,19 @@ class CategoryView(DetailView):
 
         # 2) список популярных товаров
         ATTRIBUTES = Attribute.get_attributes_dict()
+        # сначала товары в наличии, внутри групп — вперемешку
         popular_products = Product.objects.filter(is_shown=True, is_popular=True, category=category)
         with_popular = popular_products.exists()
         if with_popular:
-            popular_products = popular_products.select_related('model').prefetch_related('stock_balance').order_by('?')[:7]
+            popular_products = popular_products.select_related('model').prefetch_related('stock_balance')\
+                                               .order_by('-is_in_stock', '?')[:7]
+
+        # 3) карусель обычных товаров под «Хитами»
+        other_products = Product.objects.filter(
+            is_shown=True, is_popular=False, category=category,
+            model__is_shown=True, sub_category__is_shown=True,
+        ).select_related('model').prefetch_related('stock_balance').order_by('-is_in_stock', '?')[:12]
+        other_products = list(other_products)
 
         return {
             'sub_categories': SUB_CATEGORIES,
@@ -73,6 +81,7 @@ class CategoryView(DetailView):
             'attributes': ATTRIBUTES,
             'popular_products': popular_products,
             'with_popular_products': with_popular,
+            'other_products': other_products,
         }
 
     def get_context_data(self, **kwargs):
@@ -350,7 +359,8 @@ class SubCategoryView(DetailView):
             popular_products = all_products.filter(is_popular=True)
             with_popular = popular_products.exists()
             if with_popular:
-                popular_products = popular_products.select_related('model').prefetch_related('stock_balance').order_by('?')[:7]
+                popular_products = popular_products.select_related('model').prefetch_related('stock_balance')\
+                                                   .order_by('-is_in_stock', '?')[:7]
 
         # Формируем текст выбранных фильтров для заголовка
         filter_display_text = self.get_filter_display_text()
@@ -529,8 +539,10 @@ class SubCategoryView(DetailView):
         ).exclude(video__startswith='http').order_by('model', 'order', 'id')
 
         # - путь до страницы (для передачи в filter.js)
-        # absolute_path = absolute(self.request.path)
-        absolute_path = absolute(self.object.get_absolute_url())
+        # Путь должен быть относительным: с полным адресом (домен из настроек)
+        # AJAX-запросы фильтра и «показать еще» уходят на чужой домен и ломаются
+        # на любом другом хосте (www, старый домен, поддомены городов).
+        absolute_path = self.object.get_absolute_url()
 
         # - список slug у брендов (для передачи в filter.js)
         brand_slugs = {b.id: b.slug for b in brands}
