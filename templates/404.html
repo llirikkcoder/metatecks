@@ -1,0 +1,19 @@
+{% extends '_base.html' %}
+
+{% block title %}Страница не найдена — Метатэкс{% endblock %}
+{% block meta_description %}Страница не найдена{% endblock %}
+
+{% block content %}
+  <div class="content-header content-header--section wrap-pad-normal">
+    <div class="content-header__title-wr">
+      <h1>Страница не найдена</h1>
+    </div>
+    <p class="content-header__descr">Возможно, страница была удалена или адрес набран с ошибкой.</p>
+  </div>
+
+  <article class="content-limited" style="padding-top: 0;">
+    <p>Перейдите на <a class="link-orange" href="{% url 'home' %}">главную страницу</a>,
+      в <a class="link-orange" href="{% url 'catalog:home' %}">каталог продукции</a>
+      или воспользуйтесь <a class="link-orange" href="{% url 'search' %}">поиском по сайту</a>.</p>
+  </article>
+{% endblock %}

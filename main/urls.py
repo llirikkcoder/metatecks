@@ -1,12 +1,14 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.http import HttpResponse
 from django.urls import include, path, register_converter
 from django.views.generic import TemplateView, RedirectView
 
 from apps.cart.views import CartPageView
+from apps.content.seo import robots_txt, sitemaps
 from apps.content.views import HomeView, PageView
 from apps.promotions.views import PromotionsView
 from apps.utils.urls_converters import DateConverter
@@ -28,6 +30,10 @@ urlpatterns = [
     # health check
     path('health/', health_check, name='health'),
 
+    # seo
+    path('robots.txt', robots_txt, name='robots_txt'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+
     # api
     path('api/', include(('apps.api.urls', 'api'))),
     path('api/webhooks/payment/', include('apps.third_party.alfabank.urls')),
@@ -35,6 +41,7 @@ urlpatterns = [
     # разделы
     path('catalog/', include(('apps.catalog.urls.catalog', 'catalog'))),
     path('brands/', include(('apps.catalog.urls.brands', 'brands'))),
+    path('feeds/yandex/', include(('apps.catalog.urls.feeds', 'feeds'))),
     path('about/', include(('apps.content.urls.about', 'about'))),
     path('news/', include(('apps.content.urls.news', 'news'))),
     path('articles/', include(('apps.content.urls.articles', 'articles'))),
