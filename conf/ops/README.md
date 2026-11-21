@@ -31,6 +31,7 @@ PANIC: could not write to file "pg_logical/replorigin_checkpoint.tmp": No space 
 | `logrotate-metateks` | `/etc/logrotate.d/metateks` | ротация логов, которые не покрывает пакетный конфиг nginx |
 | `journald-metateks.conf` | `/etc/systemd/journald.conf.d/metateks.conf` | лимит systemd-журнала 200 МБ вместо 10% раздела |
 | `docker-daemon.json` | `/etc/docker/daemon.json` | ротация json-логов контейнеров, 50 МБ × 3 |
+| `cron-metateks-backup` | `/etc/cron.d/metateks-backup` | дамп PostgreSQL ежедневно в 03:30 по времени сервера |
 
 ## Применение
 
@@ -45,6 +46,57 @@ bash scripts/vps_disk_hygiene.sh --reclaim  # + освободить место 
 Лимит на логи контейнеров действует только для **пересозданных** контейнеров —
 уже запущенные продолжают писать по-старому, пока не будет
 `docker-compose up -d --force-recreate`.
+
+## Бэкапы и логи: исправление 21.11.2026
+
+Последний ночной дамп был за 17 ноября. В сохранившихся логах за 14–15 и
+18–21 ноября cron запускался, но `pg_backup.sh` отказывался писать при
+свободном месте меньше `MIN_FREE_MB=3072`. Ротация выполняется только после
+успешного нового дампа, поэтому сама по себе место для очередного запуска
+не освобождает. Порог 3 ГБ сохранён: освобождать нужно занятое место.
+
+В контейнере nginx обнаружено 2,1 ГБ файлов `metateks_access.log` и
+`metateks_error.log`. Они не попадали ни в logrotate хоста, ни в ротацию
+Docker. Теперь nginx пишет в stdout/stderr, а для сервиса nginx в Compose
+явно задан `json-file`, 50 МБ × 3. Это требует пересоздания **только nginx**:
+
+```bash
+docker compose exec -T nginx nginx -t
+docker compose up -d --no-deps nginx
+docker inspect metateks_nginx --format '{{json .HostConfig.LogConfig}}'
+```
+
+Старые файлы логов нужно сохранить до пересоздания контейнера. Не запускать
+полный `docker compose up` ради этих изменений: web и Celery не менялись.
+Ротация Django дополнительно покрывает `/opt/metatecks/logs/*.log`.
+
+`scripts/pg_backup.sh` устанавливается отдельно от образов приложения:
+
+```bash
+install -m 755 scripts/pg_backup.sh /usr/local/bin/metateks-pg-backup
+install -m 644 conf/ops/logrotate-metateks /etc/logrotate.d/metateks
+chmod 700 /opt/metatecks/backups
+find /opt/metatecks/backups -maxdepth 1 -type f -name '*.dump' -exec chmod 600 {} +
+/usr/local/bin/metateks-pg-backup
+```
+
+Новые дампы имеют права 600. `flock` исключает параллельные запуски, временный
+файл удаляется при ошибке или сигнале. До публикации и удаления старых дампов
+`pg_restore --file=/dev/null` читает и распаковывает весь архив без подключения
+к базе. Хранятся последние 14 успешных дампов. Проверка скрипта на Linux:
+`python3 scripts/test_pg_backup.py` (подставные команды, рабочую БД не трогает).
+
+Ручная проверка cron и запаса диска:
+
+```bash
+df -h /
+tail -30 /var/log/metateks/pg_backup.log
+find /opt/metatecks/backups -maxdepth 1 -name 'metateks_*.dump' -printf '%TY-%Tm-%Td %TH:%TM %f\n' | sort
+```
+
+Регулярного хранения вне VPS пока нет. Ручная копия на рабочем Mac не заменяет
+автоматический внешний бэкап. Нельзя удалять единственный исторический архив
+без проверенной копии на другом устройстве.
 
 ## Что осталось вне скрипта
 

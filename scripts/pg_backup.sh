@@ -15,6 +15,7 @@
 #                     --clean --if-exists < metateks_ГГГГММДД_ЧЧММСС.dump
 #
 set -euo pipefail
+umask 077
 
 BACKUP_DIR="${BACKUP_DIR:-/opt/metatecks/backups}"
 CONTAINER="${CONTAINER:-metateks_db}"
@@ -23,7 +24,27 @@ MIN_FREE_MB="${MIN_FREE_MB:-3072}"
 
 log() { echo "$(date '+%Y-%m-%d %H:%M:%S') $*"; }
 
+for value in "$KEEP" "$MIN_FREE_MB"; do
+    if ! [[ "$value" =~ ^[1-9][0-9]*$ ]]; then
+        log "ОШИБКА: KEEP и MIN_FREE_MB должны быть положительными целыми числами"
+        exit 1
+    fi
+done
+
 mkdir -p "$BACKUP_DIR"
+
+# Ручной запуск и cron не должны одновременно писать дампы и запускать ротацию.
+exec 9>"$BACKUP_DIR/.pg_backup.lock"
+if ! flock -n 9; then
+    log "ОТМЕНА: другой бэкап уже выполняется"
+    exit 1
+fi
+
+tmp=""
+cleanup() { [ -z "$tmp" ] || rm -f -- "$tmp"; }
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 # Бэкап не должен сам доводить диск до того состояния, из-за которого он
 # понадобился: при нехватке места отказываемся с ошибкой, а не пишем впритык.
@@ -40,7 +61,7 @@ fi
 
 stamp=$(date '+%Y%m%d_%H%M%S')
 target="$BACKUP_DIR/metateks_${stamp}.dump"
-tmp="${target}.tmp"
+tmp=$(mktemp "${target}.tmp.XXXXXX")
 
 log "Дамп -> $(basename "$target")"
 
@@ -60,7 +81,15 @@ if [ "$size" -lt 1048576 ]; then
     exit 1
 fi
 
+# --list читает только оглавление. Вывод в /dev/null заставляет pg_restore
+# прочитать и распаковать весь архив, не подключаясь к рабочей базе.
+if ! docker exec -i "$CONTAINER" pg_restore --file=/dev/null < "$tmp"; then
+    log "ОШИБКА: pg_restore не смог прочитать дамп; прежние бэкапы сохранены"
+    exit 1
+fi
+
 mv "$tmp" "$target"
+tmp=""
 log "Готово, размер $(du -h "$target" | cut -f1)"
 
 # Ротация. Маска metateks_*.dump намеренно не задевает старые архивы

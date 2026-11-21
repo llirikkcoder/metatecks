@@ -31,3 +31,15 @@
     compress
     copytruncate
 }
+
+# Django пишет в bind mount ./logs; /var/log/metateks его не покрывает.
+/opt/metatecks/logs/*.log {
+    su root root
+    daily
+    rotate 7
+    maxsize 100M
+    missingok
+    notifempty
+    compress
+    copytruncate
+}
