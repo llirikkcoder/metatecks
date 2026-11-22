@@ -32,6 +32,8 @@ elif args[0] == 'inspect':
     print('true')
 elif args[:2] == ['compose', 'build']:
     sys.exit(1 if failure == 'build' else 0)
+elif args[:2] == ['compose', 'run']:
+    sys.exit(1 if failure == 'app-tests' else 0)
 elif args[:2] == ['compose', 'up']:
     service = args[-1]
     if failure == service:
@@ -73,13 +75,13 @@ elif args[0] == 'exec':
         self.assertNotIn("resume", [cmd[-1] for cmd in calls])
 
     def test_failure_never_restarts_undrained_worker_and_resumes_if_needed(self):
-        for failure in ("build", "drain", "web", "health", "celery"):
+        for failure in ("build", "app-tests", "drain", "web", "health", "celery"):
             with self.subTest(failure=failure):
                 result, calls = self.run_deploy(failure)
                 self.assertNotEqual(result.returncode, 0)
-                if failure != "build":
+                if failure not in ("build", "app-tests"):
                     self.assertIn(["exec", "-i", "old", "python", "-", "resume"], calls)
-                if failure in ("build", "drain", "web", "health"):
+                if failure in ("build", "app-tests", "drain", "web", "health"):
                     self.assertNotIn(["compose", "up", "-d", "--no-deps", "celery"], calls)
 
     def test_unchanged_worker_is_resumed(self):

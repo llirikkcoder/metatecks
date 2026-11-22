@@ -40,6 +40,11 @@ fi
 
 # A build failure leaves the original worker consuming normally.
 docker compose build web celery
+# Run against the candidate image; bypass entrypoint to avoid migrations/indexing.
+docker compose run --rm --no-deps -T --entrypoint python \
+    -e PYTHONPATH=/app \
+    -v "$PWD/scripts/test_search_pagination.py:/tmp/test_search_pagination.py:ro" \
+    web /tmp/test_search_pagination.py
 old_worker=$(docker compose ps -q celery)
 if [ -z "$old_worker" ] || [[ "$old_worker" = *$'\n'* ]]; then
     echo "ERROR: expected exactly one running celery container" >&2

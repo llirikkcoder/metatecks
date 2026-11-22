@@ -1,13 +1,14 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 
 from watson import search
 
 
-class SearchPageView(TemplateView):
+class SearchPageView(ListView):
     template_name = 'search.html'
     paginate_by = 20
+    context_object_name = 'results'
 
     def get(self, request, *args, **kwargs):
         self.query = request.GET.get('query')
@@ -15,10 +16,5 @@ class SearchPageView(TemplateView):
             return HttpResponseRedirect(reverse('home'))
         return super().get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        results = search.search(self.query)
-        context = {
-            'results': results,
-        }
-        context.update(super().get_context_data(**kwargs))
-        return context
+    def get_queryset(self):
+        return search.search(self.query).order_by("-watson_rank", "pk")
