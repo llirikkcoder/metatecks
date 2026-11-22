@@ -6,14 +6,25 @@ on:
     branches:
       - main
 
+concurrency:
+  group: metateks-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
     name: Deploy to Production VPS
     runs-on: ubuntu-latest
+    timeout-minutes: 85
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Validate deployment safety checks
+        run: |
+          bash -n scripts/deploy.sh
+          python3 scripts/test_celery_deploy_guard.py
+          python3 scripts/test_deploy.py
 
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -22,72 +33,24 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          # Сборка и ожидание обмена с 1С не укладываются в 10 минут по умолчанию
-          command_timeout: 60m
+          command_timeout: 75m
           script: |
-            # Любая ошибка останавливает деплой, а не тихо идёт дальше
             set -euo pipefail
-            echo "🚀 Starting deployment..."
             cd /opt/metatecks
-
-            # Правки, внесённые прямо на сервере, git pull не перезапишет.
-            # Раньше деплой молча шёл дальше и собирал старый код.
-            if ! git diff --quiet HEAD; then
-              echo "❌ На сервере незакоммиченные правки, деплой остановлен:"
-              git status --short --untracked-files=no
+            exec 9>/run/lock/metateks-deploy.lock
+            if ! flock -n 9; then
+              echo "Another deployment holds the server lock"
               exit 1
             fi
-
-            echo "⬇️ Pulling latest changes..."
+            if ! git diff --quiet HEAD; then
+              git status --short --untracked-files=no
+              echo "Uncommitted server changes; deployment blocked"
+              exit 1
+            fi
             git fetch origin main
-            git merge --ff-only origin/main
-            echo "✅ Latest commit: $(git log -1 --oneline)"
-
-            # Сборка идёт, пока работают старые контейнеры: сайт в это время доступен.
-            # Без --no-cache слой с зависимостями берётся из кеша, если requirements не менялись.
-            echo "🔨 Building Docker images..."
-            docker compose build
-
-            # Перезапуск celery обрывает обмен с 1С. Ждём, пока воркер освободится, до 40 минут.
-            echo "⏳ Checking celery for running 1C exchange..."
-            for i in $(seq 1 40); do
-              active=$(docker compose exec -T celery celery -A main inspect active -t 5 2>/dev/null || true)
-              if ! grep -q "'name':" <<< "$active"; then
-                break
-              fi
-              if [ "$i" = 40 ]; then
-                echo "❌ Celery занят больше 40 минут, деплой остановлен. Перезапустите job позже."
-                exit 1
-              fi
-              echo "   celery занят (обмен с 1С), жду минуту... ($i/40)"
-              sleep 60
-            done
-
-            # migrate и collectstatic выполняет entrypoint web при старте
-            echo "🔄 Restarting containers..."
-            docker compose up -d
-
-            echo "🩺 Waiting for web..."
-            for i in $(seq 1 30); do
-              curl -fs -o /dev/null http://127.0.0.1:8001/health/ && break
-              if [ "$i" = 30 ]; then
-                echo "❌ web не поднялся за 5 минут"
-                docker compose logs --tail=50 web
-                exit 1
-              fi
-              sleep 10
-            done
-            # nginx запоминает IP старого контейнера web
-            docker compose restart nginx
-
-            # Старый образ после пересборки остаётся без тега. Диск на сервере всего 30 ГБ.
-            # Кеш сборки не трогаем, его раз в неделю чистит cron (docker system prune -a).
-            echo "🧹 Cleaning up old Docker images..."
-            docker image prune -f
-
-            echo "📊 Container status:"
-            docker compose ps
-            echo "✅ Deployment completed successfully!"
+            git merge --ff-only ${{ github.sha }}
+            test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+            bash scripts/deploy.sh
 
       - name: Deployment notification
         if: always()
