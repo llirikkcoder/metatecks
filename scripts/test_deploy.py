@@ -70,18 +70,19 @@ elif args[0] == 'exec':
         nginx = calls.index(["compose", "up", "-d", "--no-deps", "nginx"])
         self.assertLess(drain, web)
         self.assertLess(web, worker)
+        self.assertLess(web, nginx)
+        self.assertLess(nginx, worker)
         self.assertLess(worker, ready)
-        self.assertLess(ready, nginx)
         self.assertNotIn("resume", [cmd[-1] for cmd in calls])
 
     def test_failure_never_restarts_undrained_worker_and_resumes_if_needed(self):
-        for failure in ("build", "app-tests", "drain", "web", "health", "celery"):
+        for failure in ("build", "app-tests", "drain", "web", "health", "nginx", "celery"):
             with self.subTest(failure=failure):
                 result, calls = self.run_deploy(failure)
                 self.assertNotEqual(result.returncode, 0)
                 if failure not in ("build", "app-tests"):
                     self.assertIn(["exec", "-i", "old", "python", "-", "resume"], calls)
-                if failure in ("build", "app-tests", "drain", "web", "health"):
+                if failure in ("build", "app-tests", "drain", "web", "health", "nginx"):
                     self.assertNotIn(["compose", "up", "-d", "--no-deps", "celery"], calls)
 
     def test_unchanged_worker_is_resumed(self):
@@ -89,10 +90,10 @@ elif args[0] == 'exec':
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn(["exec", "-i", "old", "python", "-", "resume"], calls)
 
-    def test_unready_replacement_fails_before_nginx_update(self):
+    def test_unready_replacement_is_reported_as_failure(self):
         result, calls = self.run_deploy("check")
         self.assertNotEqual(result.returncode, 0)
-        self.assertNotIn(["compose", "up", "-d", "--no-deps", "nginx"], calls)
+        self.assertNotIn(["image", "prune", "-f"], calls)
 
 
 if __name__ == "__main__":

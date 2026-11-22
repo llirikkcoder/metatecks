@@ -68,6 +68,12 @@ for attempt in $(seq 1 30); do
     sleep 10
 done
 
+# Re-read the upstream's IP without restarting nginx when config is unchanged.
+docker compose up -d --no-deps nginx
+docker compose exec -T nginx nginx -t
+docker compose exec -T nginx nginx -s reload
+curl --max-time 15 -fsS -o /dev/null -H 'Host: metateks.ru' http://127.0.0.1:8080/
+
 # No consumer can acquire a task in the gap before the old container is stopped.
 docker compose up -d --no-deps celery
 new_worker=$(docker compose ps -q celery)
@@ -87,11 +93,6 @@ for attempt in $(seq 1 12); do
 done
 resume_needed=0
 
-# Re-read the upstream's IP without restarting nginx when config is unchanged.
-docker compose up -d --no-deps nginx
-docker compose exec -T nginx nginx -t
-docker compose exec -T nginx nginx -s reload
-curl --max-time 15 -fsS -o /dev/null -H 'Host: metateks.ru' http://127.0.0.1:8080/
 docker image prune -f
 docker compose ps
 echo "Deployment completed successfully"

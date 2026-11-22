@@ -6,6 +6,9 @@
 
 Все файлы — с переводами строк LF: они копируются на Linux как есть.
 
+Порядок деплоя, защита задач Celery и восстановление при ошибке описаны в
+[DEPLOY.md](DEPLOY.md).
+
 ## Зачем
 
 21.08.2026 прод лёг с `OperationalError: the database system is in recovery mode`.
